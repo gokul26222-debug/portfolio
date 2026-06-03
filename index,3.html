@@ -1,0 +1,1542 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gokul Srinivasan — Product Manager</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Manrope:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@300;400&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #07080F;
+  --bg2: #0D0E1C;
+  --surface: rgba(255,255,255,0.04);
+  --surface2: rgba(255,255,255,0.07);
+  --surface3: rgba(255,255,255,0.11);
+  --border: rgba(255,255,255,0.07);
+  --border2: rgba(255,255,255,0.14);
+  --text: #F2F2FF;
+  --text2: #8890B0;
+  --muted: #3C3F5C;
+  --gold: #C9A84C;
+  --gold2: #F0D090;
+  --violet: #9B6DFF;
+  --blue: #4F9EFF;
+  --rose: #FF8FAD;
+  --emerald: #00D68F;
+  --purple: #9B6DFF;
+  --green: #00D68F;
+  --grad: linear-gradient(135deg, #C9A84C 0%, #9B6DFF 100%);
+  --grad2: linear-gradient(135deg, #4F9EFF 0%, #9B6DFF 100%);
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body { background: var(--bg); color: var(--text); font-family: 'Manrope', sans-serif; font-weight: 400; overflow-x: hidden; }
+
+/* cinematic intro */
+#intro {
+  position: fixed; inset: 0; z-index: 9999;
+  background: #000;
+  display: flex; align-items: center; justify-content: center;
+  animation: introFade 2.5s cubic-bezier(0.4,0,0.2,1) forwards;
+  pointer-events: none;
+}
+@keyframes introFade { 0%{opacity:1} 60%{opacity:1} 100%{opacity:0} }
+.intro-logo {
+  font-family: 'Syne', sans-serif; font-weight: 800; font-size: 72px;
+  background: linear-gradient(135deg, #C9A84C, #9B6DFF);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+  animation: introIn 1s cubic-bezier(0.16,1,0.3,1) 0.35s both;
+  letter-spacing: -0.03em;
+}
+@keyframes introIn { from{opacity:0;transform:scale(0.75)} to{opacity:1;transform:scale(1)} }
+
+/* canvas background */
+#bgCanvas { position: fixed; inset: 0; z-index: 0; pointer-events: none; }
+
+nav {
+  position: sticky; top: 0; z-index: 100;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 52px; height: 68px;
+  background: rgba(7,8,15,0.55);
+  backdrop-filter: blur(28px) saturate(1.5); -webkit-backdrop-filter: blur(28px) saturate(1.5);
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+}
+.nav-logo {
+  font-family: 'Syne', sans-serif; font-weight: 800; font-size: 22px;
+  background: var(--grad); -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  background-clip: text; background-size: 200%; animation: gradShift 5s infinite;
+  cursor: pointer; text-decoration: none;
+}
+.nav-links { display: flex; gap: 36px; list-style: none; }
+.nav-links a { font-family: 'Manrope', sans-serif; font-weight: 500; font-size: 14px; color: var(--text2); text-decoration: none; transition: color 0.25s; letter-spacing: 0.03em; }
+.nav-links a:hover { color: var(--gold); }
+.nav-right { display: flex; align-items: center; gap: 16px; }
+.lang-pill { display: flex; align-items: center; background: var(--surface); border: 1px solid var(--border); border-radius: 20px; overflow: hidden; }
+.lang-btn { background: none; border: none; color: var(--text2); font-family: 'Manrope', sans-serif; font-weight: 600; font-size: 12px; padding: 6px 14px; cursor: pointer; transition: color 0.2s, background 0.2s; letter-spacing: 0.05em; }
+.lang-btn.on { background: var(--surface2); color: var(--text); }
+.lang-sep { width: 1px; height: 20px; background: var(--border); }
+.dlw { position: relative; z-index: 200; }
+.dlbtn {
+  background: var(--surface); border: 1px solid var(--border); color: var(--text);
+  font-family: 'Manrope', sans-serif; font-weight: 600; font-size: 13px;
+  padding: 8px 18px; border-radius: 8px; cursor: pointer; display: flex; align-items: center; gap: 8px;
+  transition: background 0.2s, border-color 0.2s;
+}
+.dlbtn:hover { background: var(--surface2); border-color: rgba(255,255,255,0.15); }
+.dlbtn svg { transition: transform 0.2s; }
+.dlw.open .dlbtn svg { transform: rotate(180deg); }
+.dldrop {
+  position: absolute; top: calc(100% + 8px); right: 0; min-width: 200px;
+  background: rgba(20,20,22,0.95); backdrop-filter: blur(22px); -webkit-backdrop-filter: blur(22px);
+  border: 1px solid var(--border); border-radius: 12px; overflow: hidden;
+  opacity: 0; transform: translateY(-8px); pointer-events: none;
+  transition: opacity 0.22s, transform 0.22s;
+}
+.dlw.open .dldrop { opacity: 1; transform: translateY(0); pointer-events: all; }
+.dldrop a {
+  display: flex; align-items: center; gap: 12px;
+  padding: 13px 18px; color: var(--text); text-decoration: none;
+  font-size: 13px; font-weight: 500; transition: background 0.15s;
+}
+.dldrop a:hover { background: var(--surface2); }
+.dldrop a svg { opacity: 0.6; flex-shrink: 0; }
+
+section { position: relative; z-index: 1; }
+
+#hero {
+  min-height: 100vh; display: flex; flex-direction: column;
+  justify-content: center; align-items: flex-start;
+  padding: 0 80px; gap: 0;
+}
+.hero-badge {
+  display: inline-flex; align-items: center; gap: 10px;
+  background: rgba(201,168,76,0.08); border: 1px solid rgba(201,168,76,0.28);
+  border-radius: 30px; padding: 8px 20px; margin-bottom: 40px;
+  font-family: 'IBM Plex Mono', monospace; font-size: 12px; font-weight: 400;
+  color: var(--gold); letter-spacing: 0.1em; text-transform: uppercase;
+}
+.pulse-dot {
+  width: 8px; height: 8px; border-radius: 50%; background: var(--gold);
+  flex-shrink: 0; animation: pulseGlow 2s infinite;
+}
+@keyframes pulseGlow { 0%,100%{box-shadow:0 0 0 0 rgba(201,168,76,0)} 50%{box-shadow:0 0 0 8px rgba(201,168,76,0.4)} }
+.hero-title-white {
+  font-family: 'Syne', sans-serif; font-weight: 800;
+  font-size: clamp(72px, 9vw, 112px); line-height: 1;
+  color: var(--text); display: block; letter-spacing: -0.02em;
+}
+.hero-title-grad {
+  font-family: 'Syne', sans-serif; font-weight: 800;
+  font-size: clamp(72px, 9vw, 112px); line-height: 1;
+  background: var(--grad); -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  background-clip: text; background-size: 200%; animation: gradShift 5s infinite;
+  display: block; letter-spacing: -0.02em; margin-bottom: 32px;
+}
+@keyframes gradShift { 0%{background-position:0% 50%} 50%{background-position:100% 50%} 100%{background-position:0% 50%} }
+.hero-tagline {
+  font-family: 'Manrope', sans-serif; font-weight: 300; font-size: clamp(18px, 2.2vw, 26px);
+  color: var(--text); min-height: 1.4em; margin-bottom: 12px;
+}
+.cursor { display: inline-block; width: 2px; height: 1em; background: var(--blue); margin-left: 2px; vertical-align: middle; animation: blink 0.85s step-end infinite; }
+@keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
+.hero-mono {
+  font-family: 'IBM Plex Mono', monospace; font-weight: 300; font-size: 14px;
+  color: var(--text2); letter-spacing: 0.04em; margin-bottom: 44px;
+}
+.hero-ctas { display: flex; gap: 16px; flex-wrap: wrap; }
+.btn-primary {
+  background: var(--grad); background-size: 200%; animation: gradShift 5s infinite;
+  border: none; color: #fff; font-family: 'Manrope', sans-serif; font-weight: 700;
+  font-size: 15px; padding: 14px 32px; border-radius: 10px; cursor: pointer;
+  text-decoration: none; display: inline-flex; align-items: center; gap: 8px;
+  transition: opacity 0.2s, transform 0.2s;
+}
+.btn-primary:hover { opacity: 0.88; transform: translateY(-1px); }
+.btn-secondary {
+  background: var(--surface); border: 1px solid var(--border);
+  color: var(--text); font-family: 'Manrope', sans-serif; font-weight: 600;
+  font-size: 15px; padding: 14px 32px; border-radius: 10px; cursor: pointer;
+  text-decoration: none; display: inline-flex; align-items: center; gap: 8px;
+  transition: background 0.2s, border-color 0.2s, transform 0.2s;
+}
+.btn-secondary:hover { background: var(--surface2); border-color: rgba(255,255,255,0.15); transform: translateY(-1px); }
+
+#stats { padding: 0 80px; margin-bottom: 0; }
+.stats-grid {
+  display: grid; grid-template-columns: repeat(3, 1fr);
+  border: 1px solid var(--border); border-radius: 16px; overflow: hidden;
+}
+.stat-item { padding: 48px 40px; text-align: center; }
+.stat-item:not(:last-child) { border-right: 1px solid var(--border); }
+.stat-num {
+  font-family: 'Syne', sans-serif; font-weight: 800; font-size: 56px;
+  background: var(--grad); -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  background-clip: text; background-size: 200%; animation: gradShift 5s infinite;
+  line-height: 1; margin-bottom: 10px;
+}
+.stat-label { font-size: 15px; color: var(--text2); font-weight: 500; letter-spacing: 0.01em; }
+
+#about { padding: 100px 80px; }
+.about-inner { max-width: 860px; }
+.section-label {
+  font-family: 'IBM Plex Mono', monospace; font-size: 11px; font-weight: 400;
+  letter-spacing: 0.14em; text-transform: uppercase; color: var(--gold);
+  margin-bottom: 20px; display: block;
+}
+.about-heading { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 40px; color: var(--text); margin-bottom: 24px; line-height: 1.2; }
+.about-body { font-size: 17px; font-weight: 400; color: var(--text2); line-height: 1.75; }
+
+#work { padding: 100px 80px; }
+.section-header { margin-bottom: 48px; }
+.section-title { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 40px; color: var(--text); }
+.cases-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+.case-card-full { grid-column: 1 / -1; }
+.case-card {
+  background: rgba(255,255,255,0.028);
+  backdrop-filter: blur(18px); -webkit-backdrop-filter: blur(18px);
+  border: 1px solid rgba(255,255,255,0.07); border-radius: 22px;
+  padding: 40px; cursor: pointer; position: relative; overflow: hidden;
+  transform-style: preserve-3d; transition: transform 0.08s linear, box-shadow 0.08s linear, border-color 0.3s, background 0.3s;
+  min-height: 300px; display: flex; flex-direction: column; justify-content: space-between;
+}
+.case-card:hover { background: rgba(255,255,255,0.045); }
+.case-card::before {
+  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+  background: var(--card-accent, var(--grad)); opacity: 0.7;
+  transition: opacity 0.3s;
+}
+.case-card:hover::before { opacity: 1; }
+.case-card[data-co="joko"] { --card-accent: linear-gradient(90deg,#0071E3,#5AC8FA); }
+.case-card[data-co="joko"]:hover { border-color: rgba(0,113,227,0.35); box-shadow: 0 24px 60px rgba(0,113,227,0.15); }
+.case-card[data-co="faume"] { --card-accent: linear-gradient(90deg,#BF5AF2,#FF2D55); }
+.case-card[data-co="faume"]:hover { border-color: rgba(191,90,242,0.35); box-shadow: 0 24px 60px rgba(191,90,242,0.15); }
+.case-card[data-co="netflix"] { --card-accent: linear-gradient(90deg,#E50914,#FF6B35); }
+.case-card[data-co="netflix"]:hover { border-color: rgba(229,9,20,0.35); box-shadow: 0 24px 60px rgba(229,9,20,0.12); }
+.case-card[data-co="blablacar"] { --card-accent: linear-gradient(90deg,#00AADC,#0071E3); }
+.case-card[data-co="blablacar"]:hover { border-color: rgba(0,170,220,0.35); box-shadow: 0 24px 60px rgba(0,170,220,0.15); }
+.case-card[data-co="cleo"] { --card-accent: linear-gradient(90deg,#FF9500,#FFD60A); }
+.case-card[data-co="cleo"]:hover { border-color: rgba(255,149,0,0.35); box-shadow: 0 24px 60px rgba(255,149,0,0.15); }
+.card-shine {
+  position: absolute; inset: 0; border-radius: 20px; pointer-events: none;
+  opacity: 0; transition: opacity 0.3s;
+}
+.case-card:hover .card-shine { opacity: 1; }
+.card-header { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 20px; }
+.card-logo {
+  width: 44px; height: 44px; border-radius: 12px; display: flex; align-items: center; justify-content: center;
+  font-family: 'Syne', sans-serif; font-weight: 800; font-size: 18px; letter-spacing: -1px;
+  flex-shrink: 0;
+}
+.card-logo img { width: 26px; height: 26px; object-fit: contain; }
+.logo-joko { background: rgba(0,113,227,0.12); color: #0071E3; }
+.logo-faume { background: rgba(191,90,242,0.12); color: #BF5AF2; }
+.logo-netflix { background: rgba(229,9,20,0.12); }
+.logo-blablacar { background: rgba(0,170,220,0.12); color: #00AADC; }
+.logo-cleo { background: rgba(255,149,0,0.12); color: #FF9500; }
+.card-top { flex: 1; }
+.card-cat {
+  font-family: 'IBM Plex Mono', monospace; font-size: 11px; font-weight: 400;
+  letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 12px;
+  display: inline-block;
+}
+.cat-blue { color: var(--blue); }
+.cat-purple { color: var(--purple); }
+.cat-green { color: var(--green); }
+.cat-orange { color: #FF9F0A; }
+.cat-red { color: #E50914; }
+.cat-teal { color: #00AADC; }
+.cat-amber { color: #FF9500; }
+.card-title { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 22px; color: var(--text); margin-bottom: 10px; line-height: 1.2; }
+.card-desc { font-size: 14px; color: var(--text2); line-height: 1.6; }
+.card-bottom { margin-top: 24px; display: flex; align-items: center; justify-content: space-between; }
+.card-company { font-size: 12px; color: var(--muted); font-weight: 500; letter-spacing: 0.03em; }
+.card-arrow {
+  width: 36px; height: 36px; background: var(--surface2); border: 1px solid var(--border);
+  border-radius: 50%; display: flex; align-items: center; justify-content: center;
+  transition: background 0.2s, border-color 0.2s, transform 0.2s; flex-shrink: 0;
+}
+.case-card:hover .card-arrow { transform: translate(2px,-2px); }
+.case-card[data-co="joko"]:hover .card-arrow { background: rgba(0,113,227,0.2); border-color: rgba(0,113,227,0.5); }
+.case-card[data-co="faume"]:hover .card-arrow { background: rgba(191,90,242,0.2); border-color: rgba(191,90,242,0.5); }
+.case-card[data-co="netflix"]:hover .card-arrow { background: rgba(229,9,20,0.2); border-color: rgba(229,9,20,0.5); }
+.case-card[data-co="blablacar"]:hover .card-arrow { background: rgba(0,170,220,0.2); border-color: rgba(0,170,220,0.5); }
+.case-card[data-co="cleo"]:hover .card-arrow { background: rgba(255,149,0,0.2); border-color: rgba(255,149,0,0.5); }
+
+#playpal { padding: 0 80px 100px; }
+.playpal-card {
+  background: var(--surface); border: 1px solid var(--border); border-radius: 24px;
+  padding: 60px; display: flex; align-items: center; justify-content: space-between;
+  gap: 40px; flex-wrap: wrap; position: relative; overflow: hidden;
+}
+.playpal-card::before {
+  content: ''; position: absolute; inset: 0; border-radius: 24px;
+  background: linear-gradient(135deg, rgba(0,113,227,0.06) 0%, rgba(191,90,242,0.06) 100%);
+  pointer-events: none;
+}
+.playpal-left { flex: 1; min-width: 280px; }
+.playpal-badge {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: rgba(48,209,88,0.1); border: 1px solid rgba(48,209,88,0.25);
+  border-radius: 20px; padding: 6px 14px; margin-bottom: 20px;
+  font-family: 'IBM Plex Mono', monospace; font-size: 11px; font-weight: 400;
+  color: var(--green); letter-spacing: 0.08em; text-transform: uppercase;
+}
+.playpal-title { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 36px; color: var(--text); margin-bottom: 12px; }
+.playpal-desc { font-size: 16px; color: var(--text2); line-height: 1.65; max-width: 520px; }
+.playpal-right { display: flex; align-items: center; }
+
+#toolkit { padding: 100px 80px; }
+.toolkit-section { margin-bottom: 48px; }
+.toolkit-section:last-child { margin-bottom: 0; }
+.toolkit-sub { font-family: 'Manrope', sans-serif; font-weight: 700; font-size: 18px; color: var(--text); margin-bottom: 20px; }
+.chip-box { display: flex; flex-wrap: wrap; gap: 12px; }
+.chip {
+  display: inline-flex; align-items: center; gap: 10px;
+  background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.07);
+  backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+  border-radius: 30px; padding: 9px 18px;
+  font-size: 13px; font-weight: 500; color: var(--text2);
+  transition: border-color 0.25s, color 0.25s, background 0.25s;
+  opacity: 0; transform: translateY(12px);
+}
+.chip.vis { opacity: 1; transform: translateY(0); transition: opacity 0.4s ease, transform 0.4s ease, border-color 0.25s, color 0.25s, background 0.25s; }
+.chip:hover { border-color: rgba(201,168,76,0.35); color: var(--gold2); background: rgba(201,168,76,0.06); }
+.chip img { width: 16px; height: 16px; filter: brightness(0) invert(1); opacity: 0.75; object-fit: contain; }
+.chip-icon { font-size: 12px; opacity: 0.6; }
+
+#contact { padding: 100px 80px; }
+.contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: start; }
+.contact-heading {
+  font-family: 'Syne', sans-serif; font-weight: 800;
+  font-size: clamp(52px, 6vw, 80px); line-height: 1.05;
+  background: var(--grad); -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  background-clip: text; background-size: 200%; animation: gradShift 5s infinite;
+  margin-bottom: 40px; white-space: pre-line; letter-spacing: -0.02em;
+}
+.contact-link:hover { border-color: rgba(201,168,76,0.3); color: var(--gold2); background: rgba(201,168,76,0.04); }
+.contact-links { display: flex; flex-direction: column; gap: 16px; }
+.contact-link {
+  display: flex; align-items: center; gap: 14px;
+  color: var(--text2); text-decoration: none; font-size: 15px; font-weight: 500;
+  padding: 16px 20px; background: var(--surface); border: 1px solid var(--border);
+  border-radius: 12px; transition: border-color 0.2s, color 0.2s, background 0.2s;
+}
+.contact-link:hover { border-color: rgba(255,255,255,0.18); color: var(--text); background: var(--surface2); }
+.contact-link svg { opacity: 0.6; flex-shrink: 0; }
+.cv-cards { display: flex; flex-direction: column; gap: 14px; }
+.cv-card {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 22px 24px; background: var(--surface); border: 1px solid var(--border);
+  border-radius: 16px; text-decoration: none; color: var(--text);
+  transition: border-color 0.2s, background 0.2s; gap: 16px;
+}
+.cv-card:hover { border-color: rgba(255,255,255,0.18); background: var(--surface2); }
+.cv-card-left { display: flex; align-items: center; gap: 16px; }
+.cv-icon {
+  width: 44px; height: 44px; border-radius: 10px; display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+.cv-icon-en { background: linear-gradient(135deg, rgba(0,113,227,0.2), rgba(0,113,227,0.08)); border: 1px solid rgba(0,113,227,0.3); }
+.cv-icon-fr { background: linear-gradient(135deg, rgba(191,90,242,0.2), rgba(191,90,242,0.08)); border: 1px solid rgba(191,90,242,0.3); }
+.cv-card-info { display: flex; flex-direction: column; }
+.cv-card-title { font-weight: 700; font-size: 15px; margin-bottom: 3px; }
+.cv-card-sub { font-size: 12px; color: var(--text2); font-weight: 400; }
+.cv-card-dl { color: var(--text2); font-size: 12px; font-weight: 600; letter-spacing: 0.05em; display: flex; align-items: center; gap: 6px; text-transform: uppercase; flex-shrink: 0; }
+
+footer {
+  border-top: 1px solid rgba(201,168,76,0.12); padding: 28px 80px;
+  display: flex; align-items: center; justify-content: space-between;
+  position: relative; z-index: 1;
+  background: rgba(7,8,15,0.4); backdrop-filter: blur(12px);
+}
+.footer-left { font-size: 13px; color: var(--muted); }
+.footer-right { font-size: 13px; color: var(--muted); }
+
+.rv { opacity: 0; transform: translateY(26px); transition: opacity 0.85s cubic-bezier(0.16,1,0.3,1), transform 0.85s cubic-bezier(0.16,1,0.3,1); }
+.rv.vis { opacity: 1; transform: translateY(0); }
+.d1 { transition-delay: 0.1s; }
+.d2 { transition-delay: 0.2s; }
+.d3 { transition-delay: 0.3s; }
+.d4 { transition-delay: 0.4s; }
+
+.modal-overlay {
+  position: fixed; inset: 0; z-index: 500;
+  background: rgba(0,0,0,0.88);
+  backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+  display: flex; align-items: center; justify-content: center;
+  padding: 24px;
+  opacity: 0; pointer-events: none; transition: opacity 0.35s;
+}
+.modal-overlay.open { opacity: 1; pointer-events: all; }
+.modal-card {
+  background: #0f0f11; border: 1px solid rgba(255,255,255,0.1); border-radius: 28px;
+  max-width: 700px; width: 100%; max-height: 90vh; overflow-y: auto;
+  position: relative; overflow: hidden;
+  transform: translateY(32px) scale(0.96); transition: transform 0.38s cubic-bezier(0.16,1,0.3,1);
+  box-shadow: 0 40px 120px rgba(0,0,0,0.7), 0 0 0 1px rgba(255,255,255,0.05);
+}
+.modal-overlay.open .modal-card { transform: translateY(0) scale(1); }
+.modal-banner {
+  padding: 36px 40px 28px;
+  position: relative; overflow: hidden;
+}
+.modal-banner::after {
+  content: ''; position: absolute; inset: 0;
+  background: linear-gradient(180deg, transparent 60%, #0f0f11 100%);
+  pointer-events: none;
+}
+.modal-banner-bg {
+  position: absolute; inset: 0; opacity: 0.15;
+  background-size: cover; background-position: center;
+}
+.modal-close {
+  position: absolute; top: 16px; right: 16px; z-index: 10;
+  width: 34px; height: 34px; background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 50%; display: flex; align-items: center; justify-content: center;
+  cursor: pointer; transition: background 0.2s; color: var(--text2); font-size: 14px;
+}
+.modal-close:hover { background: rgba(255,255,255,0.15); color: var(--text); }
+.modal-logo-row { display: flex; align-items: center; gap: 14px; margin-bottom: 16px; position: relative; z-index: 2; }
+.modal-logo-icon {
+  width: 52px; height: 52px; border-radius: 16px;
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'Syne', sans-serif; font-weight: 800; font-size: 22px;
+  flex-shrink: 0; border: 1px solid rgba(255,255,255,0.1);
+}
+.modal-logo-icon img { width: 30px; height: 30px; object-fit: contain; }
+.modal-cat {
+  font-family: 'IBM Plex Mono', monospace; font-size: 11px; font-weight: 400;
+  letter-spacing: 0.12em; text-transform: uppercase; display: block; opacity: 0.8;
+}
+.modal-title {
+  font-family: 'Syne', sans-serif; font-weight: 800; font-size: 26px;
+  color: var(--text); line-height: 1.15; position: relative; z-index: 2;
+}
+.modal-body { padding: 28px 40px 40px; }
+.modal-company {
+  font-size: 13px; color: var(--text2); margin-bottom: 32px; font-weight: 400;
+  padding-bottom: 24px; border-bottom: 1px solid var(--border);
+}
+.modal-block { margin-bottom: 28px; }
+.modal-block-label {
+  font-family: 'IBM Plex Mono', monospace; font-size: 10px; font-weight: 400;
+  letter-spacing: 0.14em; text-transform: uppercase;
+  margin-bottom: 12px; display: flex; align-items: center; gap: 8px;
+}
+.modal-block-label::before {
+  content: ''; width: 18px; height: 2px; border-radius: 1px;
+  background: currentColor; display: inline-block; opacity: 0.6;
+}
+.modal-block p { font-size: 15px; color: var(--text2); line-height: 1.75; }
+.modal-block ul { list-style: none; display: flex; flex-direction: column; gap: 8px; }
+.modal-block ul li {
+  font-size: 14px; color: var(--text2); line-height: 1.65;
+  padding: 10px 14px 10px 36px; position: relative;
+  background: rgba(255,255,255,0.02); border-radius: 8px;
+  border: 1px solid rgba(255,255,255,0.04);
+}
+.modal-block ul li::before {
+  content: '→'; position: absolute; left: 14px; top: 10px;
+  font-size: 12px; font-weight: 600;
+}
+.modal-metrics { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 32px; }
+.metric-chip {
+  border-radius: 12px; padding: 12px 18px;
+  font-size: 13px; font-weight: 700; text-align: center;
+  display: flex; flex-direction: column; gap: 2px;
+  min-width: 100px; flex: 1;
+}
+.metric-chip span { font-family: 'IBM Plex Mono', monospace; font-size: 9px; font-weight: 400; letter-spacing: 0.1em; text-transform: uppercase; opacity: 0.7; }
+.modal-footer { display: flex; gap: 12px; flex-wrap: wrap; border-top: 1px solid var(--border); padding-top: 24px; }
+
+@media (max-width: 768px) {
+  nav { padding: 0 24px; }
+  .nav-links { display: none; }
+  #hero { padding: 80px 24px 60px; }
+  #stats { padding: 0 24px; }
+  #about { padding: 72px 24px; }
+  #work { padding: 72px 24px; }
+  #playpal { padding: 0 24px 72px; }
+  #toolkit { padding: 72px 24px; }
+  #contact { padding: 72px 24px; }
+  .stats-grid { grid-template-columns: 1fr; }
+  .stat-item:not(:last-child) { border-right: none; border-bottom: 1px solid var(--border); }
+  .cases-grid { grid-template-columns: 1fr; }
+  .contact-grid { grid-template-columns: 1fr; gap: 48px; }
+  footer { padding: 20px 24px; flex-direction: column; gap: 8px; text-align: center; }
+  .modal-card { padding: 32px 24px; }
+  .playpal-card { padding: 36px 28px; }
+  .about-heading { font-size: 28px; }
+  .section-title { font-size: 28px; }
+}
+
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--muted); border-radius: 3px; }
+
+/* ── Cleo showcase ── */
+#cleo { padding: 0 80px 100px; }
+.cleo-showcase {
+  border: 1px solid rgba(255,149,0,0.16); border-radius: 28px;
+  overflow: hidden; position: relative; background: rgba(255,149,0,0.022);
+}
+.cleo-showcase::before {
+  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+  background: linear-gradient(90deg,#FF6B00,#FF9500,#FFD60A,#FF9500,#FF6B00);
+  background-size: 300%; animation: gradShift 4s linear infinite;
+}
+.cleo-top {
+  padding: 56px 60px 48px;
+  display: grid; grid-template-columns: 1fr auto; gap: 48px; align-items: start;
+}
+.cleo-badges-row { display: flex; gap: 10px; margin-bottom: 24px; flex-wrap: wrap; }
+.cbadge {
+  display: inline-flex; align-items: center; gap: 7px;
+  border-radius: 20px; padding: 5px 13px;
+  font-family: 'IBM Plex Mono', monospace; font-size: 11px;
+  letter-spacing: 0.08em; text-transform: uppercase; font-weight: 400;
+}
+.cbadge-mvp  { background: rgba(255,149,0,0.12); border: 1px solid rgba(255,149,0,0.3);  color: #FF9500; }
+.cbadge-live { background: rgba(48,209,88,0.10);  border: 1px solid rgba(48,209,88,0.25); color: #30D158; }
+.cbadge-solo { background: rgba(191,90,242,0.10); border: 1px solid rgba(191,90,242,0.25);color: #BF5AF2; }
+.cleo-headline {
+  font-family: 'Syne', sans-serif; font-weight: 800;
+  font-size: clamp(36px,4.5vw,58px); line-height: 1.05;
+  color: var(--text); letter-spacing: -0.02em; display: block;
+}
+.cleo-headline-gold {
+  font-family: 'Syne', sans-serif; font-weight: 800;
+  font-size: clamp(36px,4.5vw,58px); line-height: 1.05;
+  background: linear-gradient(135deg,#FF9500 0%,#FFD60A 100%);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  background-clip: text; letter-spacing: -0.02em;
+  display: block; margin-bottom: 24px;
+}
+.cleo-tagline {
+  font-size: 17px; color: var(--text2); line-height: 1.78;
+  max-width: 600px; font-weight: 400;
+}
+.cleo-stats-col { display: flex; flex-direction: column; gap: 14px; min-width: 170px; }
+.cleo-mini {
+  padding: 16px 20px;
+  background: rgba(255,149,0,0.06); border: 1px solid rgba(255,149,0,0.14); border-radius: 14px;
+  display: flex; flex-direction: column; gap: 2px; align-items: flex-end;
+}
+.cleo-mini-val {
+  font-family: 'Syne', sans-serif; font-weight: 800; font-size: 28px;
+  background: linear-gradient(135deg,#FF9500,#FFD60A);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+}
+.cleo-mini-lbl { font-size: 11px; color: var(--text2); font-weight: 500; text-transform: uppercase; letter-spacing: 0.06em; }
+.cleo-mid {
+  display: grid; grid-template-columns: 1fr 1fr;
+  border-top: 1px solid rgba(255,149,0,0.1);
+}
+.cleo-problem { padding: 48px 60px; border-right: 1px solid rgba(255,149,0,0.1); }
+.cleo-solution { padding: 48px 60px; }
+.cleo-blk-label {
+  font-family: 'IBM Plex Mono', monospace; font-size: 10px; font-weight: 400;
+  letter-spacing: 0.14em; text-transform: uppercase; color: #FF9500;
+  margin-bottom: 20px; display: flex; align-items: center; gap: 8px;
+}
+.cleo-blk-label::before { content:''; width:18px; height:2px; background:#FF9500; border-radius:1px; opacity:0.5; }
+.cleo-pull {
+  font-family: 'Syne', sans-serif; font-weight: 700; font-size: 19px;
+  color: var(--text); line-height: 1.45; margin-bottom: 16px; letter-spacing: -0.01em;
+}
+.cleo-prob-body { font-size: 14px; color: var(--text2); line-height: 1.82; }
+.cleo-feats { display: flex; flex-direction: column; gap: 10px; }
+.cleo-feat {
+  display: flex; align-items: flex-start; gap: 12px;
+  padding: 12px 14px; background: rgba(255,149,0,0.035);
+  border: 1px solid rgba(255,149,0,0.08); border-radius: 10px;
+  transition: border-color 0.2s, background 0.2s;
+}
+.cleo-feat:hover { background: rgba(255,149,0,0.07); border-color: rgba(255,149,0,0.2); }
+.cleo-feat-icon {
+  width: 30px; height: 30px; border-radius: 8px;
+  background: rgba(255,149,0,0.12); border: 1px solid rgba(255,149,0,0.2);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 14px; flex-shrink: 0;
+}
+.cleo-feat-name { font-size: 13px; font-weight: 600; color: var(--text); margin-bottom: 2px; }
+.cleo-feat-desc { font-size: 12px; color: var(--text2); line-height: 1.55; }
+.cleo-bottom {
+  padding: 32px 60px 44px; border-top: 1px solid rgba(255,149,0,0.1);
+  display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 24px;
+}
+.cleo-stack { display: flex; flex-wrap: wrap; gap: 8px; }
+.cleo-chip {
+  display: inline-flex; align-items: center; gap: 6px;
+  background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.07);
+  border-radius: 20px; padding: 5px 12px; font-size: 12px; font-weight: 500; color: var(--text2);
+}
+.cleo-chip img { width: 13px; height: 13px; filter: brightness(0) invert(1); opacity: 0.5; }
+.cleo-ctas { display: flex; gap: 12px; flex-shrink: 0; }
+@keyframes pulseGlowAmber { 0%,100%{box-shadow:0 0 0 0 rgba(255,149,0,0)} 50%{box-shadow:0 0 0 7px rgba(255,149,0,0.35)} }
+@media (max-width: 768px) {
+  #cleo { padding: 0 24px 72px; }
+  .cleo-top { grid-template-columns: 1fr; padding: 36px 28px 28px; }
+  .cleo-stats-col { flex-direction: row; flex-wrap: wrap; }
+  .cleo-mini { align-items: flex-start; min-width: 120px; flex: 1; }
+  .cleo-mid { grid-template-columns: 1fr; }
+  .cleo-problem { border-right: none; border-bottom: 1px solid rgba(255,149,0,0.1); padding: 32px 28px; }
+  .cleo-solution { padding: 32px 28px; }
+  .cleo-bottom { padding: 28px; flex-direction: column; align-items: flex-start; }
+}
+</style>
+</head>
+<body>
+
+<div id="intro"><span class="intro-logo">GS.</span></div>
+<canvas id="bgCanvas"></canvas>
+
+<nav>
+  <a class="nav-logo" href="#hero">GS.</a>
+  <ul class="nav-links">
+    <li><a href="#work" id="nav-work">Work</a></li>
+    <li><a href="#cleo" id="nav-cleo">Cleo</a></li>
+    <li><a href="#about" id="nav-about">About</a></li>
+    <li><a href="#toolkit" id="nav-skills">Skills</a></li>
+    <li><a href="#contact" id="nav-contact">Contact</a></li>
+  </ul>
+  <div class="nav-right">
+    <div class="lang-pill">
+      <button class="lang-btn on" id="lbtn-en" onclick="setLang('en')">EN</button>
+      <div class="lang-sep"></div>
+      <button class="lang-btn" id="lbtn-fr" onclick="setLang('fr')">FR</button>
+    </div>
+    <div class="dlw" id="dlw">
+      <button class="dlbtn" onclick="toggleDl(event)">
+        <span id="nav-dl-text">Download CV</span>
+        <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 4L6 8L10 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+      <div class="dldrop" id="dldrop">
+        <a href="Gokul_CV_EN.pdf" download>
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><rect x="2" y="1" width="9" height="14" rx="1.5" stroke="currentColor" stroke-width="1.3"/><path d="M5 5h5M5 8h5M5 11h3" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>
+          CV — English
+        </a>
+        <a href="Gokul_CV_FR.pdf" download>
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><rect x="2" y="1" width="9" height="14" rx="1.5" stroke="currentColor" stroke-width="1.3"/><path d="M5 5h5M5 8h5M5 11h3" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>
+          CV — Français
+        </a>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<section id="hero">
+  <div class="hero-badge"><span class="pulse-dot"></span><span id="hero-badge">AVAILABLE — Paris, France</span></div>
+  <span class="hero-title-white">GOKUL</span>
+  <span class="hero-title-grad">SRINIVASAN</span>
+  <div class="hero-tagline"><span id="typewriter-text"></span><span class="cursor"></span></div>
+  <p class="hero-mono" id="hero-mono">Product Manager · Paris, France · Open to full-time roles</p>
+  <div class="hero-ctas">
+    <a href="#work" class="btn-primary" id="hero-cta1">View Case Studies →</a>
+    <a href="#contact" class="btn-secondary" id="hero-cta2">Get in Touch</a>
+  </div>
+</section>
+
+<section id="stats">
+  <div class="stats-grid rv">
+    <div class="stat-item">
+      <div class="stat-num" id="stat1">0+</div>
+      <div class="stat-label" id="stat1-label">Years of Experience</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num" id="stat2">0+</div>
+      <div class="stat-label" id="stat2-label">Case Studies</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num" id="stat3">0+</div>
+      <div class="stat-label" id="stat3-label">Shipped Apps</div>
+    </div>
+  </div>
+</section>
+
+<section id="about">
+  <div class="about-inner rv">
+    <span class="section-label" id="about-label">About</span>
+    <h2 class="about-heading" id="about-heading">Turning user problems into product outcomes.</h2>
+    <p class="about-body" id="about-body">I'm a Product Manager based in Paris with 3+ years of experience spanning early-stage startups and established consumer platforms. My work sits at the intersection of user research, data analysis, and cross-functional execution — I translate ambiguous problems into structured product strategies that move metrics. I've tackled challenges across retention, onboarding, and growth for companies like Joko, FAUME, Netflix (case study), and BlaBlaCar (teardown). I also build and ship my own products — Cleo, an AI assistant helping 400K+ international students navigate French bureaucracy, and PlayPal, a social sports app. I'm fluent in both the qualitative language of JTBD and the quantitative rigour of A/B testing and funnel analytics. Currently open to full-time Product Manager roles in Paris or remote.</p>
+  </div>
+</section>
+
+<section id="work">
+  <div class="section-header rv">
+    <span class="section-label" id="work-label">Case Studies</span>
+    <h2 class="section-title" id="work-title">Selected Work</h2>
+  </div>
+  <div class="cases-grid">
+    <div class="case-card rv d1" data-co="joko" onclick="openModal('joko')" tabindex="0" role="button" aria-label="Open Joko case study">
+      <div class="card-shine"></div>
+      <div class="card-header">
+        <span class="card-cat cat-blue" id="card-cat-joko">Retention</span>
+        <div class="card-logo logo-joko">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="#0071E3" stroke-width="1.8"/><path d="M9 12h6M12 9l3 3-3 3" stroke="#0071E3" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+      </div>
+      <div class="card-top">
+        <h3 class="card-title" id="card-title-joko">Joko — Cashback Tracker Redesign</h3>
+        <p class="card-desc" id="card-desc-joko">Redesigned the milestone progress experience to break a predictable 30-day churn pattern and drive daily engagement.</p>
+      </div>
+      <div class="card-bottom">
+        <span class="card-company">Joko · 4M+ users · +23% retention</span>
+        <div class="card-arrow"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M3 7h8M7 3l4 4-4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      </div>
+    </div>
+    <div class="case-card rv d2" data-co="faume" onclick="openModal('faume')" tabindex="0" role="button" aria-label="Open FAUME case study">
+      <div class="card-shine"></div>
+      <div class="card-header">
+        <span class="card-cat cat-purple" id="card-cat-faume">Onboarding</span>
+        <div class="card-logo logo-faume">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M12 3l9 6v6l-9 6-9-6V9l9-6z" stroke="#BF5AF2" stroke-width="1.8" stroke-linejoin="round"/></svg>
+        </div>
+      </div>
+      <div class="card-top">
+        <h3 class="card-title" id="card-title-faume">FAUME — Tiered Onboarding Strategy</h3>
+        <p class="card-desc" id="card-desc-faume">Replaced a one-size-fits-all onboarding flow with three segment-specific experiences to reduce activation drop-off.</p>
+      </div>
+      <div class="card-bottom">
+        <span class="card-company">FAUME · Series A · 3-phase roadmap</span>
+        <div class="card-arrow"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M3 7h8M7 3l4 4-4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      </div>
+    </div>
+    <div class="case-card rv d3" data-co="netflix" onclick="openModal('netflix')" tabindex="0" role="button" aria-label="Open Netflix case study">
+      <div class="card-shine"></div>
+      <div class="card-header">
+        <span class="card-cat cat-red" id="card-cat-netflix">Growth</span>
+        <div class="card-logo logo-netflix">
+          <img src="https://cdn.simpleicons.org/netflix/E50914" alt="Netflix" />
+        </div>
+      </div>
+      <div class="card-top">
+        <h3 class="card-title" id="card-title-netflix">Netflix — Gen Z Retention Strategy</h3>
+        <p class="card-desc" id="card-desc-netflix">Identified five behavioural growth levers to recapture Gen Z attention lost to short-form social platforms.</p>
+      </div>
+      <div class="card-bottom">
+        <span class="card-company">Netflix · 270M+ subscribers · 5 growth levers</span>
+        <div class="card-arrow"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M3 7h8M7 3l4 4-4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      </div>
+    </div>
+    <div class="case-card rv d4" data-co="blablacar" onclick="openModal('blablacar')" tabindex="0" role="button" aria-label="Open BlaBlaCar case study">
+      <div class="card-shine"></div>
+      <div class="card-header">
+        <span class="card-cat cat-teal" id="card-cat-blablacar">Analysis</span>
+        <div class="card-logo logo-blablacar">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M5 11V7a2 2 0 012-2h10a2 2 0 012 2v4M3 11h18M7 16a1 1 0 100-2 1 1 0 000 2zM17 16a1 1 0 100-2 1 1 0 000 2z" stroke="#00AADC" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M3 11v5h3M18 16h3v-5" stroke="#00AADC" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+      </div>
+      <div class="card-top">
+        <h3 class="card-title" id="card-title-blablacar">BlaBlaCar — EU Market Teardown</h3>
+        <p class="card-desc" id="card-desc-blablacar">Deep-dive competitive analysis across five EU markets surfacing eight ranked growth opportunities.</p>
+      </div>
+      <div class="card-bottom">
+        <span class="card-company">BlaBlaCar · 100M+ users · 8 opportunities</span>
+        <div class="card-arrow"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M3 7h8M7 3l4 4-4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      </div>
+    </div>
+    <div class="case-card case-card-full rv d1" data-co="cleo" onclick="openModal('cleo')" tabindex="0" role="button" aria-label="Open Cleo case study">
+      <div class="card-shine"></div>
+      <div class="card-header">
+        <div style="display:flex;gap:8px;flex-wrap:wrap">
+          <span class="card-cat cat-amber" id="card-cat-cleo">Founder · MVP Shipped</span>
+          <span style="font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:0.08em;text-transform:uppercase;color:#30D158;padding:3px 10px;background:rgba(48,209,88,0.08);border:1px solid rgba(48,209,88,0.22);border-radius:20px">● Live</span>
+        </div>
+        <div class="card-logo logo-cleo">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M12 2a4 4 0 014 4v1h1a3 3 0 013 3v4a7 7 0 01-14 0v-4a3 3 0 013-3h1V6a4 4 0 014-4z" stroke="#FF9500" stroke-width="1.8" stroke-linejoin="round"/><circle cx="9.5" cy="13" r="1" fill="#FF9500"/><circle cx="14.5" cy="13" r="1" fill="#FF9500"/><path d="M10 16.5c.5.5 1.2.8 2 .8s1.5-.3 2-.8" stroke="#FF9500" stroke-width="1.5" stroke-linecap="round"/></svg>
+        </div>
+      </div>
+      <div class="card-top">
+        <h3 class="card-title" id="card-title-cleo">Cleo — From Problem to Live AI Product</h3>
+        <p class="card-desc" id="card-desc-cleo">400,000+ international students arrive in France every year with zero guidance. I spotted the gap, designed the full product, and shipped an end-to-end AI assistant solo — from idea to live MVP in weeks. Zero budget. Real users.</p>
+      </div>
+      <div class="card-bottom">
+        <span class="card-company">MVP v1 · Solo-built · Next.js + Gemini AI · Free for students</span>
+        <div class="card-arrow"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M3 7h8M7 3l4 4-4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="playpal">
+  <div class="playpal-card rv">
+    <div class="playpal-left">
+      <div class="playpal-badge"><span class="pulse-dot"></span><span id="playpal-badge">LIVE PRODUCT</span></div>
+      <h2 class="playpal-title" id="playpal-title">PlayPal</h2>
+      <p class="playpal-desc" id="playpal-desc">A social sports companion app I designed and shipped end-to-end — connecting players, organising sessions, and building local sports communities. Live and publicly accessible.</p>
+    </div>
+    <div class="playpal-right">
+      <a href="https://sport-link-app.lovable.app" target="_blank" rel="noopener" class="btn-primary" id="playpal-cta">Launch App →</a>
+    </div>
+  </div>
+</section>
+
+<section id="cleo">
+  <div class="cleo-showcase rv">
+    <div class="cleo-top">
+      <div>
+        <div class="cleo-badges-row">
+          <span class="cbadge cbadge-mvp">⚡ MVP v1 Launched</span>
+          <span class="cbadge cbadge-live"><span style="width:6px;height:6px;border-radius:50%;background:#30D158;display:inline-block;animation:pulseGlow 2s infinite"></span> Live on Vercel</span>
+          <span class="cbadge cbadge-solo">Solo-built</span>
+        </div>
+        <span class="cleo-headline" id="cleo-h1">Navigate Paris.</span>
+        <span class="cleo-headline-gold" id="cleo-h2">Not bureaucracy.</span>
+        <p class="cleo-tagline" id="cleo-tagline">I spotted a real problem nobody had solved — and I built the product myself. Cleo is an AI-powered guide that turns 30 days of French administrative chaos into a clear, personalised 7-day plan.</p>
+      </div>
+      <div class="cleo-stats-col">
+        <div class="cleo-mini"><span class="cleo-mini-val">400K+</span><span class="cleo-mini-lbl" id="cleo-stat1-lbl">Students/year in France</span></div>
+        <div class="cleo-mini"><span class="cleo-mini-val">24</span><span class="cleo-mini-lbl" id="cleo-stat2-lbl">Services covered</span></div>
+        <div class="cleo-mini"><span class="cleo-mini-val">~23</span><span class="cleo-mini-lbl" id="cleo-stat3-lbl">Days saved per student</span></div>
+      </div>
+    </div>
+    <div class="cleo-mid">
+      <div class="cleo-problem">
+        <span class="cleo-blk-label" id="cleo-prob-label">The Problem</span>
+        <p class="cleo-pull" id="cleo-pull">"Your first month in Paris should be exciting. Not spent in waiting rooms."</p>
+        <p class="cleo-prob-body" id="cleo-prob-body">Every year, 400,000+ international students land in France and immediately face a wall of bureaucracy — CAF, CPAM, OFII, bank accounts, prefecture appointments — all in a language they barely speak, with no roadmap. Most spend 3–4 weeks just figuring out where to start. I lived this problem firsthand. Then I built the solution.</p>
+      </div>
+      <div class="cleo-solution">
+        <span class="cleo-blk-label" id="cleo-sol-label">What Cleo Does — MVP v1</span>
+        <div class="cleo-feats">
+          <div class="cleo-feat">
+            <div class="cleo-feat-icon">🤖</div>
+            <div><div class="cleo-feat-name" id="cf1-name">AI Chat Assistant</div><div class="cleo-feat-desc" id="cf1-desc">Ask anything about settling in Paris — answered in plain English. Dual AI (Gemini + Groq) with automatic failover for 99.9% uptime.</div></div>
+          </div>
+          <div class="cleo-feat">
+            <div class="cleo-feat-icon">📋</div>
+            <div><div class="cleo-feat-name" id="cf2-name">24 Services Portal</div><div class="cleo-feat-desc" id="cf2-desc">Prefecture, CAF, CPAM, OFII, Navigo, banks and more — every service with direct booking links, tips, and location info.</div></div>
+          </div>
+          <div class="cleo-feat">
+            <div class="cleo-feat-icon">📄</div>
+            <div><div class="cleo-feat-name" id="cf3-name">Document Scanner</div><div class="cleo-feat-desc" id="cf3-desc">Upload any French administrative letter. Get an instant English translation and a list of action items to complete.</div></div>
+          </div>
+          <div class="cleo-feat">
+            <div class="cleo-feat-icon">✅</div>
+            <div><div class="cleo-feat-name" id="cf4-name">Personalised 7-Day Plan</div><div class="cleo-feat-desc" id="cf4-desc">5-step onboarding (nationality, university, visa, budget, housing) generates a day-by-day settlement checklist tailored to you.</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="cleo-bottom">
+      <div class="cleo-stack">
+        <span class="cleo-chip"><img src="https://cdn.simpleicons.org/nextdotjs" alt="">Next.js 14</span>
+        <span class="cleo-chip"><img src="https://cdn.simpleicons.org/typescript" alt="">TypeScript</span>
+        <span class="cleo-chip"><img src="https://cdn.simpleicons.org/tailwindcss" alt="">Tailwind CSS</span>
+        <span class="cleo-chip"><img src="https://cdn.simpleicons.org/google" alt="">Gemini AI</span>
+        <span class="cleo-chip"><img src="https://cdn.simpleicons.org/vercel" alt="">Vercel</span>
+        <span class="cleo-chip" style="color:#FF9500;border-color:rgba(255,149,0,0.2);background:rgba(255,149,0,0.06)">🆓 Free for students</span>
+      </div>
+      <div class="cleo-ctas">
+        <a href="https://cleo-app-theta.vercel.app" target="_blank" rel="noopener" class="btn-primary" id="cleo-cta-main" style="background:linear-gradient(135deg,#FF9500,#FFD60A);background-size:200%;animation:gradShift 5s infinite">Launch Cleo →</a>
+        <a href="https://github.com/gokul26222-debug/cleo" target="_blank" rel="noopener" class="btn-secondary" id="cleo-cta-gh">View on GitHub</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="toolkit">
+  <div class="rv">
+    <span class="section-label" id="toolkit-label">Toolkit</span>
+    <h2 class="section-title" id="toolkit-title" style="margin-bottom:48px">Tools &amp; Methods</h2>
+  </div>
+  <div class="toolkit-section">
+    <h3 class="toolkit-sub rv" id="toolkit-sub1">Tools &amp; Software</h3>
+    <div class="chip-box" id="chipbox-tools">
+      <div class="chip"><img src="https://cdn.simpleicons.org/figma" alt="Figma">Figma</div>
+      <div class="chip"><img src="https://cdn.simpleicons.org/notion" alt="Notion">Notion</div>
+      <div class="chip"><img src="https://cdn.simpleicons.org/jira" alt="Jira">Jira</div>
+      <div class="chip"><img src="https://cdn.simpleicons.org/slack" alt="Slack">Slack</div>
+      <div class="chip"><img src="https://cdn.simpleicons.org/miro" alt="Miro">Miro</div>
+      <div class="chip"><img src="https://cdn.simpleicons.org/postgresql" alt="SQL">SQL</div>
+      <div class="chip"><img src="https://cdn.simpleicons.org/openai" alt="AI/LLMs">AI / LLMs</div>
+      <div class="chip"><img src="https://cdn.simpleicons.org/amplitude" alt="Amplitude">Amplitude</div>
+      <div class="chip"><img src="https://cdn.simpleicons.org/airtable" alt="Airtable">Airtable</div>
+      <div class="chip"><img src="https://cdn.simpleicons.org/nextdotjs" alt="Next.js">Next.js</div>
+      <div class="chip"><img src="https://cdn.simpleicons.org/vercel" alt="Vercel">Vercel</div>
+      <div class="chip"><img src="https://cdn.simpleicons.org/typescript" alt="TypeScript">TypeScript</div>
+    </div>
+  </div>
+  <div class="toolkit-section">
+    <h3 class="toolkit-sub rv d1" id="toolkit-sub2">PM Methods</h3>
+    <div class="chip-box" id="chipbox-methods">
+      <div class="chip"><span class="chip-icon">◈</span>Product Strategy</div>
+      <div class="chip"><span class="chip-icon">◈</span>JTBD</div>
+      <div class="chip"><span class="chip-icon">◈</span>RICE Scoring</div>
+      <div class="chip"><span class="chip-icon">◈</span>AARRR</div>
+      <div class="chip"><span class="chip-icon">◈</span>A/B Testing</div>
+      <div class="chip"><span class="chip-icon">◈</span>User Research</div>
+      <div class="chip"><span class="chip-icon">◈</span>PRD Writing</div>
+      <div class="chip"><span class="chip-icon">◈</span>Roadmapping</div>
+      <div class="chip"><span class="chip-icon">◈</span>Agile / Scrum</div>
+      <div class="chip"><span class="chip-icon">◈</span>Growth Loops</div>
+    </div>
+  </div>
+</section>
+
+<section id="contact">
+  <div class="contact-grid">
+    <div class="rv">
+      <h2 class="contact-heading" id="contact-heading">Let's&#10;talk.</h2>
+      <div class="contact-links">
+        <a href="mailto:gokul26222@gmail.com" class="contact-link">
+          <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><rect x="2" y="4" width="14" height="10" rx="2" stroke="currentColor" stroke-width="1.4"/><path d="M2 6l7 5 7-5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
+          gokul26222@gmail.com
+        </a>
+        <a href="https://www.linkedin.com/in/gokulsrini" target="_blank" rel="noopener" class="contact-link">
+          <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><rect x="2" y="2" width="14" height="14" rx="2.5" stroke="currentColor" stroke-width="1.4"/><path d="M5.5 8v5M5.5 5.5v.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><path d="M8.5 13v-2.5c0-1.1.9-2 2-2s2 .9 2 2V13" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/><path d="M8.5 9v4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
+          linkedin.com/in/gokulsrini
+        </a>
+        <a href="tel:+33074543239" class="contact-link">
+          <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M4.5 3A1.5 1.5 0 003 4.5v.5c0 5.523 4.477 10 10 10h.5A1.5 1.5 0 0015 13.5v-1.382a1.5 1.5 0 00-.894-1.369l-1.895-.838a1.5 1.5 0 00-1.737.385l-.5.57A7.01 7.01 0 016.134 7.026l.57-.5a1.5 1.5 0 00.385-1.737l-.838-1.895A1.5 1.5 0 004.882 3H4.5z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg>
+          +33 07 45 43 23 95
+        </a>
+      </div>
+    </div>
+    <div class="rv d2">
+      <span class="section-label" id="contact-cv-label">Download CV</span>
+      <div class="cv-cards" style="margin-top:8px">
+        <a href="Gokul_CV_EN.pdf" download class="cv-card">
+          <div class="cv-card-left">
+            <div class="cv-icon cv-icon-en">
+              <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><rect x="4" y="2" width="10" height="16" rx="1.5" stroke="#0071E3" stroke-width="1.4"/><path d="M7 7h6M7 10h6M7 13h4" stroke="#0071E3" stroke-width="1.4" stroke-linecap="round"/></svg>
+            </div>
+            <div class="cv-card-info">
+              <span class="cv-card-title">Gokul_CV_EN.pdf</span>
+              <span class="cv-card-sub" id="cv-en-sub">English version</span>
+            </div>
+          </div>
+          <div class="cv-card-dl">
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 2v7M4 6l3 3 3-3M2 10v1.5A.5.5 0 002.5 12h9a.5.5 0 00.5-.5V10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <span id="cv-dl-text">Download</span>
+          </div>
+        </a>
+        <a href="Gokul_CV_FR.pdf" download class="cv-card">
+          <div class="cv-card-left">
+            <div class="cv-icon cv-icon-fr">
+              <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><rect x="4" y="2" width="10" height="16" rx="1.5" stroke="#BF5AF2" stroke-width="1.4"/><path d="M7 7h6M7 10h6M7 13h4" stroke="#BF5AF2" stroke-width="1.4" stroke-linecap="round"/></svg>
+            </div>
+            <div class="cv-card-info">
+              <span class="cv-card-title">Gokul_CV_FR.pdf</span>
+              <span class="cv-card-sub" id="cv-fr-sub">Version française</span>
+            </div>
+          </div>
+          <div class="cv-card-dl">
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 2v7M4 6l3 3 3-3M2 10v1.5A.5.5 0 002.5 12h9a.5.5 0 00.5-.5V10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <span id="cv-fr-dl-text">Télécharger</span>
+          </div>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <span class="footer-left" id="footer-left">© 2025 Gokul Srinivasan — Built for impact.</span>
+  <span class="footer-right">Paris, France</span>
+</footer>
+
+<div class="modal-overlay" id="modal-overlay" onclick="handleOverlayClick(event)">
+  <div class="modal-card" id="modal-card">
+    <div class="modal-banner" id="modal-banner">
+      <div class="modal-banner-bg" id="modal-banner-bg"></div>
+      <button class="modal-close" onclick="closeModal()" aria-label="Close">
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 2l10 10M12 2L2 12" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+      </button>
+      <div class="modal-logo-row">
+        <div class="modal-logo-icon" id="modal-logo-icon"></div>
+        <span class="modal-cat" id="m-cat"></span>
+      </div>
+      <h2 class="modal-title" id="m-title"></h2>
+    </div>
+    <div class="modal-body">
+      <p class="modal-company" id="m-company"></p>
+      <div class="modal-block">
+        <span class="modal-block-label" id="m-prob-label">Problem</span>
+        <p id="m-problem"></p>
+      </div>
+      <div class="modal-block">
+        <span class="modal-block-label" id="m-app-label">Approach</span>
+        <ul id="m-approach"></ul>
+      </div>
+      <div class="modal-block">
+        <span class="modal-block-label" id="m-imp-label">Impact</span>
+        <div class="modal-metrics" id="m-metrics"></div>
+      </div>
+      <div class="modal-footer" id="m-footer"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+const LANG = {
+  en: {
+    'hero-badge': 'AVAILABLE — Paris, France',
+    'hero-mono': 'Product Manager · Paris, France · Open to full-time roles',
+    'hero-cta1': 'View Case Studies →',
+    'hero-cta2': 'Get in Touch',
+    'nav-work': 'Work',
+    'nav-about': 'About',
+    'nav-skills': 'Skills',
+    'nav-contact': 'Contact',
+    'nav-dl-text': 'Download CV',
+    'stat1-label': 'Years of Experience',
+    'stat2-label': 'Case Studies',
+    'stat3-label': 'Shipped Apps',
+    'about-label': 'About',
+    'about-heading': 'Turning user problems into product outcomes.',
+    'about-body': "I'm a Product Manager based in Paris with 3+ years of experience spanning early-stage startups and established consumer platforms. My work sits at the intersection of user research, data analysis, and cross-functional execution — I translate ambiguous problems into structured product strategies that move metrics. I've tackled challenges across retention, onboarding, and growth for companies like Joko, FAUME, Netflix (case study), and BlaBlaCar (teardown). I also build and ship my own products — Cleo, an AI assistant helping 400K+ international students navigate French bureaucracy, and PlayPal, a social sports app. I'm fluent in both the qualitative language of JTBD and the quantitative rigour of A/B testing and funnel analytics. Currently open to full-time Product Manager roles in Paris or remote.",
+    'work-label': 'Case Studies',
+    'work-title': 'Selected Work',
+    'card-cat-joko': 'Retention · Joko',
+    'card-title-joko': 'Cashback Progress Tracker Redesign',
+    'card-desc-joko': 'Redesigned the milestone progress experience to break a predictable 30-day churn pattern and drive daily engagement.',
+    'card-cat-faume': 'Onboarding · FAUME',
+    'card-title-faume': 'Tiered Onboarding Strategy',
+    'card-desc-faume': 'Replaced a one-size-fits-all onboarding flow with three segment-specific experiences to reduce activation drop-off.',
+    'card-cat-netflix': 'Growth · Netflix',
+    'card-title-netflix': 'Gen Z Retention Strategy',
+    'card-desc-netflix': 'Identified five behavioural growth levers to recapture Gen Z attention lost to short-form social platforms.',
+    'card-cat-blablacar': 'Analysis · BlaBlaCar',
+    'card-title-blablacar': 'European Market Teardown',
+    'card-desc-blablacar': 'Deep-dive competitive analysis across five EU markets surfacing eight ranked growth opportunities.',
+    'nav-cleo': 'Cleo',
+    'card-cat-cleo': 'Founder · MVP Shipped',
+    'card-title-cleo': 'Cleo — From Problem to Live AI Product',
+    'card-desc-cleo': '400,000+ international students arrive in France every year with zero guidance. I spotted the gap, designed the full product, and shipped an end-to-end AI assistant solo — from idea to live MVP in weeks. Zero budget. Real users.',
+    'playpal-badge': 'LIVE PRODUCT',
+    'playpal-title': 'PlayPal',
+    'playpal-desc': 'A social sports companion app I designed and shipped end-to-end — connecting players, organising sessions, and building local sports communities. Live and publicly accessible.',
+    'playpal-cta': 'Launch App →',
+    'cleo-h1': 'Navigate Paris.',
+    'cleo-h2': 'Not bureaucracy.',
+    'cleo-tagline': "I spotted a real problem nobody had solved — and I built the product myself. Cleo is an AI-powered guide that turns 30 days of French administrative chaos into a clear, personalised 7-day plan.",
+    'cleo-stat1-lbl': 'Students/year in France',
+    'cleo-stat2-lbl': 'Services covered',
+    'cleo-stat3-lbl': 'Days saved per student',
+    'cleo-prob-label': 'The Problem',
+    'cleo-pull': '"Your first month in Paris should be exciting. Not spent in waiting rooms."',
+    'cleo-prob-body': "Every year, 400,000+ international students land in France and immediately face a wall of bureaucracy — CAF, CPAM, OFII, bank accounts, prefecture appointments — all in a language they barely speak, with no roadmap. Most spend 3–4 weeks just figuring out where to start. I lived this problem firsthand. Then I built the solution.",
+    'cleo-sol-label': 'What Cleo Does — MVP v1',
+    'cf1-name': 'AI Chat Assistant',
+    'cf1-desc': 'Ask anything about settling in Paris — answered in plain English. Dual AI (Gemini + Groq) with automatic failover for 99.9% uptime.',
+    'cf2-name': '24 Services Portal',
+    'cf2-desc': 'Prefecture, CAF, CPAM, OFII, Navigo, banks and more — every service with direct booking links, tips, and location info.',
+    'cf3-name': 'Document Scanner',
+    'cf3-desc': 'Upload any French administrative letter. Get an instant English translation and a list of action items to complete.',
+    'cf4-name': 'Personalised 7-Day Plan',
+    'cf4-desc': '5-step onboarding (nationality, university, visa, budget, housing) generates a day-by-day settlement checklist tailored to you.',
+    'cleo-cta-main': 'Launch Cleo →',
+    'cleo-cta-gh': 'View on GitHub',
+    'toolkit-label': 'Toolkit',
+    'toolkit-title': 'Tools & Methods',
+    'toolkit-sub1': 'Tools & Software',
+    'toolkit-sub2': 'PM Methods',
+    'contact-heading': "Let's\ntalk.",
+    'contact-cv-label': 'Download CV',
+    'cv-en-sub': 'English version',
+    'cv-fr-sub': 'French version',
+    'cv-dl-text': 'Download',
+    'cv-fr-dl-text': 'Download',
+    'footer-left': '© 2025 Gokul Srinivasan — Built for impact.',
+    'typewriter': 'I build case studies, ship real prototypes, and think in systems.'
+  },
+  fr: {
+    'hero-badge': 'DISPONIBLE — Paris, France',
+    'hero-mono': "Product Manager · Paris, France · À la recherche d'un poste",
+    'hero-cta1': 'Voir les études de cas →',
+    'hero-cta2': 'Me contacter',
+    'nav-work': 'Projets',
+    'nav-about': 'À propos',
+    'nav-skills': 'Compétences',
+    'nav-contact': 'Contact',
+    'nav-dl-text': 'Télécharger CV',
+    'stat1-label': "Années d'expérience",
+    'stat2-label': 'Études de cas',
+    'stat3-label': 'Applications livrées',
+    'about-label': 'À propos',
+    'about-heading': 'Transformer les problèmes utilisateurs en résultats produit.',
+    'about-body': "Je suis Product Manager basé à Paris, avec plus de 3 ans d'expérience dans des startups en phase de croissance et des plateformes grand public établies. Mon travail se situe à l'intersection de la recherche utilisateur, de l'analyse de données et de l'exécution transversale — je transforme des problèmes ambigus en stratégies produit structurées qui font bouger les métriques. J'ai abordé des enjeux de rétention, d'onboarding et de croissance pour des entreprises telles que Joko, FAUME, Netflix (étude de cas) et BlaBlaCar (analyse). Je conçois et livre aussi mes propres produits — Cleo, un assistant IA aidant plus de 400 000 étudiants internationaux à naviguer dans la bureaucratie française, et PlayPal, une application sociale de sport. Je maîtrise aussi bien le langage qualitatif des JTBD que la rigueur quantitative des tests A/B et de l'analyse de tunnels. Actuellement disponible pour des postes de Product Manager à temps plein, à Paris ou en télétravail.",
+    'work-label': 'Études de cas',
+    'work-title': 'Projets sélectionnés',
+    'card-cat-joko': 'Rétention · Joko',
+    'card-title-joko': 'Refonte du suivi de progression cashback',
+    'card-desc-joko': "Refonte de l'expérience de suivi des jalons pour briser un cycle de désengagement prévisible à 30 jours et stimuler l'engagement quotidien.",
+    'card-cat-faume': 'Onboarding · FAUME',
+    'card-title-faume': "Stratégie d'onboarding par segment",
+    'card-desc-faume': "Remplacement d'un flux d'onboarding unique par trois parcours spécifiques à chaque segment pour réduire le taux d'abandon à l'activation.",
+    'card-cat-netflix': 'Croissance · Netflix',
+    'card-title-netflix': 'Stratégie de rétention Gen Z',
+    'card-desc-netflix': "Identification de cinq leviers comportementaux pour reconquérir l'attention de la Gen Z perdue au profit des plateformes sociales à formats courts.",
+    'card-cat-blablacar': 'Analyse · BlaBlaCar',
+    'card-title-blablacar': 'Analyse concurrentielle européenne',
+    'card-desc-blablacar': "Analyse concurrentielle approfondie sur cinq marchés européens révélant huit opportunités de croissance classées par priorité.",
+    'nav-cleo': 'Cleo',
+    'card-cat-cleo': 'Fondateur · MVP livré',
+    'card-title-cleo': 'Cleo — Du problème au produit IA en ligne',
+    'card-desc-cleo': "400 000+ étudiants internationaux arrivent en France chaque année sans aucun guide. J'ai identifié le manque, conçu le produit complet et livré un assistant IA de bout en bout en solo — de l'idée au MVP en quelques semaines. Zéro budget. Vrais utilisateurs.",
+    'playpal-badge': 'PRODUIT EN LIGNE',
+    'playpal-title': 'PlayPal',
+    'playpal-desc': "Une application sociale de sport que j'ai conçue et livrée de A à Z — connectant les joueurs, organisant des sessions et construisant des communautés sportives locales. En ligne et accessible au public.",
+    'playpal-cta': "Lancer l'app →",
+    'cleo-h1': 'Naviguez à Paris.',
+    'cleo-h2': 'Pas dans la bureaucratie.',
+    'cleo-tagline': "J'ai repéré un vrai problème que personne n'avait résolu — et j'ai construit le produit moi-même. Cleo est un guide propulsé par l'IA qui transforme 30 jours de chaos administratif français en un plan clair et personnalisé sur 7 jours.",
+    'cleo-stat1-lbl': 'Étudiants/an en France',
+    'cleo-stat2-lbl': 'Services couverts',
+    'cleo-stat3-lbl': 'Jours économisés',
+    'cleo-prob-label': 'Le problème',
+    'cleo-pull': '« Votre premier mois à Paris devrait être exaltant. Pas passé en salle d\'attente. »',
+    'cleo-prob-body': "Chaque année, plus de 400 000 étudiants internationaux arrivent en France et font face à un mur de bureaucratie — CAF, CPAM, OFII, comptes bancaires, rendez-vous en préfecture — dans une langue qu'ils maîtrisent à peine, sans feuille de route. La plupart passent 3 à 4 semaines à chercher par où commencer. J'ai vécu ce problème de l'intérieur. Puis j'ai construit la solution.",
+    'cleo-sol-label': 'Ce que fait Cleo — MVP v1',
+    'cf1-name': 'Assistant Chat IA',
+    'cf1-desc': "Posez n'importe quelle question sur l'installation à Paris — réponse en anglais clair. Double IA (Gemini + Groq) avec basculement automatique pour 99,9 % de disponibilité.",
+    'cf2-name': 'Portail 24 services',
+    'cf2-desc': "Préfecture, CAF, CPAM, OFII, Navigo, banques et plus — chaque service avec liens de réservation directs, conseils et informations de localisation.",
+    'cf3-name': 'Scanner de documents',
+    'cf3-desc': "Chargez n'importe quelle lettre administrative française. Obtenez une traduction instantanée en anglais et une liste d'actions à effectuer.",
+    'cf4-name': 'Plan personnalisé 7 jours',
+    'cf4-desc': "Un onboarding en 5 étapes (nationalité, université, visa, budget, logement) génère une checklist d'installation jour par jour adaptée à votre profil.",
+    'cleo-cta-main': 'Lancer Cleo →',
+    'cleo-cta-gh': 'Voir sur GitHub',
+    'toolkit-label': 'Boîte à outils',
+    'toolkit-title': 'Outils et méthodes',
+    'toolkit-sub1': 'Outils et logiciels',
+    'toolkit-sub2': 'Méthodes PM',
+    'contact-heading': "Parlons\nensemble.",
+    'contact-cv-label': 'Télécharger CV',
+    'cv-en-sub': 'Version anglaise',
+    'cv-fr-sub': 'Version française',
+    'cv-dl-text': 'Télécharger',
+    'cv-fr-dl-text': 'Télécharger',
+    'footer-left': "© 2025 Gokul Srinivasan — Conçu pour l'impact.",
+    'typewriter': "Je crée des études de cas, développe des prototypes réels et pense en systèmes."
+  }
+};
+
+const MODALS = {
+  joko: {
+    en: {
+      cat: 'Retention · Joko',
+      catColor: '#0071E3',
+      title: 'Cashback Progress Tracker Redesign',
+      company: "Joko — France's leading cashback rewards app · 4M+ users",
+      problem: 'Users were disengaging before reaching cashback milestones because the progress tracker lacked visibility and feedback loops. This created a predictable 30-day churn pattern.',
+      approach: [
+        'Mapped the full habit loop — cue, routine, reward — across the cashback journey',
+        'Redesigned progress indicators to make milestone proximity visible at a glance',
+        'Introduced streak mechanics and micro-celebration moments to reinforce daily use',
+        'Ran A/B tests on progress bar visibility and reward framing'
+      ],
+      metrics: ['+23%|Retention', '↓ 30-Day|Churn Rate', '↑ DAU|Daily Users'],
+      cta: { label: 'Read Full Case Study →', href: 'https://www.notion.so/JOKO-PM-Case-StudyBy-Gokul-March-2026-33389ac134e780bb9231fb0a821c9ab2' }
+    },
+    fr: {
+      cat: 'Rétention · Joko',
+      catColor: '#0071E3',
+      title: 'Refonte du suivi de progression cashback',
+      company: 'Joko — principale application de cashback en France · 4M+ utilisateurs',
+      problem: "Les utilisateurs se désengageaient avant d'atteindre leurs jalons de cashback, car le suivi de progression manquait de visibilité et de boucles de rétroaction. Ce phénomène créait un cycle de désabonnement prévisible à 30 jours.",
+      approach: [
+        "Cartographie de la boucle d'habitude complète — déclencheur, routine, récompense — sur le parcours cashback",
+        "Refonte des indicateurs de progression pour rendre la proximité des jalons visible en un coup d'œil",
+        "Introduction de mécaniques de série et de micro-célébrations pour renforcer l'utilisation quotidienne",
+        "Réalisation de tests A/B sur la visibilité de la barre de progression et le cadrage des récompenses"
+      ],
+      metrics: ['+23%|Rétention', '↓ Churn|30 Jours', '↑ DAU|Engagement'],
+      cta: { label: "Lire l'étude de cas complète →", href: 'https://www.notion.so/JOKO-PM-Case-StudyBy-Gokul-March-2026-33389ac134e780bb9231fb0a821c9ab2' }
+    }
+  },
+  faume: {
+    en: {
+      cat: 'Onboarding · FAUME',
+      catColor: '#BF5AF2',
+      title: 'Tiered Onboarding Strategy',
+      company: 'FAUME — Pre-owned luxury fashion resale platform · Series A',
+      problem: "FAUME's single onboarding flow served buyers, sellers, and brand partners equally — creating friction for each segment. Users with different goals received the same generic experience, causing drop-off before activation.",
+      approach: [
+        'Conducted JTBD interviews across 3 user segments',
+        'Mapped distinct activation milestones per segment',
+        'Designed segment-specific onboarding flows using progressive disclosure',
+        'Delivered a 3-phase implementation roadmap: discovery, activation, retention'
+      ],
+      metrics: ['3|User Segments', '3-Phase|Roadmap', '↓ Drop-off|At Activation'],
+      cta: null
+    },
+    fr: {
+      cat: 'Onboarding · FAUME',
+      catColor: '#BF5AF2',
+      title: "Stratégie d'onboarding par segment",
+      company: 'FAUME — Plateforme de revente de mode de luxe de seconde main · Série A',
+      problem: "Le flux d'onboarding unique de FAUME s'adressait à la fois aux acheteurs, aux vendeurs et aux partenaires marques — créant des frictions pour chaque segment. Des utilisateurs aux objectifs différents recevaient la même expérience générique, entraînant un abandon avant l'activation.",
+      approach: [
+        "Conduite d'entretiens JTBD auprès de 3 segments utilisateurs",
+        "Cartographie des jalons d'activation distincts par segment",
+        "Conception de flux d'onboarding spécifiques à chaque segment via la divulgation progressive",
+        "Livraison d'une feuille de route d'implémentation en 3 phases : découverte, activation, rétention"
+      ],
+      metrics: ['3|Segments', '3 Phases|Feuille de route', "↓ Abandon|À l'activation"],
+      cta: null
+    }
+  },
+  netflix: {
+    en: {
+      cat: 'Growth · Netflix',
+      catColor: '#30D158',
+      title: 'Gen Z Retention Strategy',
+      company: 'Netflix — Global streaming platform · 270M+ subscribers',
+      problem: "Netflix's content discovery is built for lean-back viewing — a behaviour increasingly misaligned with how Gen Z consumes media. TikTok, YouTube Shorts, and social-first platforms were capturing attention that Netflix was losing.",
+      approach: [
+        'Benchmarked content discovery UX across TikTok, YouTube, BeReal, and Letterboxd',
+        'Identified 5 Gen Z behavioural patterns driving platform preference',
+        'Designed a social engagement layer: watch parties, reactions, shareable micro-clips',
+        'Proposed a creator-driven short format for discovery and trial'
+      ],
+      metrics: ['5|Growth Levers', 'Full|Strategy Delivered', '4|Platforms Benchmarked'],
+      cta: null
+    },
+    fr: {
+      cat: 'Croissance · Netflix',
+      catColor: '#30D158',
+      title: 'Stratégie de rétention Gen Z',
+      company: 'Netflix — Plateforme de streaming mondiale · 270M+ abonnés',
+      problem: "La découverte de contenu sur Netflix est conçue pour une consommation passive — un comportement de plus en plus décalé par rapport à la façon dont la Gen Z consomme les médias. TikTok, YouTube Shorts et les plateformes sociales captaient une attention que Netflix perdait.",
+      approach: [
+        "Analyse comparative de l'UX de découverte de contenu sur TikTok, YouTube, BeReal et Letterboxd",
+        '5 comportements Gen Z identifiés comme moteurs de préférence de plateforme',
+        "Conception d'une couche d'engagement social : soirées visionnage, réactions, micro-clips partageables",
+        "Proposition d'un format court piloté par des créateurs pour la découverte et l'essai"
+      ],
+      metrics: ['5|Leviers de croissance', 'Complète|Stratégie livrée', '4|Plateformes analysées'],
+      cta: null
+    }
+  },
+  blablacar: {
+    en: {
+      cat: 'Analysis · BlaBlaCar',
+      catColor: '#FF9F0A',
+      title: 'European Market Teardown',
+      company: "BlaBlaCar — Europe's largest ridesharing marketplace · 100M+ users · 22 countries",
+      problem: 'Post-COVID travel recovery and rising EV adoption were reshaping European mobility. BlaBlaCar faced new competitive pressure from rail aggregators and emerging rideshare platforms — identifying the next growth wave was critical.',
+      approach: [
+        'Full product teardown: user flows, trust systems, pricing mechanics, driver incentives',
+        'Competitive mapping against Flixbus, SNCF Connect, Blablabus, and Karos',
+        'Identified underserved corridors and segments across 5 EU markets',
+        'Mapped 8 growth opportunities ranked by effort vs. impact'
+      ],
+      metrics: ['8|Growth Opportunities', '5|EU Markets', '4|Competitors Mapped'],
+      cta: null
+    },
+    fr: {
+      cat: 'Analyse · BlaBlaCar',
+      catColor: '#FF9F0A',
+      title: 'Analyse concurrentielle européenne',
+      company: "BlaBlaCar — Premier marché de covoiturage d'Europe · 100M+ utilisateurs · 22 pays",
+      problem: "La reprise des voyages post-COVID et l'adoption croissante des véhicules électriques reconfiguraient la mobilité européenne. BlaBlaCar faisait face à une pression concurrentielle inédite de la part des agrégateurs ferroviaires et des nouvelles plateformes de covoiturage — identifier la prochaine vague de croissance était essentiel.",
+      approach: [
+        'Analyse complète du produit : flux utilisateurs, systèmes de confiance, mécanique tarifaire, incitations conducteurs',
+        'Cartographie concurrentielle face à Flixbus, SNCF Connect, Blablabus et Karos',
+        'Identification des corridors et segments sous-exploités dans 5 marchés européens',
+        '8 opportunités de croissance cartographiées et classées par effort vs. impact'
+      ],
+      metrics: ['8|Opportunités', '5|Marchés EU', '4|Concurrents analysés'],
+      cta: null
+    }
+  },
+  cleo: {
+    en: {
+      cat: 'Founder · MVP v1 Shipped',
+      catColor: '#FF9500',
+      title: 'Cleo — From Zero to Live AI Product',
+      company: 'Cleo · Solo-built · Next.js + Gemini AI · Live on Vercel · Free for students',
+      problem: "400,000+ international students arrive in France every year. They spend their first month lost in a maze of CAF, CPAM, OFII, and prefecture appointments — in a language they don't speak, with no guide, no roadmap, and no one to ask. I lived this problem myself. No product on the market was solving it end-to-end. So I built Cleo.",
+      approach: [
+        'Validated the opportunity: 400K+ users/year, zero AI-native solutions, real pain confirmed through personal experience and community research',
+        'Designed the full product architecture solo: AI chat, 24-service portal, document scanner, personalised onboarding, 7-day checklist',
+        'Built dual-AI failover (Google Gemini primary + Groq/Llama fallback) — 99.9% uptime, zero backend, privacy-first',
+        'Shipped MVP v1 in weeks with Next.js 14, TypeScript, Tailwind CSS — deployed on Vercel, fully free for students',
+        'Roadmap: multi-language (Hindi, Arabic, Chinese), WhatsApp bot, housing scam detector, city expansion (Lyon, Marseille)'
+      ],
+      metrics: ['MVP v1|Shipped Solo', '400K+|Market/Year', '24|Services', '0€|For Students'],
+      cta: { label: 'Launch Cleo →', href: 'https://cleo-app-theta.vercel.app' }
+    },
+    fr: {
+      cat: 'Fondateur · MVP v1 Livré',
+      catColor: '#FF9500',
+      title: 'Cleo — De zéro à un produit IA en ligne',
+      company: 'Cleo · Construit en solo · Next.js + Gemini AI · En ligne sur Vercel · Gratuit pour étudiants',
+      problem: "Plus de 400 000 étudiants internationaux arrivent en France chaque année. Ils passent leur premier mois perdus dans un labyrinthe de CAF, CPAM, OFII et rendez-vous en préfecture — dans une langue qu'ils ne parlent pas, sans guide ni feuille de route. J'ai vécu ce problème moi-même. Aucun produit sur le marché ne le résolvait de bout en bout. Alors j'ai construit Cleo.",
+      approach: [
+        "Validation de l'opportunité : 400 000+ utilisateurs/an, zéro solution IA native, douleur réelle confirmée par expérience personnelle et recherche communautaire",
+        "Conception de l'architecture produit complète en solo : chat IA, portail 24 services, scanner de documents, onboarding personnalisé, checklist 7 jours",
+        "Architecture IA double avec basculement automatique (Google Gemini primaire + Groq/Llama secours) — 99,9 % de disponibilité, sans backend, privacy-first",
+        "Livraison du MVP v1 en quelques semaines avec Next.js 14, TypeScript, Tailwind CSS — déployé sur Vercel, entièrement gratuit pour les étudiants",
+        "Feuille de route : multi-langue (Hindi, Arabe, Chinois), bot WhatsApp, détecteur d'arnaques logement, expansion (Lyon, Marseille)"
+      ],
+      metrics: ['MVP v1|Livré en solo', '400K+|Marché/an', '24|Services', '0€|Pour étudiants'],
+      cta: { label: 'Lancer Cleo →', href: 'https://cleo-app-theta.vercel.app' }
+    }
+  }
+};
+
+let currentLang = 'en';
+let statsDone = false;
+let currentModal = null;
+
+function setLang(l) {
+  currentLang = l;
+  document.getElementById('lbtn-en').classList.toggle('on', l === 'en');
+  document.getElementById('lbtn-fr').classList.toggle('on', l === 'fr');
+  const data = LANG[l];
+  for (const id in data) {
+    if (id === 'typewriter') continue;
+    const el = document.getElementById(id);
+    if (el) el.textContent = data[id];
+  }
+  typeWriter(data['typewriter'], 35);
+  if (currentModal) renderModal(currentModal);
+}
+
+function typeWriter(str, delay) {
+  const el = document.getElementById('typewriter-text');
+  el.textContent = '';
+  let i = 0;
+  function tick() {
+    if (i < str.length) {
+      el.textContent += str[i++];
+      setTimeout(tick, delay);
+    }
+  }
+  tick();
+}
+
+function toggleDl(e) {
+  e.stopPropagation();
+  document.getElementById('dlw').classList.toggle('open');
+}
+
+document.addEventListener('click', function(e) {
+  const dlw = document.getElementById('dlw');
+  if (dlw && !dlw.contains(e.target)) dlw.classList.remove('open');
+});
+
+function openModal(key) {
+  currentModal = key;
+  renderModal(key);
+  document.getElementById('modal-overlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
+  document.getElementById('modal-card').scrollTop = 0;
+}
+
+const MODAL_META = {
+  joko:      { color: '#0071E3', bg: 'linear-gradient(135deg,rgba(0,113,227,0.25),rgba(90,200,250,0.1))', logo: '<svg width="28" height="28" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="#0071E3" stroke-width="1.8"/><path d="M9 12h6M12 9l3 3-3 3" stroke="#0071E3" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>', logoBg: 'rgba(0,113,227,0.15)' },
+  faume:     { color: '#BF5AF2', bg: 'linear-gradient(135deg,rgba(191,90,242,0.25),rgba(255,45,85,0.1))', logo: '<svg width="28" height="28" viewBox="0 0 24 24" fill="none"><path d="M12 3l9 6v6l-9 6-9-6V9l9-6z" stroke="#BF5AF2" stroke-width="1.8" stroke-linejoin="round"/></svg>', logoBg: 'rgba(191,90,242,0.15)' },
+  netflix:   { color: '#E50914', bg: 'linear-gradient(135deg,rgba(229,9,20,0.25),rgba(255,107,53,0.1))', logo: '<img src="https://cdn.simpleicons.org/netflix/E50914" style="width:28px;height:28px;object-fit:contain"/>', logoBg: 'rgba(229,9,20,0.15)' },
+  blablacar: { color: '#00AADC', bg: 'linear-gradient(135deg,rgba(0,170,220,0.25),rgba(0,113,227,0.1))', logo: '<svg width="28" height="28" viewBox="0 0 24 24" fill="none"><path d="M5 11V7a2 2 0 012-2h10a2 2 0 012 2v4M3 11h18M7 16a1 1 0 100-2 1 1 0 000 2zM17 16a1 1 0 100-2 1 1 0 000 2z" stroke="#00AADC" stroke-width="1.8" stroke-linecap="round"/><path d="M3 11v5h3M18 16h3v-5" stroke="#00AADC" stroke-width="1.8" stroke-linecap="round"/></svg>', logoBg: 'rgba(0,170,220,0.15)' },
+  cleo:      { color: '#FF9500', bg: 'linear-gradient(135deg,rgba(255,149,0,0.25),rgba(255,214,10,0.1))', logo: '<svg width="28" height="28" viewBox="0 0 24 24" fill="none"><path d="M12 2a4 4 0 014 4v1h1a3 3 0 013 3v4a7 7 0 01-14 0v-4a3 3 0 013-3h1V6a4 4 0 014-4z" stroke="#FF9500" stroke-width="1.8" stroke-linejoin="round"/><circle cx="9.5" cy="13" r="1" fill="#FF9500"/><circle cx="14.5" cy="13" r="1" fill="#FF9500"/><path d="M10 16.5c.5.5 1.2.8 2 .8s1.5-.3 2-.8" stroke="#FF9500" stroke-width="1.5" stroke-linecap="round"/></svg>', logoBg: 'rgba(255,149,0,0.15)' }
+};
+
+function renderModal(key) {
+  const d = MODALS[key][currentLang];
+  const meta = MODAL_META[key];
+  // Banner
+  const banner = document.getElementById('modal-banner');
+  banner.style.background = meta.bg;
+  const logoIcon = document.getElementById('modal-logo-icon');
+  logoIcon.innerHTML = meta.logo;
+  logoIcon.style.background = meta.logoBg;
+  logoIcon.style.border = '1px solid ' + meta.color + '33';
+  // Cat + title
+  const catEl = document.getElementById('m-cat');
+  catEl.textContent = d.cat;
+  catEl.style.color = meta.color;
+  document.getElementById('m-title').textContent = d.title;
+  // Body
+  document.getElementById('m-company').textContent = d.company;
+  document.getElementById('m-problem').textContent = d.problem;
+  document.getElementById('m-approach').innerHTML = d.approach.map(a =>
+    '<li style="--li-color:' + meta.color + '">' + a + '</li>'
+  ).join('');
+  // Style approach arrows with company color
+  document.querySelectorAll('#m-approach li::before').forEach(function(){});
+  document.getElementById('m-approach').querySelectorAll('li').forEach(function(li) {
+    li.style.borderColor = meta.color + '18';
+  });
+  // Metrics with company color
+  document.getElementById('m-metrics').innerHTML = d.metrics.map(function(m) {
+    const parts = m.split('|');
+    const val = parts[0].trim();
+    const lbl = parts[1] ? parts[1].trim() : '';
+    return '<span class="metric-chip" style="background:' + meta.color + '14;border:1px solid ' + meta.color + '33;color:' + meta.color + '">' + val + (lbl ? '<span>' + lbl + '</span>' : '') + '</span>';
+  }).join('');
+  // Labels
+  document.getElementById('m-prob-label').textContent = currentLang === 'fr' ? 'Problème' : 'Problem';
+  document.getElementById('m-prob-label').style.color = meta.color;
+  document.getElementById('m-app-label').textContent = currentLang === 'fr' ? 'Approche' : 'Approach';
+  document.getElementById('m-app-label').style.color = meta.color;
+  document.getElementById('m-imp-label').textContent = 'Impact';
+  document.getElementById('m-imp-label').style.color = meta.color;
+  // Footer
+  const footEl = document.getElementById('m-footer');
+  footEl.innerHTML = '';
+  if (d.cta) {
+    const a = document.createElement('a');
+    a.href = d.cta.href; a.target = '_blank'; a.rel = 'noopener';
+    a.className = 'btn-primary'; a.style.cssText = 'font-size:14px;padding:11px 22px';
+    a.textContent = d.cta.label;
+    footEl.appendChild(a);
+  }
+  const closeBtn = document.createElement('button');
+  closeBtn.className = 'btn-secondary';
+  closeBtn.style.cssText = 'font-size:14px;padding:11px 22px';
+  closeBtn.textContent = currentLang === 'fr' ? 'Fermer' : 'Close';
+  closeBtn.onclick = closeModal;
+  footEl.appendChild(closeBtn);
+}
+
+function closeModal() {
+  document.getElementById('modal-overlay').classList.remove('open');
+  document.body.style.overflow = '';
+  setTimeout(function() { currentModal = null; }, 300);
+}
+
+function handleOverlayClick(e) {
+  if (e.target === document.getElementById('modal-overlay')) closeModal();
+}
+
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape') closeModal();
+});
+
+document.querySelectorAll('.case-card').forEach(function(card) {
+  card.addEventListener('keydown', function(e) {
+    if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); card.click(); }
+  });
+  const shine = card.querySelector('.card-shine');
+  card.addEventListener('mousemove', function(e) {
+    const rect = card.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    const cx = rect.width / 2;
+    const cy = rect.height / 2;
+    const rx = ((y - cy) / cy) * -7;
+    const ry = ((x - cx) / cx) * 7;
+    card.style.transform = 'perspective(900px) rotateX(' + rx + 'deg) rotateY(' + ry + 'deg) scale3d(1.03,1.03,1.03)';
+    card.style.transition = 'transform 0.08s linear, box-shadow 0.08s linear';
+    const px = (x / rect.width) * 100;
+    const py = (y / rect.height) * 100;
+    shine.style.background = 'radial-gradient(circle 200px at ' + px + '% ' + py + '%, rgba(255,255,255,0.07), transparent)';
+  });
+  card.addEventListener('mouseleave', function() {
+    card.style.transform = 'perspective(900px) rotateX(0deg) rotateY(0deg) scale3d(1,1,1)';
+    card.style.transition = 'transform 0.55s ease, box-shadow 0.55s ease';
+  });
+});
+
+const statsTargets = [3, 5, 2];
+const statsIds = ['stat1', 'stat2', 'stat3'];
+const statsObs = new IntersectionObserver(function(entries) {
+  entries.forEach(function(entry) {
+    if (entry.isIntersecting && !statsDone) {
+      statsDone = true;
+      statsIds.forEach(function(id, i) {
+        let count = 0;
+        const target = statsTargets[i];
+        const el = document.getElementById(id);
+        const iv = setInterval(function() {
+          count = Math.min(count + 1, target);
+          el.textContent = count + '+';
+          if (count >= target) clearInterval(iv);
+        }, 28);
+      });
+    }
+  });
+}, { threshold: 0.3 });
+const statsGrid = document.querySelector('.stats-grid');
+if (statsGrid) statsObs.observe(statsGrid);
+
+const rvObs = new IntersectionObserver(function(entries) {
+  entries.forEach(function(entry) {
+    if (entry.isIntersecting) entry.target.classList.add('vis');
+  });
+}, { threshold: 0.12 });
+document.querySelectorAll('.rv').forEach(function(el) { rvObs.observe(el); });
+
+function setupChipStagger(boxId) {
+  const box = document.getElementById(boxId);
+  if (!box) return;
+  const chips = box.querySelectorAll('.chip');
+  const obs = new IntersectionObserver(function(entries) {
+    entries.forEach(function(entry) {
+      if (entry.isIntersecting) {
+        chips.forEach(function(chip, i) {
+          setTimeout(function() { chip.classList.add('vis'); }, 60 * i);
+        });
+        obs.disconnect();
+      }
+    });
+  }, { threshold: 0.12 });
+  obs.observe(box);
+}
+setupChipStagger('chipbox-tools');
+setupChipStagger('chipbox-methods');
+
+typeWriter(LANG.en.typewriter, 35);
+
+// Cinematic intro
+setTimeout(function(){ var el=document.getElementById('intro'); if(el) el.remove(); }, 2600);
+
+// Canvas background — sine-wave orbs + particles
+(function(){
+  var canvas = document.getElementById('bgCanvas');
+  if(!canvas) return;
+  var ctx = canvas.getContext('2d');
+  var W, H;
+
+  var ORBS = [
+    {x:0.78, y:-0.08, r:520, cr:'rgba(75,40,210,0.14)', ph:0,   sp:0.00075},
+    {x:0.08, y:0.88,  r:440, cr:'rgba(201,168,76,0.10)', ph:2.1, sp:0.00055},
+    {x:0.48, y:0.50,  r:320, cr:'rgba(155,109,255,0.09)',ph:4.2, sp:0.00095},
+    {x:0.88, y:0.65,  r:270, cr:'rgba(79,158,255,0.08)', ph:1.0, sp:0.00065},
+    {x:0.18, y:0.25,  r:210, cr:'rgba(255,143,173,0.07)',ph:3.5, sp:0.00085},
+  ];
+
+  var PTS = [];
+  for(var i=0;i<55;i++) PTS.push({
+    x:Math.random(), y:Math.random(),
+    vx:(Math.random()-0.5)*0.00014, vy:(Math.random()-0.5)*0.00014,
+    r:Math.random()*1.4+0.4, a:Math.random()*0.35+0.08
+  });
+
+  function resize(){ W=canvas.width=window.innerWidth; H=canvas.height=window.innerHeight; }
+
+  function draw(t){
+    ctx.clearRect(0,0,W,H);
+    ORBS.forEach(function(o){
+      var dx=Math.sin(t*o.sp+o.ph)*55;
+      var dy=Math.cos(t*o.sp*0.65+o.ph)*38;
+      var grd=ctx.createRadialGradient(o.x*W+dx,o.y*H+dy,0,o.x*W+dx,o.y*H+dy,o.r);
+      grd.addColorStop(0,o.cr); grd.addColorStop(1,'transparent');
+      ctx.fillStyle=grd;
+      ctx.beginPath(); ctx.arc(o.x*W+dx,o.y*H+dy,o.r,0,Math.PI*2); ctx.fill();
+    });
+    PTS.forEach(function(p){
+      p.x+=p.vx; p.y+=p.vy;
+      if(p.x<0)p.x=1; if(p.x>1)p.x=0;
+      if(p.y<0)p.y=1; if(p.y>1)p.y=0;
+      ctx.beginPath(); ctx.arc(p.x*W,p.y*H,p.r,0,Math.PI*2);
+      ctx.fillStyle='rgba(180,185,255,'+p.a+')'; ctx.fill();
+    });
+    requestAnimationFrame(draw);
+  }
+
+  window.addEventListener('resize', resize);
+  resize();
+  requestAnimationFrame(draw);
+})();
+</script>
+</body>
+</html>
