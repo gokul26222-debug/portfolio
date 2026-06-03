@@ -1,0 +1,1043 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gokul Srinivasan — Product Manager</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Manrope:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@300;400&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #080808;
+  --surface: rgba(255,255,255,0.04);
+  --surface2: rgba(255,255,255,0.07);
+  --border: rgba(255,255,255,0.08);
+  --text: #F5F5F7;
+  --text2: #A1A1A6;
+  --muted: #48484A;
+  --blue: #0071E3;
+  --purple: #BF5AF2;
+  --green: #30D158;
+  --grad: linear-gradient(135deg, #0071E3 0%, #BF5AF2 100%);
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body { background: var(--bg); color: var(--text); font-family: 'Manrope', sans-serif; font-weight: 400; overflow-x: hidden; }
+
+.orb { position: fixed; border-radius: 50%; pointer-events: none; z-index: 0; }
+.orb-blue { width: 720px; height: 720px; top: -200px; right: -180px; background: radial-gradient(circle, rgba(0,113,227,0.18) 0%, transparent 70%); filter: blur(110px); animation: orbFloat1 24s ease-in-out infinite; }
+.orb-purple { width: 620px; height: 620px; bottom: -180px; left: -160px; background: radial-gradient(circle, rgba(191,90,242,0.15) 0%, transparent 70%); filter: blur(110px); animation: orbFloat2 30s ease-in-out infinite; }
+.orb-green { width: 440px; height: 440px; top: 50%; left: 50%; transform: translate(-50%, -50%); background: radial-gradient(circle, rgba(48,209,88,0.08) 0%, transparent 70%); filter: blur(110px); animation: orbFloat3 20s ease-in-out infinite; }
+@keyframes orbFloat1 { 0%,100%{transform:translate(0,0) scale(1)} 33%{transform:translate(-40px,60px) scale(1.1)} 66%{transform:translate(30px,-40px) scale(0.95)} }
+@keyframes orbFloat2 { 0%,100%{transform:translate(0,0) scale(1)} 40%{transform:translate(50px,-50px) scale(1.08)} 70%{transform:translate(-30px,30px) scale(0.97)} }
+@keyframes orbFloat3 { 0%,100%{transform:translate(-50%,-50%) scale(1)} 50%{transform:translate(-50%,-50%) scale(1.15)} }
+
+nav {
+  position: sticky; top: 0; z-index: 100;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 48px; height: 64px;
+  background: rgba(8,8,8,0.7);
+  backdrop-filter: blur(22px); -webkit-backdrop-filter: blur(22px);
+  border-bottom: 1px solid var(--border);
+}
+.nav-logo {
+  font-family: 'Syne', sans-serif; font-weight: 800; font-size: 22px;
+  background: var(--grad); -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  background-clip: text; background-size: 200%; animation: gradShift 5s infinite;
+  cursor: pointer; text-decoration: none;
+}
+.nav-links { display: flex; gap: 36px; list-style: none; }
+.nav-links a { font-family: 'Manrope', sans-serif; font-weight: 500; font-size: 14px; color: var(--text2); text-decoration: none; transition: color 0.2s; letter-spacing: 0.02em; }
+.nav-links a:hover { color: var(--text); }
+.nav-right { display: flex; align-items: center; gap: 16px; }
+.lang-pill { display: flex; align-items: center; background: var(--surface); border: 1px solid var(--border); border-radius: 20px; overflow: hidden; }
+.lang-btn { background: none; border: none; color: var(--text2); font-family: 'Manrope', sans-serif; font-weight: 600; font-size: 12px; padding: 6px 14px; cursor: pointer; transition: color 0.2s, background 0.2s; letter-spacing: 0.05em; }
+.lang-btn.on { background: var(--surface2); color: var(--text); }
+.lang-sep { width: 1px; height: 20px; background: var(--border); }
+.dlw { position: relative; z-index: 200; }
+.dlbtn {
+  background: var(--surface); border: 1px solid var(--border); color: var(--text);
+  font-family: 'Manrope', sans-serif; font-weight: 600; font-size: 13px;
+  padding: 8px 18px; border-radius: 8px; cursor: pointer; display: flex; align-items: center; gap: 8px;
+  transition: background 0.2s, border-color 0.2s;
+}
+.dlbtn:hover { background: var(--surface2); border-color: rgba(255,255,255,0.15); }
+.dlbtn svg { transition: transform 0.2s; }
+.dlw.open .dlbtn svg { transform: rotate(180deg); }
+.dldrop {
+  position: absolute; top: calc(100% + 8px); right: 0; min-width: 200px;
+  background: rgba(20,20,22,0.95); backdrop-filter: blur(22px); -webkit-backdrop-filter: blur(22px);
+  border: 1px solid var(--border); border-radius: 12px; overflow: hidden;
+  opacity: 0; transform: translateY(-8px); pointer-events: none;
+  transition: opacity 0.22s, transform 0.22s;
+}
+.dlw.open .dldrop { opacity: 1; transform: translateY(0); pointer-events: all; }
+.dldrop a {
+  display: flex; align-items: center; gap: 12px;
+  padding: 13px 18px; color: var(--text); text-decoration: none;
+  font-size: 13px; font-weight: 500; transition: background 0.15s;
+}
+.dldrop a:hover { background: var(--surface2); }
+.dldrop a svg { opacity: 0.6; flex-shrink: 0; }
+
+section { position: relative; z-index: 1; }
+
+#hero {
+  min-height: 100vh; display: flex; flex-direction: column;
+  justify-content: center; align-items: flex-start;
+  padding: 0 80px; gap: 0;
+}
+.hero-badge {
+  display: inline-flex; align-items: center; gap: 10px;
+  background: rgba(48,209,88,0.1); border: 1px solid rgba(48,209,88,0.25);
+  border-radius: 30px; padding: 8px 18px; margin-bottom: 36px;
+  font-family: 'IBM Plex Mono', monospace; font-size: 12px; font-weight: 400;
+  color: var(--green); letter-spacing: 0.08em; text-transform: uppercase;
+}
+.pulse-dot {
+  width: 8px; height: 8px; border-radius: 50%; background: var(--green);
+  flex-shrink: 0;
+  animation: pulseGlow 2s infinite;
+}
+@keyframes pulseGlow { 0%,100%{box-shadow:0 0 0 0 rgba(48,209,88,0)} 50%{box-shadow:0 0 0 7px rgba(48,209,88,0.45)} }
+.hero-title-white {
+  font-family: 'Syne', sans-serif; font-weight: 800;
+  font-size: clamp(72px, 9vw, 112px); line-height: 1;
+  color: var(--text); display: block; letter-spacing: -0.02em;
+}
+.hero-title-grad {
+  font-family: 'Syne', sans-serif; font-weight: 800;
+  font-size: clamp(72px, 9vw, 112px); line-height: 1;
+  background: var(--grad); -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  background-clip: text; background-size: 200%; animation: gradShift 5s infinite;
+  display: block; letter-spacing: -0.02em; margin-bottom: 32px;
+}
+@keyframes gradShift { 0%{background-position:0% 50%} 50%{background-position:100% 50%} 100%{background-position:0% 50%} }
+.hero-tagline {
+  font-family: 'Manrope', sans-serif; font-weight: 300; font-size: clamp(18px, 2.2vw, 26px);
+  color: var(--text); min-height: 1.4em; margin-bottom: 12px;
+}
+.cursor { display: inline-block; width: 2px; height: 1em; background: var(--blue); margin-left: 2px; vertical-align: middle; animation: blink 0.85s step-end infinite; }
+@keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
+.hero-mono {
+  font-family: 'IBM Plex Mono', monospace; font-weight: 300; font-size: 14px;
+  color: var(--text2); letter-spacing: 0.04em; margin-bottom: 44px;
+}
+.hero-ctas { display: flex; gap: 16px; flex-wrap: wrap; }
+.btn-primary {
+  background: var(--grad); background-size: 200%; animation: gradShift 5s infinite;
+  border: none; color: #fff; font-family: 'Manrope', sans-serif; font-weight: 700;
+  font-size: 15px; padding: 14px 32px; border-radius: 10px; cursor: pointer;
+  text-decoration: none; display: inline-flex; align-items: center; gap: 8px;
+  transition: opacity 0.2s, transform 0.2s;
+}
+.btn-primary:hover { opacity: 0.88; transform: translateY(-1px); }
+.btn-secondary {
+  background: var(--surface); border: 1px solid var(--border);
+  color: var(--text); font-family: 'Manrope', sans-serif; font-weight: 600;
+  font-size: 15px; padding: 14px 32px; border-radius: 10px; cursor: pointer;
+  text-decoration: none; display: inline-flex; align-items: center; gap: 8px;
+  transition: background 0.2s, border-color 0.2s, transform 0.2s;
+}
+.btn-secondary:hover { background: var(--surface2); border-color: rgba(255,255,255,0.15); transform: translateY(-1px); }
+
+#stats { padding: 0 80px; margin-bottom: 0; }
+.stats-grid {
+  display: grid; grid-template-columns: repeat(3, 1fr);
+  border: 1px solid var(--border); border-radius: 16px; overflow: hidden;
+}
+.stat-item { padding: 48px 40px; text-align: center; }
+.stat-item:not(:last-child) { border-right: 1px solid var(--border); }
+.stat-num {
+  font-family: 'Syne', sans-serif; font-weight: 800; font-size: 56px;
+  background: var(--grad); -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  background-clip: text; background-size: 200%; animation: gradShift 5s infinite;
+  line-height: 1; margin-bottom: 10px;
+}
+.stat-label { font-size: 15px; color: var(--text2); font-weight: 500; letter-spacing: 0.01em; }
+
+#about { padding: 100px 80px; }
+.about-inner { max-width: 860px; }
+.section-label {
+  font-family: 'IBM Plex Mono', monospace; font-size: 11px; font-weight: 400;
+  letter-spacing: 0.12em; text-transform: uppercase; color: var(--blue);
+  margin-bottom: 20px; display: block;
+}
+.about-heading { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 40px; color: var(--text); margin-bottom: 24px; line-height: 1.2; }
+.about-body { font-size: 17px; font-weight: 400; color: var(--text2); line-height: 1.75; }
+
+#work { padding: 100px 80px; }
+.section-header { margin-bottom: 48px; }
+.section-title { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 40px; color: var(--text); }
+.cases-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+.case-card {
+  background: var(--surface); border: 1px solid var(--border); border-radius: 20px;
+  padding: 40px; cursor: pointer; position: relative; overflow: hidden;
+  transform-style: preserve-3d; transition: transform 0.08s linear, box-shadow 0.08s linear;
+  min-height: 280px; display: flex; flex-direction: column; justify-content: space-between;
+}
+.case-card:hover { box-shadow: 0 24px 60px rgba(0,0,0,0.5); }
+.card-shine {
+  position: absolute; inset: 0; border-radius: 20px; pointer-events: none;
+  opacity: 0; transition: opacity 0.3s;
+}
+.case-card:hover .card-shine { opacity: 1; }
+.card-top { flex: 1; }
+.card-cat {
+  font-family: 'IBM Plex Mono', monospace; font-size: 11px; font-weight: 400;
+  letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 16px;
+  display: inline-block;
+}
+.cat-blue { color: var(--blue); }
+.cat-purple { color: var(--purple); }
+.cat-green { color: var(--green); }
+.cat-orange { color: #FF9F0A; }
+.card-title { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 24px; color: var(--text); margin-bottom: 12px; line-height: 1.2; }
+.card-desc { font-size: 14px; color: var(--text2); line-height: 1.6; }
+.card-bottom { margin-top: 28px; display: flex; align-items: center; justify-content: space-between; }
+.card-company { font-size: 12px; color: var(--muted); font-weight: 500; letter-spacing: 0.03em; }
+.card-arrow {
+  width: 36px; height: 36px; background: var(--surface2); border: 1px solid var(--border);
+  border-radius: 50%; display: flex; align-items: center; justify-content: center;
+  transition: background 0.2s; flex-shrink: 0;
+}
+.case-card:hover .card-arrow { background: rgba(0,113,227,0.2); border-color: rgba(0,113,227,0.4); }
+
+#playpal { padding: 0 80px 100px; }
+.playpal-card {
+  background: var(--surface); border: 1px solid var(--border); border-radius: 24px;
+  padding: 60px; display: flex; align-items: center; justify-content: space-between;
+  gap: 40px; flex-wrap: wrap; position: relative; overflow: hidden;
+}
+.playpal-card::before {
+  content: ''; position: absolute; inset: 0; border-radius: 24px;
+  background: linear-gradient(135deg, rgba(0,113,227,0.06) 0%, rgba(191,90,242,0.06) 100%);
+  pointer-events: none;
+}
+.playpal-left { flex: 1; min-width: 280px; }
+.playpal-badge {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: rgba(48,209,88,0.1); border: 1px solid rgba(48,209,88,0.25);
+  border-radius: 20px; padding: 6px 14px; margin-bottom: 20px;
+  font-family: 'IBM Plex Mono', monospace; font-size: 11px; font-weight: 400;
+  color: var(--green); letter-spacing: 0.08em; text-transform: uppercase;
+}
+.playpal-title { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 36px; color: var(--text); margin-bottom: 12px; }
+.playpal-desc { font-size: 16px; color: var(--text2); line-height: 1.65; max-width: 520px; }
+.playpal-right { display: flex; align-items: center; }
+
+#toolkit { padding: 100px 80px; }
+.toolkit-section { margin-bottom: 48px; }
+.toolkit-section:last-child { margin-bottom: 0; }
+.toolkit-sub { font-family: 'Manrope', sans-serif; font-weight: 700; font-size: 18px; color: var(--text); margin-bottom: 20px; }
+.chip-box { display: flex; flex-wrap: wrap; gap: 12px; }
+.chip {
+  display: inline-flex; align-items: center; gap: 10px;
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 30px; padding: 9px 18px;
+  font-size: 13px; font-weight: 500; color: var(--text2);
+  transition: border-color 0.2s, color 0.2s, background 0.2s;
+  opacity: 0; transform: translateY(12px);
+}
+.chip.vis { opacity: 1; transform: translateY(0); transition: opacity 0.4s ease, transform 0.4s ease, border-color 0.2s, color 0.2s, background 0.2s; }
+.chip:hover { border-color: rgba(255,255,255,0.2); color: var(--text); background: var(--surface2); }
+.chip img { width: 16px; height: 16px; filter: brightness(0) invert(1); opacity: 0.75; object-fit: contain; }
+.chip-icon { font-size: 12px; opacity: 0.6; }
+
+#contact { padding: 100px 80px; }
+.contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: start; }
+.contact-heading {
+  font-family: 'Syne', sans-serif; font-weight: 800;
+  font-size: clamp(52px, 6vw, 80px); line-height: 1.05;
+  background: var(--grad); -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  background-clip: text; background-size: 200%; animation: gradShift 5s infinite;
+  margin-bottom: 40px; white-space: pre-line;
+}
+.contact-links { display: flex; flex-direction: column; gap: 16px; }
+.contact-link {
+  display: flex; align-items: center; gap: 14px;
+  color: var(--text2); text-decoration: none; font-size: 15px; font-weight: 500;
+  padding: 16px 20px; background: var(--surface); border: 1px solid var(--border);
+  border-radius: 12px; transition: border-color 0.2s, color 0.2s, background 0.2s;
+}
+.contact-link:hover { border-color: rgba(255,255,255,0.18); color: var(--text); background: var(--surface2); }
+.contact-link svg { opacity: 0.6; flex-shrink: 0; }
+.cv-cards { display: flex; flex-direction: column; gap: 14px; }
+.cv-card {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 22px 24px; background: var(--surface); border: 1px solid var(--border);
+  border-radius: 16px; text-decoration: none; color: var(--text);
+  transition: border-color 0.2s, background 0.2s; gap: 16px;
+}
+.cv-card:hover { border-color: rgba(255,255,255,0.18); background: var(--surface2); }
+.cv-card-left { display: flex; align-items: center; gap: 16px; }
+.cv-icon {
+  width: 44px; height: 44px; border-radius: 10px; display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+.cv-icon-en { background: linear-gradient(135deg, rgba(0,113,227,0.2), rgba(0,113,227,0.08)); border: 1px solid rgba(0,113,227,0.3); }
+.cv-icon-fr { background: linear-gradient(135deg, rgba(191,90,242,0.2), rgba(191,90,242,0.08)); border: 1px solid rgba(191,90,242,0.3); }
+.cv-card-info { display: flex; flex-direction: column; }
+.cv-card-title { font-weight: 700; font-size: 15px; margin-bottom: 3px; }
+.cv-card-sub { font-size: 12px; color: var(--text2); font-weight: 400; }
+.cv-card-dl { color: var(--text2); font-size: 12px; font-weight: 600; letter-spacing: 0.05em; display: flex; align-items: center; gap: 6px; text-transform: uppercase; flex-shrink: 0; }
+
+footer {
+  border-top: 1px solid var(--border); padding: 24px 80px;
+  display: flex; align-items: center; justify-content: space-between;
+  position: relative; z-index: 1;
+}
+.footer-left { font-size: 13px; color: var(--muted); }
+.footer-right { font-size: 13px; color: var(--muted); }
+
+.rv { opacity: 0; transform: translateY(30px); transition: opacity 0.7s ease, transform 0.7s ease; }
+.rv.vis { opacity: 1; transform: translateY(0); }
+.d1 { transition-delay: 0.1s; }
+.d2 { transition-delay: 0.2s; }
+.d3 { transition-delay: 0.3s; }
+.d4 { transition-delay: 0.4s; }
+
+.modal-overlay {
+  position: fixed; inset: 0; z-index: 500;
+  background: rgba(0,0,0,0.85);
+  backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+  display: flex; align-items: center; justify-content: center;
+  padding: 24px;
+  opacity: 0; pointer-events: none; transition: opacity 0.3s;
+}
+.modal-overlay.open { opacity: 1; pointer-events: all; }
+.modal-card {
+  background: #111113; border: 1px solid var(--border); border-radius: 24px;
+  max-width: 680px; width: 100%; max-height: 88vh; overflow-y: auto;
+  padding: 48px; position: relative;
+  transform: translateY(20px); transition: transform 0.3s;
+}
+.modal-overlay.open .modal-card { transform: translateY(0); }
+.modal-close {
+  position: absolute; top: 20px; right: 20px;
+  width: 36px; height: 36px; background: var(--surface); border: 1px solid var(--border);
+  border-radius: 50%; display: flex; align-items: center; justify-content: center;
+  cursor: pointer; transition: background 0.2s; color: var(--text2);
+}
+.modal-close:hover { background: var(--surface2); color: var(--text); }
+.modal-cat {
+  font-family: 'IBM Plex Mono', monospace; font-size: 11px; font-weight: 400;
+  letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 16px; display: block;
+}
+.modal-title { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 28px; color: var(--text); margin-bottom: 8px; line-height: 1.2; }
+.modal-company { font-size: 13px; color: var(--text2); margin-bottom: 36px; font-weight: 400; }
+.modal-block { margin-bottom: 28px; }
+.modal-block-label {
+  font-family: 'IBM Plex Mono', monospace; font-size: 10px; font-weight: 400;
+  letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted);
+  margin-bottom: 12px; display: block;
+}
+.modal-block p { font-size: 15px; color: var(--text2); line-height: 1.7; }
+.modal-block ul { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+.modal-block ul li { font-size: 15px; color: var(--text2); line-height: 1.65; padding-left: 20px; position: relative; }
+.modal-block ul li::before { content: '—'; position: absolute; left: 0; color: var(--muted); }
+.modal-metrics { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 36px; }
+.metric-chip {
+  background: rgba(0,113,227,0.1); border: 1px solid rgba(0,113,227,0.25);
+  color: var(--blue); border-radius: 20px; padding: 7px 16px;
+  font-size: 13px; font-weight: 600;
+}
+.modal-footer { display: flex; gap: 12px; flex-wrap: wrap; border-top: 1px solid var(--border); padding-top: 28px; }
+
+@media (max-width: 768px) {
+  nav { padding: 0 24px; }
+  .nav-links { display: none; }
+  #hero { padding: 80px 24px 60px; }
+  #stats { padding: 0 24px; }
+  #about { padding: 72px 24px; }
+  #work { padding: 72px 24px; }
+  #playpal { padding: 0 24px 72px; }
+  #toolkit { padding: 72px 24px; }
+  #contact { padding: 72px 24px; }
+  .stats-grid { grid-template-columns: 1fr; }
+  .stat-item:not(:last-child) { border-right: none; border-bottom: 1px solid var(--border); }
+  .cases-grid { grid-template-columns: 1fr; }
+  .contact-grid { grid-template-columns: 1fr; gap: 48px; }
+  footer { padding: 20px 24px; flex-direction: column; gap: 8px; text-align: center; }
+  .modal-card { padding: 32px 24px; }
+  .playpal-card { padding: 36px 28px; }
+  .about-heading { font-size: 28px; }
+  .section-title { font-size: 28px; }
+}
+
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--muted); border-radius: 3px; }
+</style>
+</head>
+<body>
+
+<div class="orb orb-blue"></div>
+<div class="orb orb-purple"></div>
+<div class="orb orb-green"></div>
+
+<nav>
+  <a class="nav-logo" href="#hero">GS.</a>
+  <ul class="nav-links">
+    <li><a href="#work" id="nav-work">Work</a></li>
+    <li><a href="#about" id="nav-about">About</a></li>
+    <li><a href="#toolkit" id="nav-skills">Skills</a></li>
+    <li><a href="#contact" id="nav-contact">Contact</a></li>
+  </ul>
+  <div class="nav-right">
+    <div class="lang-pill">
+      <button class="lang-btn on" id="lbtn-en" onclick="setLang('en')">EN</button>
+      <div class="lang-sep"></div>
+      <button class="lang-btn" id="lbtn-fr" onclick="setLang('fr')">FR</button>
+    </div>
+    <div class="dlw" id="dlw">
+      <button class="dlbtn" onclick="toggleDl(event)">
+        <span id="nav-dl-text">Download CV</span>
+        <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 4L6 8L10 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+      <div class="dldrop" id="dldrop">
+        <a href="Gokul_CV_EN.pdf" download>
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><rect x="2" y="1" width="9" height="14" rx="1.5" stroke="currentColor" stroke-width="1.3"/><path d="M5 5h5M5 8h5M5 11h3" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>
+          CV — English
+        </a>
+        <a href="Gokul_CV_FR.pdf" download>
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><rect x="2" y="1" width="9" height="14" rx="1.5" stroke="currentColor" stroke-width="1.3"/><path d="M5 5h5M5 8h5M5 11h3" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>
+          CV — Français
+        </a>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<section id="hero">
+  <div class="hero-badge"><span class="pulse-dot"></span><span id="hero-badge">AVAILABLE — Paris, France</span></div>
+  <span class="hero-title-white">GOKUL</span>
+  <span class="hero-title-grad">SRINIVASAN</span>
+  <div class="hero-tagline"><span id="typewriter-text"></span><span class="cursor"></span></div>
+  <p class="hero-mono" id="hero-mono">Product Manager · Paris, France · Open to full-time roles</p>
+  <div class="hero-ctas">
+    <a href="#work" class="btn-primary" id="hero-cta1">View Case Studies →</a>
+    <a href="#contact" class="btn-secondary" id="hero-cta2">Get in Touch</a>
+  </div>
+</section>
+
+<section id="stats">
+  <div class="stats-grid rv">
+    <div class="stat-item">
+      <div class="stat-num" id="stat1">0+</div>
+      <div class="stat-label" id="stat1-label">Years of Experience</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num" id="stat2">0+</div>
+      <div class="stat-label" id="stat2-label">Case Studies</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num" id="stat3">0+</div>
+      <div class="stat-label" id="stat3-label">Shipped App</div>
+    </div>
+  </div>
+</section>
+
+<section id="about">
+  <div class="about-inner rv">
+    <span class="section-label" id="about-label">About</span>
+    <h2 class="about-heading" id="about-heading">Turning user problems into product outcomes.</h2>
+    <p class="about-body" id="about-body">I'm a Product Manager based in Paris with 3+ years of experience spanning early-stage startups and established consumer platforms. My work sits at the intersection of user research, data analysis, and cross-functional execution — I translate ambiguous problems into structured product strategies that move metrics. I've tackled challenges across retention, onboarding, and growth for companies like Joko, FAUME, Netflix (case study), and BlaBlaCar (teardown). I'm fluent in both the qualitative language of JTBD and the quantitative rigour of A/B testing and funnel analytics. Currently open to full-time Product Manager roles in Paris or remote.</p>
+  </div>
+</section>
+
+<section id="work">
+  <div class="section-header rv">
+    <span class="section-label" id="work-label">Case Studies</span>
+    <h2 class="section-title" id="work-title">Selected Work</h2>
+  </div>
+  <div class="cases-grid">
+    <div class="case-card rv d1" onclick="openModal('joko')" tabindex="0" role="button" aria-label="Open Joko case study">
+      <div class="card-shine"></div>
+      <div class="card-top">
+        <span class="card-cat cat-blue" id="card-cat-joko">Retention · Joko</span>
+        <h3 class="card-title" id="card-title-joko">Cashback Progress Tracker Redesign</h3>
+        <p class="card-desc" id="card-desc-joko">Redesigned the milestone progress experience to break a predictable 30-day churn pattern and drive daily engagement.</p>
+      </div>
+      <div class="card-bottom">
+        <span class="card-company">Joko · 4M+ users</span>
+        <div class="card-arrow"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M3 7h8M7 3l4 4-4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      </div>
+    </div>
+    <div class="case-card rv d2" onclick="openModal('faume')" tabindex="0" role="button" aria-label="Open FAUME case study">
+      <div class="card-shine"></div>
+      <div class="card-top">
+        <span class="card-cat cat-purple" id="card-cat-faume">Onboarding · FAUME</span>
+        <h3 class="card-title" id="card-title-faume">Tiered Onboarding Strategy</h3>
+        <p class="card-desc" id="card-desc-faume">Replaced a one-size-fits-all onboarding flow with three segment-specific experiences to reduce activation drop-off.</p>
+      </div>
+      <div class="card-bottom">
+        <span class="card-company">FAUME · Series A</span>
+        <div class="card-arrow"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M3 7h8M7 3l4 4-4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      </div>
+    </div>
+    <div class="case-card rv d3" onclick="openModal('netflix')" tabindex="0" role="button" aria-label="Open Netflix case study">
+      <div class="card-shine"></div>
+      <div class="card-top">
+        <span class="card-cat cat-green" id="card-cat-netflix">Growth · Netflix</span>
+        <h3 class="card-title" id="card-title-netflix">Gen Z Retention Strategy</h3>
+        <p class="card-desc" id="card-desc-netflix">Identified five behavioural growth levers to recapture Gen Z attention lost to short-form social platforms.</p>
+      </div>
+      <div class="card-bottom">
+        <span class="card-company">Netflix · 270M+ subscribers</span>
+        <div class="card-arrow"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M3 7h8M7 3l4 4-4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      </div>
+    </div>
+    <div class="case-card rv d4" onclick="openModal('blablacar')" tabindex="0" role="button" aria-label="Open BlaBlaCar case study">
+      <div class="card-shine"></div>
+      <div class="card-top">
+        <span class="card-cat cat-orange" id="card-cat-blablacar">Analysis · BlaBlaCar</span>
+        <h3 class="card-title" id="card-title-blablacar">European Market Teardown</h3>
+        <p class="card-desc" id="card-desc-blablacar">Deep-dive competitive analysis across five EU markets surfacing eight ranked growth opportunities.</p>
+      </div>
+      <div class="card-bottom">
+        <span class="card-company">BlaBlaCar · 100M+ users</span>
+        <div class="card-arrow"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M3 7h8M7 3l4 4-4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="playpal">
+  <div class="playpal-card rv">
+    <div class="playpal-left">
+      <div class="playpal-badge"><span class="pulse-dot"></span><span id="playpal-badge">LIVE PRODUCT</span></div>
+      <h2 class="playpal-title" id="playpal-title">PlayPal</h2>
+      <p class="playpal-desc" id="playpal-desc">A social sports companion app I designed and shipped end-to-end — connecting players, organising sessions, and building local sports communities. Live and publicly accessible.</p>
+    </div>
+    <div class="playpal-right">
+      <a href="https://sport-link-app.lovable.app" target="_blank" rel="noopener" class="btn-primary" id="playpal-cta">Launch App →</a>
+    </div>
+  </div>
+</section>
+
+<section id="toolkit">
+  <div class="rv">
+    <span class="section-label" id="toolkit-label">Toolkit</span>
+    <h2 class="section-title" id="toolkit-title" style="margin-bottom:48px">Tools &amp; Methods</h2>
+  </div>
+  <div class="toolkit-section">
+    <h3 class="toolkit-sub rv" id="toolkit-sub1">Tools &amp; Software</h3>
+    <div class="chip-box" id="chipbox-tools">
+      <div class="chip"><img src="https://cdn.simpleicons.org/figma" alt="Figma">Figma</div>
+      <div class="chip"><img src="https://cdn.simpleicons.org/notion" alt="Notion">Notion</div>
+      <div class="chip"><img src="https://cdn.simpleicons.org/jira" alt="Jira">Jira</div>
+      <div class="chip"><img src="https://cdn.simpleicons.org/slack" alt="Slack">Slack</div>
+      <div class="chip"><img src="https://cdn.simpleicons.org/miro" alt="Miro">Miro</div>
+      <div class="chip"><img src="https://cdn.simpleicons.org/postgresql" alt="SQL">SQL</div>
+      <div class="chip"><img src="https://cdn.simpleicons.org/openai" alt="AI/LLMs">AI / LLMs</div>
+      <div class="chip"><img src="https://cdn.simpleicons.org/amplitude" alt="Amplitude">Amplitude</div>
+      <div class="chip"><img src="https://cdn.simpleicons.org/airtable" alt="Airtable">Airtable</div>
+    </div>
+  </div>
+  <div class="toolkit-section">
+    <h3 class="toolkit-sub rv d1" id="toolkit-sub2">PM Methods</h3>
+    <div class="chip-box" id="chipbox-methods">
+      <div class="chip"><span class="chip-icon">◈</span>Product Strategy</div>
+      <div class="chip"><span class="chip-icon">◈</span>JTBD</div>
+      <div class="chip"><span class="chip-icon">◈</span>RICE Scoring</div>
+      <div class="chip"><span class="chip-icon">◈</span>AARRR</div>
+      <div class="chip"><span class="chip-icon">◈</span>A/B Testing</div>
+      <div class="chip"><span class="chip-icon">◈</span>User Research</div>
+      <div class="chip"><span class="chip-icon">◈</span>PRD Writing</div>
+      <div class="chip"><span class="chip-icon">◈</span>Roadmapping</div>
+      <div class="chip"><span class="chip-icon">◈</span>Agile / Scrum</div>
+      <div class="chip"><span class="chip-icon">◈</span>Growth Loops</div>
+    </div>
+  </div>
+</section>
+
+<section id="contact">
+  <div class="contact-grid">
+    <div class="rv">
+      <h2 class="contact-heading" id="contact-heading">Let's&#10;talk.</h2>
+      <div class="contact-links">
+        <a href="mailto:gokul26222@gmail.com" class="contact-link">
+          <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><rect x="2" y="4" width="14" height="10" rx="2" stroke="currentColor" stroke-width="1.4"/><path d="M2 6l7 5 7-5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
+          gokul26222@gmail.com
+        </a>
+        <a href="https://www.linkedin.com/in/gokulsrini" target="_blank" rel="noopener" class="contact-link">
+          <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><rect x="2" y="2" width="14" height="14" rx="2.5" stroke="currentColor" stroke-width="1.4"/><path d="M5.5 8v5M5.5 5.5v.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><path d="M8.5 13v-2.5c0-1.1.9-2 2-2s2 .9 2 2V13" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/><path d="M8.5 9v4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
+          linkedin.com/in/gokulsrini
+        </a>
+        <a href="tel:+33074543239" class="contact-link">
+          <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M4.5 3A1.5 1.5 0 003 4.5v.5c0 5.523 4.477 10 10 10h.5A1.5 1.5 0 0015 13.5v-1.382a1.5 1.5 0 00-.894-1.369l-1.895-.838a1.5 1.5 0 00-1.737.385l-.5.57A7.01 7.01 0 016.134 7.026l.57-.5a1.5 1.5 0 00.385-1.737l-.838-1.895A1.5 1.5 0 004.882 3H4.5z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg>
+          +33 07 45 43 23 95
+        </a>
+      </div>
+    </div>
+    <div class="rv d2">
+      <span class="section-label" id="contact-cv-label">Download CV</span>
+      <div class="cv-cards" style="margin-top:8px">
+        <a href="Gokul_CV_EN.pdf" download class="cv-card">
+          <div class="cv-card-left">
+            <div class="cv-icon cv-icon-en">
+              <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><rect x="4" y="2" width="10" height="16" rx="1.5" stroke="#0071E3" stroke-width="1.4"/><path d="M7 7h6M7 10h6M7 13h4" stroke="#0071E3" stroke-width="1.4" stroke-linecap="round"/></svg>
+            </div>
+            <div class="cv-card-info">
+              <span class="cv-card-title">Gokul_CV_EN.pdf</span>
+              <span class="cv-card-sub" id="cv-en-sub">English version</span>
+            </div>
+          </div>
+          <div class="cv-card-dl">
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 2v7M4 6l3 3 3-3M2 10v1.5A.5.5 0 002.5 12h9a.5.5 0 00.5-.5V10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <span id="cv-dl-text">Download</span>
+          </div>
+        </a>
+        <a href="Gokul_CV_FR.pdf" download class="cv-card">
+          <div class="cv-card-left">
+            <div class="cv-icon cv-icon-fr">
+              <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><rect x="4" y="2" width="10" height="16" rx="1.5" stroke="#BF5AF2" stroke-width="1.4"/><path d="M7 7h6M7 10h6M7 13h4" stroke="#BF5AF2" stroke-width="1.4" stroke-linecap="round"/></svg>
+            </div>
+            <div class="cv-card-info">
+              <span class="cv-card-title">Gokul_CV_FR.pdf</span>
+              <span class="cv-card-sub" id="cv-fr-sub">Version française</span>
+            </div>
+          </div>
+          <div class="cv-card-dl">
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 2v7M4 6l3 3 3-3M2 10v1.5A.5.5 0 002.5 12h9a.5.5 0 00.5-.5V10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <span id="cv-fr-dl-text">Télécharger</span>
+          </div>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <span class="footer-left" id="footer-left">© 2025 Gokul Srinivasan — Built for impact.</span>
+  <span class="footer-right">Paris, France</span>
+</footer>
+
+<div class="modal-overlay" id="modal-overlay" onclick="handleOverlayClick(event)">
+  <div class="modal-card" id="modal-card">
+    <button class="modal-close" onclick="closeModal()" aria-label="Close">
+      <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 2l10 10M12 2L2 12" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+    </button>
+    <span class="modal-cat" id="m-cat"></span>
+    <h2 class="modal-title" id="m-title"></h2>
+    <p class="modal-company" id="m-company"></p>
+    <div class="modal-block">
+      <span class="modal-block-label" id="m-prob-label">Problem</span>
+      <p id="m-problem"></p>
+    </div>
+    <div class="modal-block">
+      <span class="modal-block-label" id="m-app-label">Approach</span>
+      <ul id="m-approach"></ul>
+    </div>
+    <div class="modal-block">
+      <span class="modal-block-label" id="m-imp-label">Impact</span>
+      <div class="modal-metrics" id="m-metrics"></div>
+    </div>
+    <div class="modal-footer" id="m-footer"></div>
+  </div>
+</div>
+
+<script>
+const LANG = {
+  en: {
+    'hero-badge': 'AVAILABLE — Paris, France',
+    'hero-mono': 'Product Manager · Paris, France · Open to full-time roles',
+    'hero-cta1': 'View Case Studies →',
+    'hero-cta2': 'Get in Touch',
+    'nav-work': 'Work',
+    'nav-about': 'About',
+    'nav-skills': 'Skills',
+    'nav-contact': 'Contact',
+    'nav-dl-text': 'Download CV',
+    'stat1-label': 'Years of Experience',
+    'stat2-label': 'Case Studies',
+    'stat3-label': 'Shipped App',
+    'about-label': 'About',
+    'about-heading': 'Turning user problems into product outcomes.',
+    'about-body': "I'm a Product Manager based in Paris with 3+ years of experience spanning early-stage startups and established consumer platforms. My work sits at the intersection of user research, data analysis, and cross-functional execution — I translate ambiguous problems into structured product strategies that move metrics. I've tackled challenges across retention, onboarding, and growth for companies like Joko, FAUME, Netflix (case study), and BlaBlaCar (teardown). I'm fluent in both the qualitative language of JTBD and the quantitative rigour of A/B testing and funnel analytics. Currently open to full-time Product Manager roles in Paris or remote.",
+    'work-label': 'Case Studies',
+    'work-title': 'Selected Work',
+    'card-cat-joko': 'Retention · Joko',
+    'card-title-joko': 'Cashback Progress Tracker Redesign',
+    'card-desc-joko': 'Redesigned the milestone progress experience to break a predictable 30-day churn pattern and drive daily engagement.',
+    'card-cat-faume': 'Onboarding · FAUME',
+    'card-title-faume': 'Tiered Onboarding Strategy',
+    'card-desc-faume': 'Replaced a one-size-fits-all onboarding flow with three segment-specific experiences to reduce activation drop-off.',
+    'card-cat-netflix': 'Growth · Netflix',
+    'card-title-netflix': 'Gen Z Retention Strategy',
+    'card-desc-netflix': 'Identified five behavioural growth levers to recapture Gen Z attention lost to short-form social platforms.',
+    'card-cat-blablacar': 'Analysis · BlaBlaCar',
+    'card-title-blablacar': 'European Market Teardown',
+    'card-desc-blablacar': 'Deep-dive competitive analysis across five EU markets surfacing eight ranked growth opportunities.',
+    'playpal-badge': 'LIVE PRODUCT',
+    'playpal-title': 'PlayPal',
+    'playpal-desc': 'A social sports companion app I designed and shipped end-to-end — connecting players, organising sessions, and building local sports communities. Live and publicly accessible.',
+    'playpal-cta': 'Launch App →',
+    'toolkit-label': 'Toolkit',
+    'toolkit-title': 'Tools & Methods',
+    'toolkit-sub1': 'Tools & Software',
+    'toolkit-sub2': 'PM Methods',
+    'contact-heading': "Let's\ntalk.",
+    'contact-cv-label': 'Download CV',
+    'cv-en-sub': 'English version',
+    'cv-fr-sub': 'French version',
+    'cv-dl-text': 'Download',
+    'cv-fr-dl-text': 'Download',
+    'footer-left': '© 2025 Gokul Srinivasan — Built for impact.',
+    'typewriter': 'I build case studies, ship real prototypes, and think in systems.'
+  },
+  fr: {
+    'hero-badge': 'DISPONIBLE — Paris, France',
+    'hero-mono': "Product Manager · Paris, France · À la recherche d'un poste",
+    'hero-cta1': 'Voir les études de cas →',
+    'hero-cta2': 'Me contacter',
+    'nav-work': 'Projets',
+    'nav-about': 'À propos',
+    'nav-skills': 'Compétences',
+    'nav-contact': 'Contact',
+    'nav-dl-text': 'Télécharger CV',
+    'stat1-label': "Années d'expérience",
+    'stat2-label': 'Études de cas',
+    'stat3-label': 'Application livrée',
+    'about-label': 'À propos',
+    'about-heading': 'Transformer les problèmes utilisateurs en résultats produit.',
+    'about-body': "Je suis Product Manager basé à Paris, avec plus de 3 ans d'expérience dans des startups en phase de croissance et des plateformes grand public établies. Mon travail se situe à l'intersection de la recherche utilisateur, de l'analyse de données et de l'exécution transversale — je transforme des problèmes ambigus en stratégies produit structurées qui font bouger les métriques. J'ai abordé des enjeux de rétention, d'onboarding et de croissance pour des entreprises telles que Joko, FAUME, Netflix (étude de cas) et BlaBlaCar (analyse). Je maîtrise aussi bien le langage qualitatif des JTBD que la rigueur quantitative des tests A/B et de l'analyse de tunnels. Actuellement disponible pour des postes de Product Manager à temps plein, à Paris ou en télétravail.",
+    'work-label': 'Études de cas',
+    'work-title': 'Projets sélectionnés',
+    'card-cat-joko': 'Rétention · Joko',
+    'card-title-joko': 'Refonte du suivi de progression cashback',
+    'card-desc-joko': "Refonte de l'expérience de suivi des jalons pour briser un cycle de désengagement prévisible à 30 jours et stimuler l'engagement quotidien.",
+    'card-cat-faume': 'Onboarding · FAUME',
+    'card-title-faume': "Stratégie d'onboarding par segment",
+    'card-desc-faume': "Remplacement d'un flux d'onboarding unique par trois parcours spécifiques à chaque segment pour réduire le taux d'abandon à l'activation.",
+    'card-cat-netflix': 'Croissance · Netflix',
+    'card-title-netflix': 'Stratégie de rétention Gen Z',
+    'card-desc-netflix': "Identification de cinq leviers comportementaux pour reconquérir l'attention de la Gen Z perdue au profit des plateformes sociales à formats courts.",
+    'card-cat-blablacar': 'Analyse · BlaBlaCar',
+    'card-title-blablacar': 'Analyse concurrentielle européenne',
+    'card-desc-blablacar': "Analyse concurrentielle approfondie sur cinq marchés européens révélant huit opportunités de croissance classées par priorité.",
+    'playpal-badge': 'PRODUIT EN LIGNE',
+    'playpal-title': 'PlayPal',
+    'playpal-desc': "Une application sociale de sport que j'ai conçue et livrée de A à Z — connectant les joueurs, organisant des sessions et construisant des communautés sportives locales. En ligne et accessible au public.",
+    'playpal-cta': "Lancer l'app →",
+    'toolkit-label': 'Boîte à outils',
+    'toolkit-title': 'Outils et méthodes',
+    'toolkit-sub1': 'Outils et logiciels',
+    'toolkit-sub2': 'Méthodes PM',
+    'contact-heading': "Parlons\nensemble.",
+    'contact-cv-label': 'Télécharger CV',
+    'cv-en-sub': 'Version anglaise',
+    'cv-fr-sub': 'Version française',
+    'cv-dl-text': 'Télécharger',
+    'cv-fr-dl-text': 'Télécharger',
+    'footer-left': "© 2025 Gokul Srinivasan — Conçu pour l'impact.",
+    'typewriter': "Je crée des études de cas, développe des prototypes réels et pense en systèmes."
+  }
+};
+
+const MODALS = {
+  joko: {
+    en: {
+      cat: 'Retention · Joko',
+      catColor: '#0071E3',
+      title: 'Cashback Progress Tracker Redesign',
+      company: "Joko — France's leading cashback rewards app · 4M+ users",
+      problem: 'Users were disengaging before reaching cashback milestones because the progress tracker lacked visibility and feedback loops. This created a predictable 30-day churn pattern.',
+      approach: [
+        'Mapped the full habit loop — cue, routine, reward — across the cashback journey',
+        'Redesigned progress indicators to make milestone proximity visible at a glance',
+        'Introduced streak mechanics and micro-celebration moments to reinforce daily use',
+        'Ran A/B tests on progress bar visibility and reward framing'
+      ],
+      metrics: ['+23% Retention', '↓ 30-Day Churn', '↑ Daily Active Users'],
+      cta: { label: 'Read Full Case Study →', href: 'https://www.notion.so/JOKO-PM-Case-StudyBy-Gokul-March-2026-33389ac134e780bb9231fb0a821c9ab2' }
+    },
+    fr: {
+      cat: 'Rétention · Joko',
+      catColor: '#0071E3',
+      title: 'Refonte du suivi de progression cashback',
+      company: 'Joko — principale application de cashback en France · 4M+ utilisateurs',
+      problem: "Les utilisateurs se désengageaient avant d'atteindre leurs jalons de cashback, car le suivi de progression manquait de visibilité et de boucles de rétroaction. Ce phénomène créait un cycle de désabonnement prévisible à 30 jours.",
+      approach: [
+        "Cartographie de la boucle d'habitude complète — déclencheur, routine, récompense — sur le parcours cashback",
+        "Refonte des indicateurs de progression pour rendre la proximité des jalons visible en un coup d'œil",
+        "Introduction de mécaniques de série et de micro-célébrations pour renforcer l'utilisation quotidienne",
+        "Réalisation de tests A/B sur la visibilité de la barre de progression et le cadrage des récompenses"
+      ],
+      metrics: ['+23% de rétention', '↓ Taux de désabonnement à 30 jours', '↑ Utilisateurs actifs quotidiens'],
+      cta: { label: "Lire l'étude de cas complète →", href: 'https://www.notion.so/JOKO-PM-Case-StudyBy-Gokul-March-2026-33389ac134e780bb9231fb0a821c9ab2' }
+    }
+  },
+  faume: {
+    en: {
+      cat: 'Onboarding · FAUME',
+      catColor: '#BF5AF2',
+      title: 'Tiered Onboarding Strategy',
+      company: 'FAUME — Pre-owned luxury fashion resale platform · Series A',
+      problem: "FAUME's single onboarding flow served buyers, sellers, and brand partners equally — creating friction for each segment. Users with different goals received the same generic experience, causing drop-off before activation.",
+      approach: [
+        'Conducted JTBD interviews across 3 user segments',
+        'Mapped distinct activation milestones per segment',
+        'Designed segment-specific onboarding flows using progressive disclosure',
+        'Delivered a 3-phase implementation roadmap: discovery, activation, retention'
+      ],
+      metrics: ['3 User Segments', '3-Phase Roadmap', '↓ Activation Drop-off'],
+      cta: null
+    },
+    fr: {
+      cat: 'Onboarding · FAUME',
+      catColor: '#BF5AF2',
+      title: "Stratégie d'onboarding par segment",
+      company: 'FAUME — Plateforme de revente de mode de luxe de seconde main · Série A',
+      problem: "Le flux d'onboarding unique de FAUME s'adressait à la fois aux acheteurs, aux vendeurs et aux partenaires marques — créant des frictions pour chaque segment. Des utilisateurs aux objectifs différents recevaient la même expérience générique, entraînant un abandon avant l'activation.",
+      approach: [
+        "Conduite d'entretiens JTBD auprès de 3 segments utilisateurs",
+        "Cartographie des jalons d'activation distincts par segment",
+        "Conception de flux d'onboarding spécifiques à chaque segment via la divulgation progressive",
+        "Livraison d'une feuille de route d'implémentation en 3 phases : découverte, activation, rétention"
+      ],
+      metrics: ['3 segments utilisateurs', 'Feuille de route en 3 phases', "↓ Abandon à l'activation"],
+      cta: null
+    }
+  },
+  netflix: {
+    en: {
+      cat: 'Growth · Netflix',
+      catColor: '#30D158',
+      title: 'Gen Z Retention Strategy',
+      company: 'Netflix — Global streaming platform · 270M+ subscribers',
+      problem: "Netflix's content discovery is built for lean-back viewing — a behaviour increasingly misaligned with how Gen Z consumes media. TikTok, YouTube Shorts, and social-first platforms were capturing attention that Netflix was losing.",
+      approach: [
+        'Benchmarked content discovery UX across TikTok, YouTube, BeReal, and Letterboxd',
+        'Identified 5 Gen Z behavioural patterns driving platform preference',
+        'Designed a social engagement layer: watch parties, reactions, shareable micro-clips',
+        'Proposed a creator-driven short format for discovery and trial'
+      ],
+      metrics: ['5 Growth Levers', 'Full Strategy Delivered', '4 Platforms Benchmarked'],
+      cta: null
+    },
+    fr: {
+      cat: 'Croissance · Netflix',
+      catColor: '#30D158',
+      title: 'Stratégie de rétention Gen Z',
+      company: 'Netflix — Plateforme de streaming mondiale · 270M+ abonnés',
+      problem: "La découverte de contenu sur Netflix est conçue pour une consommation passive — un comportement de plus en plus décalé par rapport à la façon dont la Gen Z consomme les médias. TikTok, YouTube Shorts et les plateformes sociales captaient une attention que Netflix perdait.",
+      approach: [
+        "Analyse comparative de l'UX de découverte de contenu sur TikTok, YouTube, BeReal et Letterboxd",
+        '5 comportements Gen Z identifiés comme moteurs de préférence de plateforme',
+        "Conception d'une couche d'engagement social : soirées visionnage, réactions, micro-clips partageables",
+        "Proposition d'un format court piloté par des créateurs pour la découverte et l'essai"
+      ],
+      metrics: ['5 leviers de croissance', 'Stratégie complète livrée', '4 plateformes analysées'],
+      cta: null
+    }
+  },
+  blablacar: {
+    en: {
+      cat: 'Analysis · BlaBlaCar',
+      catColor: '#FF9F0A',
+      title: 'European Market Teardown',
+      company: "BlaBlaCar — Europe's largest ridesharing marketplace · 100M+ users · 22 countries",
+      problem: 'Post-COVID travel recovery and rising EV adoption were reshaping European mobility. BlaBlaCar faced new competitive pressure from rail aggregators and emerging rideshare platforms — identifying the next growth wave was critical.',
+      approach: [
+        'Full product teardown: user flows, trust systems, pricing mechanics, driver incentives',
+        'Competitive mapping against Flixbus, SNCF Connect, Blablabus, and Karos',
+        'Identified underserved corridors and segments across 5 EU markets',
+        'Mapped 8 growth opportunities ranked by effort vs. impact'
+      ],
+      metrics: ['8 Growth Opportunities', '5 EU Markets', '4 Competitors Mapped'],
+      cta: null
+    },
+    fr: {
+      cat: 'Analyse · BlaBlaCar',
+      catColor: '#FF9F0A',
+      title: 'Analyse concurrentielle européenne',
+      company: "BlaBlaCar — Premier marché de covoiturage d'Europe · 100M+ utilisateurs · 22 pays",
+      problem: "La reprise des voyages post-COVID et l'adoption croissante des véhicules électriques reconfiguraient la mobilité européenne. BlaBlaCar faisait face à une pression concurrentielle inédite de la part des agrégateurs ferroviaires et des nouvelles plateformes de covoiturage — identifier la prochaine vague de croissance était essentiel.",
+      approach: [
+        'Analyse complète du produit : flux utilisateurs, systèmes de confiance, mécanique tarifaire, incitations conducteurs',
+        'Cartographie concurrentielle face à Flixbus, SNCF Connect, Blablabus et Karos',
+        'Identification des corridors et segments sous-exploités dans 5 marchés européens',
+        '8 opportunités de croissance cartographiées et classées par effort vs. impact'
+      ],
+      metrics: ['8 opportunités de croissance', '5 marchés européens', '4 concurrents analysés'],
+      cta: null
+    }
+  }
+};
+
+let currentLang = 'en';
+let statsDone = false;
+let currentModal = null;
+
+function setLang(l) {
+  currentLang = l;
+  document.getElementById('lbtn-en').classList.toggle('on', l === 'en');
+  document.getElementById('lbtn-fr').classList.toggle('on', l === 'fr');
+  const data = LANG[l];
+  for (const id in data) {
+    if (id === 'typewriter') continue;
+    const el = document.getElementById(id);
+    if (el) el.textContent = data[id];
+  }
+  typeWriter(data['typewriter'], 35);
+  if (currentModal) renderModal(currentModal);
+}
+
+function typeWriter(str, delay) {
+  const el = document.getElementById('typewriter-text');
+  el.textContent = '';
+  let i = 0;
+  function tick() {
+    if (i < str.length) {
+      el.textContent += str[i++];
+      setTimeout(tick, delay);
+    }
+  }
+  tick();
+}
+
+function toggleDl(e) {
+  e.stopPropagation();
+  document.getElementById('dlw').classList.toggle('open');
+}
+
+document.addEventListener('click', function(e) {
+  const dlw = document.getElementById('dlw');
+  if (dlw && !dlw.contains(e.target)) dlw.classList.remove('open');
+});
+
+function openModal(key) {
+  currentModal = key;
+  renderModal(key);
+  document.getElementById('modal-overlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
+  document.getElementById('modal-card').scrollTop = 0;
+}
+
+function renderModal(key) {
+  const d = MODALS[key][currentLang];
+  const catEl = document.getElementById('m-cat');
+  catEl.textContent = d.cat;
+  catEl.style.color = d.catColor;
+  document.getElementById('m-title').textContent = d.title;
+  document.getElementById('m-company').textContent = d.company;
+  document.getElementById('m-problem').textContent = d.problem;
+  document.getElementById('m-approach').innerHTML = d.approach.map(a => '<li>' + a + '</li>').join('');
+  document.getElementById('m-metrics').innerHTML = d.metrics.map(m => '<span class="metric-chip">' + m + '</span>').join('');
+  document.getElementById('m-prob-label').textContent = currentLang === 'fr' ? 'Problème' : 'Problem';
+  document.getElementById('m-app-label').textContent = currentLang === 'fr' ? 'Approche' : 'Approach';
+  document.getElementById('m-imp-label').textContent = 'Impact';
+  const footEl = document.getElementById('m-footer');
+  footEl.innerHTML = '';
+  if (d.cta) {
+    const a = document.createElement('a');
+    a.href = d.cta.href;
+    a.target = '_blank';
+    a.rel = 'noopener';
+    a.className = 'btn-primary';
+    a.style.cssText = 'font-size:14px;padding:11px 22px';
+    a.textContent = d.cta.label;
+    footEl.appendChild(a);
+  }
+  const closeBtn = document.createElement('button');
+  closeBtn.className = 'btn-secondary';
+  closeBtn.style.cssText = 'font-size:14px;padding:11px 22px';
+  closeBtn.textContent = currentLang === 'fr' ? 'Fermer' : 'Close';
+  closeBtn.onclick = closeModal;
+  footEl.appendChild(closeBtn);
+}
+
+function closeModal() {
+  document.getElementById('modal-overlay').classList.remove('open');
+  document.body.style.overflow = '';
+  setTimeout(function() { currentModal = null; }, 300);
+}
+
+function handleOverlayClick(e) {
+  if (e.target === document.getElementById('modal-overlay')) closeModal();
+}
+
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape') closeModal();
+});
+
+document.querySelectorAll('.case-card').forEach(function(card) {
+  card.addEventListener('keydown', function(e) {
+    if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); card.click(); }
+  });
+  const shine = card.querySelector('.card-shine');
+  card.addEventListener('mousemove', function(e) {
+    const rect = card.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    const cx = rect.width / 2;
+    const cy = rect.height / 2;
+    const rx = ((y - cy) / cy) * -7;
+    const ry = ((x - cx) / cx) * 7;
+    card.style.transform = 'perspective(900px) rotateX(' + rx + 'deg) rotateY(' + ry + 'deg) scale3d(1.03,1.03,1.03)';
+    card.style.transition = 'transform 0.08s linear, box-shadow 0.08s linear';
+    const px = (x / rect.width) * 100;
+    const py = (y / rect.height) * 100;
+    shine.style.background = 'radial-gradient(circle 200px at ' + px + '% ' + py + '%, rgba(255,255,255,0.07), transparent)';
+  });
+  card.addEventListener('mouseleave', function() {
+    card.style.transform = 'perspective(900px) rotateX(0deg) rotateY(0deg) scale3d(1,1,1)';
+    card.style.transition = 'transform 0.55s ease, box-shadow 0.55s ease';
+  });
+});
+
+const statsTargets = [3, 4, 1];
+const statsIds = ['stat1', 'stat2', 'stat3'];
+const statsObs = new IntersectionObserver(function(entries) {
+  entries.forEach(function(entry) {
+    if (entry.isIntersecting && !statsDone) {
+      statsDone = true;
+      statsIds.forEach(function(id, i) {
+        let count = 0;
+        const target = statsTargets[i];
+        const el = document.getElementById(id);
+        const iv = setInterval(function() {
+          count = Math.min(count + 1, target);
+          el.textContent = count + '+';
+          if (count >= target) clearInterval(iv);
+        }, 28);
+      });
+    }
+  });
+}, { threshold: 0.3 });
+const statsGrid = document.querySelector('.stats-grid');
+if (statsGrid) statsObs.observe(statsGrid);
+
+const rvObs = new IntersectionObserver(function(entries) {
+  entries.forEach(function(entry) {
+    if (entry.isIntersecting) entry.target.classList.add('vis');
+  });
+}, { threshold: 0.12 });
+document.querySelectorAll('.rv').forEach(function(el) { rvObs.observe(el); });
+
+function setupChipStagger(boxId) {
+  const box = document.getElementById(boxId);
+  if (!box) return;
+  const chips = box.querySelectorAll('.chip');
+  const obs = new IntersectionObserver(function(entries) {
+    entries.forEach(function(entry) {
+      if (entry.isIntersecting) {
+        chips.forEach(function(chip, i) {
+          setTimeout(function() { chip.classList.add('vis'); }, 60 * i);
+        });
+        obs.disconnect();
+      }
+    });
+  }, { threshold: 0.12 });
+  obs.observe(box);
+}
+setupChipStagger('chipbox-tools');
+setupChipStagger('chipbox-methods');
+
+typeWriter(LANG.en.typewriter, 35);
+</script>
+</body>
+</html>
