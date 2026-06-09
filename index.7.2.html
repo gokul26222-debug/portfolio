@@ -1,0 +1,2727 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gokul Srinivasan — Product Manager</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@700&family=Syne:wght@700;800&family=Manrope:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@300;400&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #FAF8F4;
+  --bg2: #F2EDE6;
+  --surface: rgba(0,0,0,0.03);
+  --surface2: rgba(0,0,0,0.05);
+  --surface3: rgba(0,0,0,0.08);
+  --border: rgba(0,0,0,0.09);
+  --border2: rgba(0,0,0,0.16);
+  --text: #111110;
+  --text2: #3D3B38;
+  --muted: #7A7470;
+  --gold: #B8922A;
+  --gold2: #9A7820;
+  --violet: #6C3FD9;
+  --blue: #1A6BB5;
+  --rose: #C4547A;
+  --emerald: #1A7A54;
+  --purple: #6C3FD9;
+  --green: #1A7A54;
+  --grad: linear-gradient(135deg, #B8922A 0%, #6C3FD9 100%);
+  --grad2: linear-gradient(135deg, #1A6BB5 0%, #6C3FD9 100%);
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body { background: var(--bg); color: var(--text); font-family: 'Manrope', sans-serif; font-weight: 400; overflow-x: hidden; }
+
+/* cinematic intro */
+#intro {
+  position: fixed; inset: 0; z-index: 9999;
+  background: #000;
+  display: flex; align-items: center; justify-content: center;
+  animation: introFade 2.5s cubic-bezier(0.4,0,0.2,1) forwards;
+  pointer-events: none;
+}
+@keyframes introFade { 0%{opacity:1} 60%{opacity:1} 100%{opacity:0} }
+.intro-logo {
+  font-family: 'Syne', sans-serif; font-weight: 800; font-size: 72px;
+  background: linear-gradient(135deg, #C9A84C, #9B6DFF);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+  animation: introIn 1s cubic-bezier(0.16,1,0.3,1) 0.35s both;
+  letter-spacing: -0.03em;
+}
+@keyframes introIn { from{opacity:0;transform:scale(0.75)} to{opacity:1;transform:scale(1)} }
+
+/* canvas background */
+#bgCanvas { position: fixed; inset: 0; z-index: 0; pointer-events: none; }
+
+nav {
+  position: sticky; top: 0; z-index: 100;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 52px; height: 68px;
+  background: rgba(250,248,244,0.88);
+  backdrop-filter: blur(28px) saturate(1.5); -webkit-backdrop-filter: blur(28px) saturate(1.5);
+  border-bottom: 1px solid rgba(0,0,0,0.08);
+}
+.nav-logo {
+  font-family: 'Syne', sans-serif; font-weight: 800; font-size: 22px;
+  background: var(--grad); -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  background-clip: text; background-size: 200%; animation: gradShift 5s infinite;
+  cursor: pointer; text-decoration: none;
+}
+.nav-links { display: flex; gap: 36px; list-style: none; }
+.nav-links a { font-family: 'Manrope', sans-serif; font-weight: 500; font-size: 14px; color: var(--text2); text-decoration: none; transition: color 0.25s; letter-spacing: 0.03em; }
+.nav-links a:hover { color: var(--gold); }
+.nav-right { display: flex; align-items: center; gap: 16px; }
+.lang-pill { display: flex; align-items: center; background: var(--surface); border: 1px solid var(--border); border-radius: 20px; overflow: hidden; }
+.lang-btn { background: none; border: none; color: var(--text2); font-family: 'Manrope', sans-serif; font-weight: 600; font-size: 12px; padding: 6px 14px; cursor: pointer; transition: color 0.2s, background 0.2s; letter-spacing: 0.05em; }
+.lang-btn.on { background: var(--surface2); color: var(--text); }
+.lang-sep { width: 1px; height: 20px; background: var(--border); }
+.dlw { position: relative; z-index: 200; }
+.dlbtn {
+  background: var(--surface); border: 1px solid var(--border); color: var(--text);
+  font-family: 'Manrope', sans-serif; font-weight: 600; font-size: 13px;
+  padding: 8px 18px; border-radius: 8px; cursor: pointer; display: flex; align-items: center; gap: 8px;
+  transition: background 0.2s, border-color 0.2s;
+}
+.dlbtn:hover { background: var(--surface2); border-color: rgba(0,0,0,0.18); }
+.dlbtn svg { transition: transform 0.2s; }
+.dlw.open .dlbtn svg { transform: rotate(180deg); }
+.dldrop {
+  position: absolute; top: calc(100% + 8px); right: 0; min-width: 200px;
+  background: rgba(250,248,244,0.98); backdrop-filter: blur(22px); -webkit-backdrop-filter: blur(22px);
+  border: 1px solid var(--border); border-radius: 12px; overflow: hidden;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.12);
+  opacity: 0; transform: translateY(-8px); pointer-events: none;
+  transition: opacity 0.22s, transform 0.22s;
+}
+.dlw.open .dldrop { opacity: 1; transform: translateY(0); pointer-events: all; }
+.dldrop a {
+  display: flex; align-items: center; gap: 12px;
+  padding: 13px 18px; color: var(--text); text-decoration: none;
+  font-size: 13px; font-weight: 500; transition: background 0.15s;
+}
+.dldrop a:hover { background: var(--surface2); }
+.dldrop a svg { opacity: 0.6; flex-shrink: 0; }
+
+section { position: relative; z-index: 1; }
+
+#hero {
+  min-height: 100vh; display: flex; flex-direction: column;
+  justify-content: center; align-items: flex-start;
+  padding: 0 80px; gap: 0;
+}
+.hero-badge {
+  display: inline-flex; align-items: center; gap: 10px;
+  background: rgba(201,168,76,0.08); border: 1px solid rgba(201,168,76,0.28);
+  border-radius: 30px; padding: 8px 20px; margin-bottom: 40px;
+  font-family: 'IBM Plex Mono', monospace; font-size: 12px; font-weight: 400;
+  color: var(--gold); letter-spacing: 0.1em; text-transform: uppercase;
+}
+.pulse-dot {
+  width: 8px; height: 8px; border-radius: 50%; background: var(--gold);
+  flex-shrink: 0; animation: pulseGlow 2s infinite;
+}
+@keyframes pulseGlow { 0%,100%{box-shadow:0 0 0 0 rgba(201,168,76,0)} 50%{box-shadow:0 0 0 8px rgba(201,168,76,0.4)} }
+.hero-title-white {
+  font-family: 'Space Grotesk', sans-serif; font-weight: 700;
+  font-size: clamp(48px, 6vw, 76px); line-height: 1;
+  color: var(--text); display: block; letter-spacing: -0.02em;
+}
+.hero-title-grad {
+  font-family: 'Space Grotesk', sans-serif; font-weight: 700;
+  font-size: clamp(48px, 6vw, 76px); line-height: 1;
+  background: var(--grad); -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  background-clip: text; background-size: 200%; animation: gradShift 5s infinite;
+  display: block; letter-spacing: -0.02em; margin-bottom: 12px;
+}
+.hero-edu {
+  font-family: 'Manrope', sans-serif; font-weight: 700; font-size: 13px;
+  background: linear-gradient(90deg, #C9A84C 0%, #9B6DFF 55%, #4F9EFF 100%);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+  letter-spacing: 0.1em; margin-bottom: 30px; text-transform: uppercase;
+  display: inline-block;
+}
+@keyframes gradShift { 0%{background-position:0% 50%} 50%{background-position:100% 50%} 100%{background-position:0% 50%} }
+.hero-tagline {
+  font-family: 'Manrope', sans-serif; font-weight: 300; font-size: clamp(18px, 2.2vw, 26px);
+  color: var(--text); min-height: 1.4em; margin-bottom: 12px;
+}
+.cursor { display: inline-block; width: 2px; height: 1em; background: var(--blue); margin-left: 2px; vertical-align: middle; animation: blink 0.85s step-end infinite; }
+@keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
+.hero-mono {
+  font-family: 'IBM Plex Mono', monospace; font-weight: 300; font-size: 14px;
+  color: var(--text2); letter-spacing: 0.04em; margin-bottom: 44px;
+}
+.hero-ctas { display: flex; gap: 16px; flex-wrap: wrap; }
+.btn-primary {
+  background: var(--grad); background-size: 200%; animation: gradShift 5s infinite;
+  border: none; color: #fff; font-family: 'Manrope', sans-serif; font-weight: 700;
+  font-size: 15px; padding: 14px 32px; border-radius: 10px; cursor: pointer;
+  text-decoration: none; display: inline-flex; align-items: center; gap: 8px;
+  transition: opacity 0.2s, transform 0.2s;
+}
+.btn-primary:hover { opacity: 0.88; transform: translateY(-1px); }
+.btn-secondary {
+  background: #FFFFFF; border: 1.5px solid var(--border);
+  color: var(--text); font-family: 'Manrope', sans-serif; font-weight: 600;
+  font-size: 15px; padding: 14px 32px; border-radius: 10px; cursor: pointer;
+  text-decoration: none; display: inline-flex; align-items: center; gap: 8px;
+  transition: background 0.2s, border-color 0.2s, transform 0.2s;
+}
+.btn-secondary:hover { background: var(--bg2); border-color: rgba(0,0,0,0.22); transform: translateY(-1px); }
+
+#stats { padding: 0 80px; margin-bottom: 0; }
+.stats-grid {
+  display: grid; grid-template-columns: repeat(3, 1fr);
+  border: 1px solid var(--border); border-radius: 20px; overflow: hidden;
+  background: #FFFFFF; box-shadow: 0 4px 24px rgba(0,0,0,0.06);
+}
+.stat-item { padding: 48px 40px; text-align: center; }
+.stat-item:not(:last-child) { border-right: 1px solid var(--border); }
+.stat-num {
+  font-family: 'Syne', sans-serif; font-weight: 800; font-size: 56px;
+  background: var(--grad); -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  background-clip: text; background-size: 200%; animation: gradShift 5s infinite;
+  line-height: 1; margin-bottom: 10px;
+}
+.stat-label { font-size: 15px; color: var(--text2); font-weight: 500; letter-spacing: 0.01em; }
+
+#about { padding: 130px 80px; }
+.about-inner { max-width: 1000px; }
+.section-label {
+  font-family: 'IBM Plex Mono', monospace; font-size: 11px; font-weight: 700;
+  letter-spacing: 0.18em; text-transform: uppercase; color: var(--gold);
+  margin-bottom: 22px; display: inline-flex; align-items: center; gap: 8px;
+  background: rgba(184,146,42,0.09);
+  border: 1px solid rgba(184,146,42,0.28); border-radius: 100px;
+  padding: 7px 20px; line-height: 1;
+}
+.section-label::before {
+  content: ''; width: 5px; height: 5px; border-radius: 50%;
+  background: var(--gold); flex-shrink: 0; box-shadow: 0 0 4px rgba(184,146,42,0.5);
+}
+.about-heading { font-family: 'Syne', sans-serif; font-weight: 800; font-size: clamp(36px, 4.5vw, 56px); color: var(--text); margin-bottom: 24px; line-height: 1.2; }
+.about-body { font-size: 18px; font-weight: 400; color: var(--text2); line-height: 1.8; white-space: pre-line; }
+
+/* ── Experience ── */
+#experience { padding: 100px 80px; }
+.exp-grid { display: flex; flex-direction: column; gap: 20px; }
+.exp-card {
+  background: #FFFFFF;
+  backdrop-filter: blur(18px); -webkit-backdrop-filter: blur(18px);
+  border: 1px solid var(--border); border-radius: 22px;
+  padding: 36px 40px; position: relative; overflow: hidden;
+  transition: border-color 0.3s, background 0.3s, box-shadow 0.3s;
+}
+.exp-card::before {
+  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+  background: var(--exp-accent);
+}
+.exp-card:hover { background: rgba(0,0,0,0.02); }
+.exp-header { display: flex; align-items: flex-start; justify-content: space-between; gap: 24px; margin-bottom: 20px; flex-wrap: wrap; }
+.exp-company { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 20px; color: var(--text); margin-bottom: 4px; letter-spacing: -0.01em; }
+.exp-role { font-size: 15px; color: var(--text2); font-weight: 500; }
+.exp-right { display: flex; flex-direction: column; align-items: flex-end; gap: 8px; flex-shrink: 0; }
+.exp-location { font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: var(--text2); letter-spacing: 0.04em; }
+.exp-tag {
+  font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 0.08em;
+  text-transform: uppercase; padding: 4px 12px; border-radius: 20px;
+  background: var(--exp-tag-bg); border: 1px solid var(--exp-tag-border); color: var(--exp-tag-color);
+}
+.exp-achievements { display: flex; flex-direction: column; gap: 10px; }
+.exp-item { display: flex; align-items: flex-start; gap: 12px; }
+.exp-dot {
+  width: 6px; height: 6px; border-radius: 50%; background: var(--exp-dot);
+  flex-shrink: 0; margin-top: 7px;
+}
+.exp-text { font-size: 14px; color: var(--text2); line-height: 1.7; }
+.exp-text strong { color: var(--text); font-weight: 600; }
+@media (max-width: 768px) {
+  #experience { padding: 72px 24px; }
+  .exp-card { padding: 28px 22px; }
+  .exp-right { align-items: flex-start; }
+}
+
+#work { padding: 100px 80px; }
+.section-header { margin-bottom: 48px; }
+.section-title { font-family: 'Syne', sans-serif; font-weight: 800; font-size: clamp(40px, 4.5vw, 58px); color: var(--text); letter-spacing: -0.02em; }
+.cases-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+.case-card-full { grid-column: 1 / -1; }
+.case-card {
+  background: #FFFFFF;
+  backdrop-filter: blur(18px); -webkit-backdrop-filter: blur(18px);
+  border: 1px solid var(--border); border-radius: 22px;
+  padding: 40px; cursor: pointer; position: relative; overflow: hidden;
+  transform-style: preserve-3d; transition: transform 0.08s linear, box-shadow 0.08s linear, border-color 0.3s, background 0.3s;
+  min-height: 300px; display: flex; flex-direction: column; justify-content: space-between;
+}
+.case-card:hover { background: rgba(0,0,0,0.02); }
+.case-card::before {
+  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+  background: var(--card-accent, var(--grad)); opacity: 0.7;
+  transition: opacity 0.3s;
+}
+.case-card:hover::before { opacity: 1; }
+.case-card[data-co="joko"] { --card-accent: linear-gradient(90deg,#27C46B,#00E676); }
+.case-card[data-co="joko"]:hover { border-color: rgba(39,196,107,0.35); box-shadow: 0 24px 60px rgba(39,196,107,0.15); }
+.case-card[data-co="faume"] { --card-accent: linear-gradient(90deg,#BF5AF2,#FF2D55); }
+.case-card[data-co="faume"]:hover { border-color: rgba(191,90,242,0.35); box-shadow: 0 24px 60px rgba(191,90,242,0.15); }
+.case-card[data-co="netflix"] { --card-accent: linear-gradient(90deg,#E50914,#FF6B35); }
+.case-card[data-co="netflix"]:hover { border-color: rgba(229,9,20,0.35); box-shadow: 0 24px 60px rgba(229,9,20,0.12); }
+.case-card[data-co="blablacar"] { --card-accent: linear-gradient(90deg,#00AADC,#0071E3); }
+.case-card[data-co="blablacar"]:hover { border-color: rgba(0,170,220,0.35); box-shadow: 0 24px 60px rgba(0,170,220,0.15); }
+.case-card[data-co="cleo"] { --card-accent: linear-gradient(90deg,#FF9500,#FFD60A); }
+.case-card[data-co="cleo"]:hover { border-color: rgba(255,149,0,0.35); box-shadow: 0 24px 60px rgba(255,149,0,0.15); }
+.card-shine {
+  position: absolute; inset: 0; border-radius: 20px; pointer-events: none;
+  opacity: 0; transition: opacity 0.3s;
+}
+.case-card:hover .card-shine { opacity: 1; }
+.card-header { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 20px; }
+.card-logo {
+  width: 44px; height: 44px; border-radius: 12px; display: flex; align-items: center; justify-content: center;
+  font-family: 'Syne', sans-serif; font-weight: 800; font-size: 18px; letter-spacing: -1px;
+  flex-shrink: 0;
+}
+.card-logo img { width: 26px; height: 26px; object-fit: contain; }
+.logo-joko { background: rgba(39,196,107,0.12); }
+.logo-faume { background: rgba(191,90,242,0.12); color: #BF5AF2; }
+.logo-netflix { background: rgba(229,9,20,0.12); }
+.logo-blablacar { background: rgba(0,170,220,0.12); color: #00AADC; }
+.logo-cleo { background: rgba(255,149,0,0.12); color: #FF9500; }
+.card-top { flex: 1; }
+.card-cat {
+  font-family: 'IBM Plex Mono', monospace; font-size: 11px; font-weight: 700;
+  letter-spacing: 0.09em; text-transform: uppercase; margin-bottom: 14px;
+  display: inline-flex; align-items: center; padding: 5px 14px;
+  border-radius: 100px; border: 1px solid; line-height: 1;
+}
+.cat-blue   { color: var(--blue);  background: rgba(79,158,255,0.12);  border-color: rgba(79,158,255,0.30);  }
+.cat-purple { color: #B692FF;      background: rgba(155,109,255,0.12); border-color: rgba(155,109,255,0.30); }
+.cat-green  { color: var(--green); background: rgba(0,214,143,0.12);   border-color: rgba(0,214,143,0.30);   }
+.cat-orange { color: #FF9F0A;      background: rgba(255,159,10,0.12);  border-color: rgba(255,159,10,0.30);  }
+.cat-red    { color: #FF4040;      background: rgba(255,64,64,0.10);   border-color: rgba(255,64,64,0.28);   }
+.cat-teal   { color: #00AADC;      background: rgba(0,170,220,0.10);   border-color: rgba(0,170,220,0.28);   }
+.cat-amber  { color: #FF9500;      background: rgba(255,149,0,0.12);   border-color: rgba(255,149,0,0.30);   }
+.card-title { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 26px; color: var(--text); margin-bottom: 10px; line-height: 1.2; letter-spacing: -0.01em; }
+.card-desc { font-size: 15px; color: var(--text2); line-height: 1.65; }
+.card-bottom { margin-top: 24px; display: flex; align-items: center; justify-content: space-between; }
+.card-company { font-size: 12px; color: var(--text2); font-weight: 600; letter-spacing: 0.03em; }
+.card-company strong { color: var(--gold); font-weight: 800; }
+.card-arrow {
+  width: 38px; height: 38px;
+  background: linear-gradient(135deg, var(--bg2), #fff);
+  border: 1.5px solid var(--border);
+  border-radius: 50%; display: flex; align-items: center; justify-content: center;
+  transition: background 0.25s, border-color 0.25s, transform 0.25s, box-shadow 0.25s;
+  flex-shrink: 0; box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+  color: var(--text2);
+}
+.case-card:hover .card-arrow { transform: translate(2px,-2px); }
+.case-card[data-co="joko"]:hover .card-arrow { background: rgba(39,196,107,0.2); border-color: rgba(39,196,107,0.5); }
+.case-card[data-co="faume"]:hover .card-arrow { background: rgba(191,90,242,0.2); border-color: rgba(191,90,242,0.5); }
+.case-card[data-co="netflix"]:hover .card-arrow { background: rgba(229,9,20,0.2); border-color: rgba(229,9,20,0.5); }
+.case-card[data-co="blablacar"]:hover .card-arrow { background: rgba(0,170,220,0.2); border-color: rgba(0,170,220,0.5); }
+.case-card[data-co="cleo"]:hover .card-arrow { background: rgba(255,149,0,0.2); border-color: rgba(255,149,0,0.5); }
+.case-card[data-co="playpal"] { --card-accent: linear-gradient(90deg,#4F9EFF,#9B6DFF); }
+.case-card[data-co="playpal"]:hover { border-color: rgba(79,158,255,0.35); box-shadow: 0 24px 60px rgba(79,158,255,0.15); }
+.case-card[data-co="playpal"]:hover .card-arrow { background: rgba(79,158,255,0.2); border-color: rgba(79,158,255,0.5); }
+.logo-playpal { background: rgba(79,158,255,0.12); color: #4F9EFF; }
+.case-card[data-co="photoroom"] { --card-accent: linear-gradient(90deg,#FF4D8D,#7B61FF); }
+.case-card[data-co="photoroom"]:hover { border-color: rgba(255,77,141,0.4); box-shadow: 0 24px 70px rgba(255,77,141,0.22), 0 0 0 1px rgba(255,77,141,0.08); }
+.case-card[data-co="photoroom"]:hover .card-arrow { background: rgba(255,77,141,0.22); border-color: rgba(255,77,141,0.55); }
+
+/* ── PhotoRoom rich modal ── */
+.pr-section-label {
+  font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 0.1em;
+  text-transform: uppercase; color: #FF4D8D; margin-bottom: 12px; display: block;
+}
+.pr-keypoints { display: flex; flex-direction: column; gap: 10px; }
+.pr-keypoint {
+  display: flex; align-items: flex-start; gap: 12px; padding: 13px 16px;
+  background: rgba(255,77,141,0.055); border: 1px solid rgba(255,77,141,0.14);
+  border-radius: 12px;
+}
+.pr-keypoint-dot {
+  width: 7px; height: 7px; border-radius: 50%; background: linear-gradient(135deg,#FF4D8D,#7B61FF);
+  flex-shrink: 0; margin-top: 5px;
+}
+.pr-keypoint-text { font-size: 13.5px; color: var(--text); line-height: 1.6; }
+.pr-expand-btn {
+  display: flex; align-items: center; justify-content: center; gap: 8px;
+  width: 100%; padding: 13px; margin-top: 20px;
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 10px; cursor: pointer;
+  font-family: 'Manrope', sans-serif; font-size: 13px; font-weight: 600;
+  color: var(--text2); transition: all 0.22s;
+}
+.pr-expand-btn:hover { background: rgba(255,77,141,0.07); border-color: rgba(255,77,141,0.22); color: #FF4D8D; }
+.pr-expand-btn svg { transition: transform 0.3s; }
+.pr-expand-btn.expanded svg { transform: rotate(180deg); }
+.pr-detail { display: none; }
+.pr-detail.visible { display: block; }
+.pr-sub-heading {
+  font-family: 'Syne', sans-serif; font-weight: 700; font-size: 14px;
+  color: var(--text); margin-bottom: 10px; margin-top: 22px;
+}
+.persona-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 4px 0 16px; }
+.persona-card { padding: 18px 20px; border-radius: 16px; border: 1px solid; }
+.persona-card.persona-a { background: rgba(255,77,141,0.055); border-color: rgba(255,77,141,0.22); }
+.persona-card.persona-b { background: rgba(229,58,58,0.055); border-color: rgba(229,58,58,0.22); }
+.persona-badge {
+  font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 0.07em;
+  text-transform: uppercase; padding: 3px 9px; border-radius: 20px; margin-bottom: 10px; display: inline-block;
+}
+.persona-a .persona-badge { background: rgba(48,209,88,0.12); color: #30D158; border: 1px solid rgba(48,209,88,0.28); }
+.persona-b .persona-badge { background: rgba(255,59,48,0.12); color: #FF453A; border: 1px solid rgba(255,59,48,0.28); }
+.persona-name { font-family: 'Syne', sans-serif; font-size: 15px; font-weight: 700; color: var(--text); margin-bottom: 3px; }
+.persona-role { font-size: 12px; color: var(--text2); margin-bottom: 12px; font-style: italic; }
+.persona-stat { display: flex; justify-content: space-between; align-items: center; padding: 7px 0; border-bottom: 1px solid var(--border); font-size: 13px; }
+.persona-stat:last-child { border-bottom: none; }
+.persona-stat-label { color: var(--text2); }
+.persona-stat-val { font-weight: 700; }
+.persona-a .persona-stat-val.pos { color: #30D158; }
+.persona-b .persona-stat-val.neg { color: #FF453A; }
+.pricing-wrap { overflow-x: auto; margin: 8px 0 16px; border-radius: 14px; border: 1px solid var(--border); }
+.pricing-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+.pricing-table th {
+  padding: 11px 12px; text-align: center;
+  font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 0.06em;
+  text-transform: uppercase; color: var(--text2);
+  border-bottom: 1px solid var(--border); background: var(--surface);
+}
+.pricing-table th:first-child { text-align: left; }
+.pricing-table td { padding: 11px 12px; text-align: center; border-bottom: 1px solid var(--border); }
+.pricing-table tr:last-child td { border-bottom: none; }
+.pricing-table .tier-name { font-weight: 600; color: var(--text); text-align: left; }
+.pricing-table .price-val { font-family: 'IBM Plex Mono', monospace; font-weight: 700; color: var(--text); }
+.pricing-table .t-new { background: rgba(255,77,141,0.045); }
+.pricing-table .t-keep { background: rgba(79,158,255,0.03); }
+.tier-tag {
+  display: inline-block; font-size: 9px; padding: 2px 6px; border-radius: 8px;
+  font-family: 'IBM Plex Mono', monospace; letter-spacing: 0.04em; margin-left: 5px; vertical-align: middle;
+}
+.tier-tag.new { background: rgba(255,77,141,0.15); color: #FF4D8D; border: 1px solid rgba(255,77,141,0.3); }
+.tier-tag.keep { background: rgba(79,158,255,0.12); color: #4F9EFF; border: 1px solid rgba(79,158,255,0.3); }
+.pr-img-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin: 8px 0 16px; }
+.pr-img-mock {
+  border-radius: 12px; padding: 18px 16px; min-height: 110px;
+  display: flex; flex-direction: column; justify-content: space-between;
+  border: 1px solid var(--border); position: relative; overflow: hidden;
+}
+.pr-img-mock::before {
+  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
+}
+.pr-img-mock.m1 { background: rgba(255,77,141,0.05); }
+.pr-img-mock.m1::before { background: linear-gradient(90deg,#FF4D8D,#6C47FF); }
+.pr-img-mock.m2 { background: rgba(108,71,255,0.06); }
+.pr-img-mock.m2::before { background: linear-gradient(90deg,#6C47FF,#FF4D8D); }
+.pr-img-mock.m3 { background: rgba(255,149,0,0.05); }
+.pr-img-mock.m3::before { background: linear-gradient(90deg,#FF9500,#FF453A); }
+.pr-img-mock.m4 { background: rgba(79,158,255,0.05); }
+.pr-img-mock.m4::before { background: linear-gradient(90deg,#4F9EFF,#9B6DFF); }
+.pr-mock-title { font-size: 11px; font-weight: 700; color: var(--text); font-family: 'IBM Plex Mono', monospace; letter-spacing: 0.04em; text-transform: uppercase; }
+.pr-mock-desc { font-size: 11px; color: var(--text2); line-height: 1.5; margin-top: 6px; }
+.pr-mock-bars { display: flex; gap: 4px; align-items: flex-end; margin-top: 10px; }
+.pr-mock-bar { border-radius: 3px 3px 0 0; width: 14px; }
+.pr-metric-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin: 8px 0 16px; }
+.pr-metric-card {
+  padding: 15px 12px; border-radius: 14px; text-align: center;
+  background: #FFFFFF; border: 1px solid var(--border);
+}
+.pr-metric-val { font-family: 'Syne', sans-serif; font-size: 20px; font-weight: 800; color: #FF4D8D; line-height: 1; }
+.pr-metric-lbl { font-size: 11px; color: var(--text2); margin-top: 5px; line-height: 1.35; }
+.pr-tradeoff {
+  display: flex; gap: 14px; margin: 8px 0; align-items: flex-start;
+}
+.pr-tradeoff-icon {
+  width: 28px; height: 28px; border-radius: 8px; display: flex; align-items: center;
+  justify-content: center; flex-shrink: 0; margin-top: 1px; font-size: 14px;
+}
+.pr-tradeoff-body { font-size: 13px; color: var(--text2); line-height: 1.65; }
+.pr-tradeoff-body strong { color: var(--text); font-weight: 600; }
+@media (max-width: 580px) {
+  .persona-grid { grid-template-columns: 1fr; }
+  .pr-img-grid { grid-template-columns: 1fr; }
+  .pr-metric-grid { grid-template-columns: 1fr 1fr; }
+}
+
+/* ── Apps Built Section ── */
+#built { padding: 0 80px 100px; }
+.built-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+.app-card {
+  background: #FFFFFF; border: 1px solid var(--border);
+  border-radius: 22px; padding: 32px 36px; position: relative; overflow: hidden;
+  backdrop-filter: blur(18px); -webkit-backdrop-filter: blur(18px);
+  transition: border-color 0.3s, box-shadow 0.3s;
+}
+.app-card::before {
+  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+  background: var(--app-accent);
+}
+.app-card:hover { border-color: rgba(0,0,0,0.18); box-shadow: 0 20px 50px rgba(0,0,0,0.2); }
+.app-icon { width: 56px; height: 56px; border-radius: 16px; display: flex; align-items: center; justify-content: center; margin-bottom: 18px; border: 1px solid var(--border); }
+.app-name { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 22px; color: var(--text); margin-bottom: 6px; }
+.app-tagline { font-size: 14px; color: var(--text2); line-height: 1.75; margin-bottom: 16px; }
+.app-tags { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 22px; }
+.app-tag { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 0.06em; text-transform: uppercase; padding: 3px 9px; border-radius: 20px; background: var(--surface2); border: 1px solid var(--border); color: var(--text2); }
+.app-cta-row { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+.app-cta { display: inline-flex; align-items: center; gap: 7px; padding: 10px 22px; border-radius: 100px; font-family: 'Manrope', sans-serif; font-weight: 700; font-size: 13px; text-decoration: none; transition: opacity 0.2s, transform 0.2s; }
+.app-cta:hover { opacity: 0.88; transform: translateY(-1px); }
+.app-live-dot { display: inline-flex; align-items: center; gap: 6px; font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 0.06em; text-transform: uppercase; color: #30D158; padding: 4px 10px; background: rgba(48,209,88,0.08); border: 1px solid rgba(48,209,88,0.22); border-radius: 20px; }
+
+/* ── PM Report Modal (PhotoRoom) ── */
+.pm-body { padding: 24px 36px 36px; }
+.pm-section { margin-bottom: 28px; }
+.pm-section-title {
+  font-family: 'IBM Plex Mono', monospace; font-size: 11px; font-weight: 700; letter-spacing: 0.12em;
+  text-transform: uppercase; color: #FF4D8D; margin-bottom: 14px; display: flex;
+  align-items: center; gap: 10px;
+}
+.pm-section-title::after { content: ''; flex: 1; height: 1px; background: linear-gradient(90deg,rgba(255,77,141,0.4),transparent); }
+.pm-exec-box {
+  padding: 18px 22px; border-radius: 14px;
+  background: linear-gradient(135deg,rgba(255,77,141,0.08),rgba(123,97,255,0.05));
+  border: 1px solid rgba(255,77,141,0.22);
+  font-size: 13.5px; color: var(--text2); line-height: 1.85;
+}
+.pm-exec-box strong { color: var(--text); font-weight: 700; }
+.pm-kpi-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin: 4px 0; }
+.pm-kpi { text-align: center; padding: 14px 8px; background: #FFFFFF; border: 1px solid var(--border); border-radius: 12px; }
+.pm-kpi-val { font-family: 'Syne', sans-serif; font-size: 20px; font-weight: 800; background: linear-gradient(135deg,#FF4D8D,#7B61FF); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; line-height: 1; }
+.pm-kpi-lbl { font-size: 10px; color: var(--text2); margin-top: 5px; font-family: 'IBM Plex Mono', monospace; letter-spacing: 0.04em; text-transform: uppercase; line-height: 1.3; }
+.pm-flow { display: flex; align-items: center; gap: 0; margin: 4px 0; overflow-x: auto; padding-bottom: 4px; }
+.pm-flow-step {
+  flex: 1; min-width: 90px; padding: 12px 10px; border-radius: 12px; text-align: center; border: 1px solid;
+}
+.pm-flow-step.prob { background: rgba(255,59,48,0.07); border-color: rgba(255,59,48,0.25); }
+.pm-flow-step.warn { background: rgba(255,149,0,0.07); border-color: rgba(255,149,0,0.25); }
+.pm-flow-step.sol  { background: rgba(255,77,141,0.07); border-color: rgba(255,77,141,0.25); }
+.pm-flow-step .step-ico { font-size: 16px; margin-bottom: 5px; }
+.pm-flow-step .step-lbl { font-size: 11px; font-weight: 700; color: var(--text); line-height: 1.3; }
+.pm-flow-step .step-sub { font-size: 10px; color: var(--text2); margin-top: 3px; line-height: 1.4; }
+.pm-flow-arr { padding: 0 6px; color: var(--text2); font-size: 14px; flex-shrink: 0; }
+.pm-table-wrap { overflow-x: auto; border-radius: 12px; border: 1px solid var(--border); margin: 4px 0; }
+.pm-table { width: 100%; border-collapse: collapse; font-size: 12.5px; }
+.pm-table th { padding: 10px 14px; font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--text2); background: var(--surface); border-bottom: 1px solid var(--border); text-align: left; white-space: nowrap; }
+.pm-table td { padding: 10px 14px; border-bottom: 1px solid var(--border); color: var(--text2); vertical-align: middle; }
+.pm-table tr:last-child td { border-bottom: none; }
+.pm-table .col-h { color: var(--text); font-weight: 600; white-space: nowrap; }
+.pm-table .col-a { color: #30D158; font-weight: 700; }
+.pm-table .col-b { color: #FF453A; font-weight: 700; }
+.pm-table .col-new { background: rgba(255,77,141,0.04); }
+.pm-table .tag-new { display: inline-block; font-size: 9px; padding: 1px 5px; border-radius: 6px; font-family: 'IBM Plex Mono', monospace; letter-spacing: 0.03em; background: rgba(255,77,141,0.15); color: #FF4D8D; border: 1px solid rgba(255,77,141,0.3); margin-left: 4px; vertical-align: middle; }
+.pm-table .tag-keep { display: inline-block; font-size: 9px; padding: 1px 5px; border-radius: 6px; font-family: 'IBM Plex Mono', monospace; letter-spacing: 0.03em; background: rgba(79,158,255,0.12); color: #4F9EFF; border: 1px solid rgba(79,158,255,0.3); margin-left: 4px; vertical-align: middle; }
+.pm-layer-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin: 4px 0; }
+.pm-layer { padding: 16px 14px; border-radius: 14px; border: 1px solid; }
+.pm-layer.l1 { background: rgba(79,158,255,0.05); border-color: rgba(79,158,255,0.22); }
+.pm-layer.l2 { background: rgba(48,209,88,0.04); border-color: rgba(48,209,88,0.2); }
+.pm-layer.l3 { background: rgba(255,149,0,0.05); border-color: rgba(255,149,0,0.22); }
+.pm-layer-num { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 7px; font-weight: 700; }
+.pm-layer.l1 .pm-layer-num { color: #4F9EFF; }
+.pm-layer.l2 .pm-layer-num { color: #30D158; }
+.pm-layer.l3 .pm-layer-num { color: #FF9500; }
+.pm-layer-name { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 13px; color: var(--text); margin-bottom: 8px; line-height: 1.3; }
+.pm-layer-desc { font-size: 11.5px; color: var(--text2); line-height: 1.65; }
+.pm-ns-box { padding: 18px 22px; border-radius: 14px; background: linear-gradient(135deg,rgba(255,77,141,0.10),rgba(123,97,255,0.08)); border: 1px solid rgba(255,77,141,0.28); margin: 4px 0 16px; display: flex; align-items: center; gap: 16px; }
+.pm-ns-icon { width: 44px; height: 44px; border-radius: 12px; background: linear-gradient(135deg,rgba(255,77,141,0.2),rgba(123,97,255,0.2)); border: 1px solid rgba(255,77,141,0.35); display: flex; align-items: center; justify-content: center; flex-shrink: 0; font-size: 22px; }
+.pm-ns-label { font-family: 'IBM Plex Mono', monospace; font-size: 10px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: #FF4D8D; margin-bottom: 5px; }
+.pm-ns-metric { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 14px; color: var(--text); line-height: 1.3; }
+.pm-close-row { display: flex; justify-content: center; margin-top: 28px; }
+@media (max-width: 600px) {
+  #built { padding: 0 24px 80px; }
+  .built-grid { grid-template-columns: 1fr; }
+  .pm-body { padding: 20px 20px 28px; }
+  .pm-kpi-row { grid-template-columns: repeat(2, 1fr); }
+  .pm-layer-grid { grid-template-columns: 1fr; }
+}
+
+#playpal { padding: 0 80px 100px; }
+
+#toolkit { padding: 100px 80px; }
+.toolkit-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+.toolkit-card {
+  background: #FFFFFF; border: 1px solid var(--border);
+  border-radius: 20px; overflow: hidden;
+  backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+  transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+  position: relative;
+}
+.toolkit-card::before {
+  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+  background: var(--card-accent);
+}
+.toolkit-card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(0,0,0,0.18);
+  box-shadow: 0 20px 60px var(--card-glow);
+}
+.toolkit-card-inner { padding: 28px; }
+.toolkit-card-header { display: flex; align-items: center; gap: 14px; margin-bottom: 18px; }
+.toolkit-card-icon {
+  width: 44px; height: 44px; border-radius: 12px;
+  display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+}
+.toolkit-card-title { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 15px; color: var(--text); }
+.toolkit-card-chips { display: flex; flex-wrap: wrap; gap: 8px; }
+
+/* ── Education ── */
+#education { padding: 0 80px 100px; margin-top: 0; }
+.edu-card {
+  background: #FFFFFF; border: 1px solid var(--border);
+  border-radius: 24px; padding: 48px 52px;
+  backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+  position: relative; overflow: hidden;
+}
+.edu-card::before {
+  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+  background: linear-gradient(90deg, #C9A84C 0%, #9B6DFF 100%);
+}
+.edu-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 32px; flex-wrap: wrap; margin-bottom: 28px; }
+.edu-tag { font-family: 'IBM Plex Mono', monospace; font-size: 11px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--gold); margin-bottom: 10px; }
+.edu-school { font-family: 'Syne', sans-serif; font-weight: 800; font-size: clamp(18px, 2.2vw, 24px); color: var(--text); margin-bottom: 5px; }
+.edu-degree { font-size: 15px; color: var(--text2); margin-bottom: 16px; }
+.edu-accreds { display: flex; gap: 8px; flex-wrap: wrap; }
+.edu-badge {
+  font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 0.08em;
+  padding: 4px 11px; border-radius: 20px; text-transform: uppercase;
+  background: rgba(201,168,76,0.07); border: 1px solid rgba(201,168,76,0.2); color: var(--gold);
+}
+.edu-divider { border: none; border-top: 1px solid var(--border); margin: 28px 0; }
+.edu-langs-label { font-family: 'IBM Plex Mono', monospace; font-size: 11px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text2); margin-bottom: 14px; }
+.edu-langs { display: flex; gap: 12px; flex-wrap: wrap; }
+.edu-lang {
+  display: flex; align-items: center; gap: 10px;
+  padding: 12px 18px; background: var(--surface); border: 1px solid var(--border);
+  border-radius: 14px; transition: border-color 0.2s, background 0.2s;
+}
+.edu-lang:hover { border-color: rgba(0,0,0,0.20); background: var(--surface2); }
+.edu-flag { font-family: 'IBM Plex Mono', monospace; font-size: 11px; font-weight: 600; letter-spacing: 0.08em; color: var(--gold); background: rgba(201,168,76,0.1); border: 1px solid rgba(201,168,76,0.2); border-radius: 6px; padding: 3px 7px; flex-shrink: 0; }
+.edu-lang-info { display: flex; flex-direction: column; }
+.edu-lang-name { font-weight: 600; font-size: 13px; color: var(--text); line-height: 1.2; }
+.edu-lang-level { font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: var(--text2); letter-spacing: 0.04em; }
+
+/* ── Certifications ── */
+#certifications { padding: 100px 80px; }
+.certs-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+.cert-card {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 16px; padding: 18px 20px;
+  transition: border-color 0.25s, background 0.25s, transform 0.25s;
+  display: flex; flex-direction: column; gap: 4px;
+  position: relative; overflow: hidden;
+}
+.cert-card::before { content: ''; position: absolute; top: 0; left: 0; width: 3px; bottom: 0; background: var(--cert-color, var(--gold)); opacity: 0.7; }
+.cert-card:hover { border-color: rgba(0,0,0,0.18); background: var(--surface2); transform: translateY(-2px); }
+.cert-name { font-family: 'Manrope', sans-serif; font-weight: 600; font-size: 13px; color: var(--text); line-height: 1.4; }
+.cert-issuer { font-size: 12px; color: var(--cert-color, var(--gold)); font-weight: 500; margin-top: 2px; }
+.cert-date { font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: var(--text2); letter-spacing: 0.03em; margin-top: 4px; }
+
+@media (max-width: 1024px) {
+  .certs-grid { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 768px) {
+  #education { padding: 0 24px 72px; }
+  .edu-card { padding: 32px 24px; }
+  #certifications { padding: 72px 24px; }
+  .certs-grid { grid-template-columns: 1fr; }
+}
+.toolkit-card-chips .chip { font-size: 12px; padding: 6px 13px; border-radius: 20px; }
+.toolkit-card[style*="C9A84C"] .chip { background: rgba(201,168,76,0.08); border-color: rgba(201,168,76,0.22); color: #C9A84C; }
+.toolkit-card[style*="4F9EFF"] .chip { background: rgba(79,158,255,0.08); border-color: rgba(79,158,255,0.22); color: #4F9EFF; }
+.toolkit-card[style*="00D68F"] .chip { background: rgba(0,214,143,0.08); border-color: rgba(0,214,143,0.22); color: #00D68F; }
+.toolkit-card[style*="9B6DFF"] .chip { background: rgba(155,109,255,0.08); border-color: rgba(155,109,255,0.22); color: #9B6DFF; }
+.toolkit-card[style*="FF8FAD"] .chip { background: rgba(255,143,173,0.08); border-color: rgba(255,143,173,0.22); color: #FF8FAD; }
+.toolkit-card[style*="FF9500"] .chip { background: rgba(255,149,0,0.08); border-color: rgba(255,149,0,0.22); color: #FF9500; }
+.chip {
+  display: inline-flex; align-items: center; gap: 10px;
+  background: var(--surface); border: 1px solid var(--border);
+  backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+  border-radius: 30px; padding: 9px 18px;
+  font-size: 13px; font-weight: 500; color: var(--text2);
+  transition: border-color 0.25s, color 0.25s, background 0.25s;
+  opacity: 0; transform: translateY(12px);
+}
+.chip.vis { opacity: 1; transform: translateY(0); transition: opacity 0.4s ease, transform 0.4s ease, border-color 0.25s, color 0.25s, background 0.25s; }
+.chip:hover { border-color: rgba(201,168,76,0.35); color: var(--gold2); background: rgba(201,168,76,0.06); }
+.chip img { width: 16px; height: 16px; filter: brightness(0) invert(1); opacity: 0.75; object-fit: contain; }
+.chip-icon { font-size: 12px; opacity: 0.6; }
+
+#contact {
+  padding: 0;
+  background: #111110;
+  position: relative; overflow: hidden;
+}
+#contact::before {
+  content: '';
+  position: absolute; inset: 0; pointer-events: none;
+  background-image:
+    linear-gradient(rgba(184,146,42,0.06) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(184,146,42,0.06) 1px, transparent 1px);
+  background-size: 48px 48px;
+}
+#contact::after {
+  content: '';
+  position: absolute; inset: 0; pointer-events: none;
+  background: radial-gradient(ellipse 70% 60% at 15% 50%, rgba(108,63,217,0.14), transparent),
+              radial-gradient(ellipse 50% 50% at 85% 20%, rgba(184,146,42,0.12), transparent);
+}
+.contact-inner {
+  position: relative; z-index: 1;
+  padding: 100px 80px;
+}
+.contact-top {
+  display: flex; align-items: flex-start; justify-content: space-between;
+  gap: 48px; margin-bottom: 64px; flex-wrap: wrap;
+}
+.contact-left { flex: 1; min-width: 280px; }
+.contact-available {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: rgba(184,146,42,0.12); border: 1px solid rgba(184,146,42,0.28);
+  border-radius: 100px; padding: 6px 16px; margin-bottom: 28px;
+  font-family: 'IBM Plex Mono', monospace; font-size: 11px; font-weight: 700;
+  letter-spacing: 0.12em; text-transform: uppercase; color: #C9A84C;
+}
+.contact-available-dot {
+  width: 7px; height: 7px; border-radius: 50%; background: #C9A84C;
+  animation: pulseGlow 2s infinite; flex-shrink: 0;
+}
+.contact-heading {
+  font-family: 'Syne', sans-serif; font-weight: 800;
+  font-size: clamp(52px, 6.5vw, 88px); line-height: 1.0;
+  color: #F0EAD6;
+  white-space: pre-line; letter-spacing: -0.03em; margin-bottom: 16px;
+}
+.contact-heading span {
+  background: linear-gradient(135deg, #C9A84C, #9B6DFF);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+}
+.contact-sub {
+  font-family: 'Manrope', sans-serif; font-size: 16px; font-weight: 400;
+  color: rgba(240,234,214,0.55); line-height: 1.7; max-width: 400px;
+}
+.contact-right { flex-shrink: 0; }
+.contact-email-big {
+  font-family: 'Syne', sans-serif; font-weight: 700; font-size: 18px;
+  color: #F0EAD6; text-decoration: none; letter-spacing: -0.01em;
+  display: flex; align-items: center; gap: 10px; margin-bottom: 10px;
+  border-bottom: 1px solid rgba(184,146,42,0.3); padding-bottom: 14px;
+  transition: color 0.2s;
+}
+.contact-email-big:hover { color: #C9A84C; }
+
+.contact-links { display: flex; flex-direction: column; gap: 12px; }
+.contact-link {
+  display: flex; align-items: center; gap: 14px;
+  color: rgba(240,234,214,0.7); text-decoration: none; font-size: 14px; font-weight: 500;
+  padding: 15px 20px;
+  background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.09);
+  border-radius: 12px; transition: border-color 0.2s, color 0.2s, background 0.2s;
+}
+.contact-link:hover { border-color: rgba(184,146,42,0.35); color: #C9A84C; background: rgba(184,146,42,0.06); }
+.contact-link svg { opacity: 0.55; flex-shrink: 0; transition: opacity 0.2s; }
+.contact-link:hover svg { opacity: 1; }
+
+.contact-divider {
+  height: 1px; background: rgba(255,255,255,0.07); margin-bottom: 48px;
+}
+.contact-cv-row {
+  display: flex; gap: 16px; flex-wrap: wrap; align-items: stretch;
+}
+.cv-cards { display: flex; gap: 16px; flex-wrap: wrap; }
+.cv-card {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 20px 24px;
+  background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.09);
+  border-radius: 14px; text-decoration: none; color: #F0EAD6;
+  transition: border-color 0.2s, background 0.2s; gap: 16px; flex: 1; min-width: 220px;
+}
+.cv-card:hover { border-color: rgba(184,146,42,0.35); background: rgba(184,146,42,0.06); }
+.cv-card-left { display: flex; align-items: center; gap: 14px; }
+.cv-icon {
+  width: 42px; height: 42px; border-radius: 10px; display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+.cv-icon-en { background: linear-gradient(135deg, rgba(0,113,227,0.25), rgba(0,113,227,0.10)); border: 1px solid rgba(0,113,227,0.35); }
+.cv-icon-fr { background: linear-gradient(135deg, rgba(191,90,242,0.25), rgba(191,90,242,0.10)); border: 1px solid rgba(191,90,242,0.35); }
+.cv-card-info { display: flex; flex-direction: column; }
+.cv-card-title { font-weight: 700; font-size: 14px; margin-bottom: 3px; color: #F0EAD6; }
+.cv-card-sub { font-size: 12px; color: rgba(240,234,214,0.45); font-weight: 400; }
+.cv-card-dl { color: rgba(240,234,214,0.5); font-size: 11px; font-weight: 700; letter-spacing: 0.07em; display: flex; align-items: center; gap: 6px; text-transform: uppercase; flex-shrink: 0; }
+.cv-card:hover .cv-card-dl { color: #C9A84C; }
+
+footer {
+  border-top: 1px solid rgba(184,146,42,0.15); padding: 28px 80px;
+  display: flex; align-items: center; justify-content: space-between;
+  position: relative; z-index: 1;
+  background: rgba(250,248,244,0.8); backdrop-filter: blur(12px);
+}
+.footer-left { font-size: 13px; color: var(--muted); }
+.footer-right { font-size: 13px; color: var(--muted); }
+
+.rv { opacity: 0; transform: translateY(26px); transition: opacity 0.85s cubic-bezier(0.16,1,0.3,1), transform 0.85s cubic-bezier(0.16,1,0.3,1); }
+.rv.vis { opacity: 1; transform: translateY(0); }
+.d1 { transition-delay: 0.1s; }
+.d2 { transition-delay: 0.2s; }
+.d3 { transition-delay: 0.3s; }
+.d4 { transition-delay: 0.4s; }
+
+.modal-overlay {
+  position: fixed; inset: 0; z-index: 500;
+  background: rgba(0,0,0,0.88);
+  backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+  display: flex; align-items: center; justify-content: center;
+  padding: 24px;
+  opacity: 0; pointer-events: none; transition: opacity 0.35s;
+}
+.modal-overlay.open { opacity: 1; pointer-events: all; }
+.modal-card {
+  background: #0f0f11; border: 1px solid rgba(255,255,255,0.10); border-radius: 28px;
+  max-width: 700px; width: 100%; max-height: 90vh; overflow-y: auto; overflow-x: hidden;
+  position: relative;
+  transform: translateY(32px) scale(0.96); transition: transform 0.38s cubic-bezier(0.16,1,0.3,1);
+  box-shadow: 0 40px 120px rgba(0,0,0,0.7), 0 0 0 1px rgba(255,255,255,0.05);
+}
+.modal-overlay.open .modal-card { transform: translateY(0) scale(1); }
+.modal-banner {
+  padding: 36px 40px 28px;
+  position: relative; overflow: hidden;
+}
+.modal-banner::after {
+  content: ''; position: absolute; inset: 0;
+  background: linear-gradient(180deg, transparent 60%, #0f0f11 100%);
+  pointer-events: none;
+}
+.modal-banner-bg {
+  position: absolute; inset: 0; opacity: 0.15;
+  background-size: cover; background-position: center;
+}
+.modal-close {
+  position: absolute; top: 16px; right: 16px; z-index: 10;
+  width: 34px; height: 34px; background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 50%; display: flex; align-items: center; justify-content: center;
+  cursor: pointer; transition: background 0.2s; color: rgba(255,255,255,0.7); font-size: 14px;
+}
+.modal-close:hover { background: rgba(255,255,255,0.16); color: #fff; }
+.modal-logo-row { display: flex; align-items: center; gap: 14px; margin-bottom: 16px; position: relative; z-index: 2; }
+.modal-logo-icon {
+  width: 52px; height: 52px; border-radius: 16px;
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'Syne', sans-serif; font-weight: 800; font-size: 22px;
+  flex-shrink: 0; border: 1px solid rgba(255,255,255,0.12);
+}
+.modal-logo-icon img { width: 30px; height: 30px; object-fit: contain; }
+.modal-cat {
+  font-family: 'IBM Plex Mono', monospace; font-size: 12px; font-weight: 700;
+  letter-spacing: 0.1em; text-transform: uppercase;
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 6px 16px; border-radius: 100px; border: 1px solid;
+  margin-bottom: 6px; line-height: 1;
+}
+.modal-title {
+  font-family: 'Syne', sans-serif; font-weight: 800; font-size: 30px;
+  color: var(--text); line-height: 1.1; position: relative; z-index: 2;
+  letter-spacing: -0.02em;
+}
+.modal-body { padding: 28px 40px 40px; }
+.modal-company {
+  font-size: 13px; color: var(--text2); margin-bottom: 32px; font-weight: 400;
+  padding-bottom: 24px; border-bottom: 1px solid var(--border);
+}
+.modal-block { margin-bottom: 28px; }
+.modal-block-label {
+  font-family: 'IBM Plex Mono', monospace; font-size: 10px; font-weight: 400;
+  letter-spacing: 0.14em; text-transform: uppercase;
+  margin-bottom: 12px; display: flex; align-items: center; gap: 8px;
+}
+.modal-block-label::before {
+  content: ''; width: 18px; height: 2px; border-radius: 1px;
+  background: currentColor; display: inline-block; opacity: 0.6;
+}
+.modal-block p { font-size: 15px; color: var(--text2); line-height: 1.75; }
+.modal-block ul { list-style: none; display: flex; flex-direction: column; gap: 8px; }
+.modal-block ul li {
+  font-size: 14px; color: var(--text2); line-height: 1.65;
+  padding: 10px 14px 10px 36px; position: relative;
+  background: var(--surface); border-radius: 8px;
+  border: 1px solid rgba(255,255,255,0.04);
+}
+.modal-block ul li::before {
+  content: '→'; position: absolute; left: 14px; top: 10px;
+  font-size: 12px; font-weight: 600;
+}
+.modal-metrics { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 32px; }
+.metric-chip {
+  border-radius: 12px; padding: 12px 18px;
+  font-size: 13px; font-weight: 700; text-align: center;
+  display: flex; flex-direction: column; gap: 2px;
+  min-width: 100px; flex: 1;
+}
+.metric-chip span { font-family: 'IBM Plex Mono', monospace; font-size: 9px; font-weight: 400; letter-spacing: 0.1em; text-transform: uppercase; opacity: 0.7; }
+.modal-footer { display: flex; flex-direction: column; gap: 12px; border-top: 1px solid var(--border); padding-top: 24px; }
+.modal-notion-btn {
+  display: flex; align-items: center; justify-content: center; gap: 10px;
+  width: 100%; padding: 16px 24px; border-radius: 14px;
+  background: #fff; color: #000;
+  font-family: 'Manrope', sans-serif; font-weight: 700; font-size: 15px;
+  text-decoration: none; border: none; cursor: pointer;
+  transition: opacity 0.2s, transform 0.2s;
+}
+.modal-notion-btn:hover { opacity: 0.9; transform: translateY(-1px); }
+.modal-notion-icon { width: 20px; height: 20px; flex-shrink: 0; }
+.modal-footer-row { display: flex; gap: 10px; }
+
+@media (max-width: 1024px) {
+  .toolkit-grid { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 768px) {
+  nav { padding: 0 24px; }
+  .nav-links { display: none; }
+  #hero { padding: 80px 24px 60px; }
+  #stats { padding: 0 24px; }
+  #about { padding: 72px 24px; }
+  #work { padding: 72px 24px; }
+  #playpal { padding: 0 24px 72px; }
+  #toolkit { padding: 72px 24px; }
+  .toolkit-grid { grid-template-columns: 1fr; }
+  #contact { padding: 72px 24px; }
+  .stats-grid { grid-template-columns: 1fr; }
+  .stat-item:not(:last-child) { border-right: none; border-bottom: 1px solid var(--border); }
+  .cases-grid { grid-template-columns: 1fr; }
+  .contact-inner { padding: 72px 24px; }
+  .contact-top { flex-direction: column; gap: 40px; }
+  .contact-heading { font-size: 44px; }
+  .cv-cards { flex-direction: column; }
+  footer { padding: 20px 24px; flex-direction: column; gap: 8px; text-align: center; }
+  .modal-card { padding: 32px 24px; }
+  .about-heading { font-size: 28px; }
+  .section-title { font-size: 28px; }
+}
+
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--muted); border-radius: 3px; }
+
+/* ── Cleo showcase ── */
+#cleo { padding: 0 80px 100px; }
+.cleo-showcase {
+  border: 1px solid rgba(255,149,0,0.16); border-radius: 28px;
+  overflow: hidden; position: relative; background: rgba(255,149,0,0.022);
+}
+.cleo-showcase::before {
+  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+  background: linear-gradient(90deg,#FF6B00,#FF9500,#FFD60A,#FF9500,#FF6B00);
+  background-size: 300%; animation: gradShift 4s linear infinite;
+}
+.cleo-top {
+  padding: 56px 60px 48px;
+  display: grid; grid-template-columns: 1fr auto; gap: 48px; align-items: start;
+}
+.cleo-badges-row { display: flex; gap: 10px; margin-bottom: 24px; flex-wrap: wrap; }
+.cbadge {
+  display: inline-flex; align-items: center; gap: 7px;
+  border-radius: 20px; padding: 5px 13px;
+  font-family: 'IBM Plex Mono', monospace; font-size: 11px;
+  letter-spacing: 0.08em; text-transform: uppercase; font-weight: 400;
+}
+.cbadge-mvp  { background: rgba(255,149,0,0.12); border: 1px solid rgba(255,149,0,0.3);  color: #FF9500; }
+.cbadge-live { background: rgba(48,209,88,0.10);  border: 1px solid rgba(48,209,88,0.25); color: #30D158; }
+.cbadge-solo { background: rgba(191,90,242,0.10); border: 1px solid rgba(191,90,242,0.25);color: #BF5AF2; }
+.cleo-headline {
+  font-family: 'Syne', sans-serif; font-weight: 800;
+  font-size: clamp(36px,4.5vw,58px); line-height: 1.05;
+  color: var(--text); letter-spacing: -0.02em; display: block;
+}
+.cleo-headline-gold {
+  font-family: 'Syne', sans-serif; font-weight: 800;
+  font-size: clamp(36px,4.5vw,58px); line-height: 1.05;
+  background: linear-gradient(135deg,#FF9500 0%,#FFD60A 100%);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  background-clip: text; letter-spacing: -0.02em;
+  display: block; margin-bottom: 24px;
+}
+.cleo-tagline {
+  font-size: 17px; color: var(--text2); line-height: 1.78;
+  max-width: 600px; font-weight: 400;
+}
+.cleo-stats-col { display: flex; flex-direction: column; gap: 14px; min-width: 170px; }
+.cleo-mini {
+  padding: 16px 20px;
+  background: rgba(255,149,0,0.06); border: 1px solid rgba(255,149,0,0.14); border-radius: 14px;
+  display: flex; flex-direction: column; gap: 2px; align-items: flex-end;
+}
+.cleo-mini-val {
+  font-family: 'Syne', sans-serif; font-weight: 800; font-size: 28px;
+  background: linear-gradient(135deg,#FF9500,#FFD60A);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+}
+.cleo-mini-lbl { font-size: 11px; color: var(--text2); font-weight: 500; text-transform: uppercase; letter-spacing: 0.06em; }
+.cleo-mid {
+  display: grid; grid-template-columns: 1fr 1fr;
+  border-top: 1px solid rgba(255,149,0,0.1);
+}
+.cleo-problem { padding: 48px 60px; border-right: 1px solid rgba(255,149,0,0.1); }
+.cleo-solution { padding: 48px 60px; }
+.cleo-blk-label {
+  font-family: 'IBM Plex Mono', monospace; font-size: 10px; font-weight: 400;
+  letter-spacing: 0.14em; text-transform: uppercase; color: #FF9500;
+  margin-bottom: 20px; display: flex; align-items: center; gap: 8px;
+}
+.cleo-blk-label::before { content:''; width:18px; height:2px; background:#FF9500; border-radius:1px; opacity:0.5; }
+.cleo-pull {
+  font-family: 'Syne', sans-serif; font-weight: 700; font-size: 19px;
+  color: var(--text); line-height: 1.45; margin-bottom: 16px; letter-spacing: -0.01em;
+}
+.cleo-prob-body { font-size: 14px; color: var(--text2); line-height: 1.82; }
+.cleo-feats { display: flex; flex-direction: column; gap: 10px; }
+.cleo-feat {
+  display: flex; align-items: flex-start; gap: 12px;
+  padding: 12px 14px; background: rgba(255,149,0,0.035);
+  border: 1px solid rgba(255,149,0,0.08); border-radius: 10px;
+  transition: border-color 0.2s, background 0.2s;
+}
+.cleo-feat:hover { background: rgba(255,149,0,0.07); border-color: rgba(255,149,0,0.2); }
+.cleo-feat-icon {
+  width: 30px; height: 30px; border-radius: 8px;
+  background: rgba(255,149,0,0.12); border: 1px solid rgba(255,149,0,0.2);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 14px; flex-shrink: 0;
+}
+.cleo-feat-name { font-size: 13px; font-weight: 600; color: var(--text); margin-bottom: 2px; }
+.cleo-feat-desc { font-size: 12px; color: var(--text2); line-height: 1.55; }
+.cleo-bottom {
+  padding: 32px 60px 44px; border-top: 1px solid rgba(255,149,0,0.1);
+  display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 24px;
+}
+.cleo-stack { display: flex; flex-wrap: wrap; gap: 8px; }
+.cleo-chip {
+  display: inline-flex; align-items: center; gap: 6px;
+  background: var(--surface2); border: 1px solid var(--border);
+  border-radius: 20px; padding: 5px 12px; font-size: 12px; font-weight: 500; color: var(--text2);
+}
+.cleo-chip img { width: 13px; height: 13px; filter: brightness(0) invert(1); opacity: 0.5; }
+.cleo-ctas { display: flex; gap: 12px; flex-shrink: 0; }
+@keyframes pulseGlowAmber { 0%,100%{box-shadow:0 0 0 0 rgba(255,149,0,0)} 50%{box-shadow:0 0 0 7px rgba(255,149,0,0.35)} }
+@media (max-width: 768px) {
+  #cleo { padding: 0 24px 72px; }
+  .cleo-top { grid-template-columns: 1fr; padding: 36px 28px 28px; }
+  .cleo-stats-col { flex-direction: row; flex-wrap: wrap; }
+  .cleo-mini { align-items: flex-start; min-width: 120px; flex: 1; }
+  .cleo-mid { grid-template-columns: 1fr; }
+  .cleo-problem { border-right: none; border-bottom: 1px solid rgba(255,149,0,0.1); padding: 32px 28px; }
+  .cleo-solution { padding: 32px 28px; }
+  .cleo-bottom { padding: 28px; flex-direction: column; align-items: flex-start; }
+}
+
+/* ── MARQUEE TICKER ── */
+.marquee-wrap {
+  width: 100%; overflow: hidden;
+  background: #111110;
+  padding: 14px 0;
+  position: relative; z-index: 1;
+  border-top: 1px solid rgba(0,0,0,0.10);
+  border-bottom: 1px solid rgba(0,0,0,0.10);
+}
+.marquee-track {
+  display: flex; width: max-content;
+  animation: marqueeScroll 28s linear infinite;
+}
+.marquee-track:hover { animation-play-state: paused; }
+.marquee-inner {
+  display: flex; align-items: center; gap: 20px;
+  padding: 0 20px; white-space: nowrap;
+  font-family: 'IBM Plex Mono', monospace; font-size: 11px; font-weight: 700;
+  letter-spacing: 0.16em; text-transform: uppercase; color: #F0EAD6;
+}
+.mq-dot { color: var(--gold); font-size: 14px; opacity: 0.7; }
+@keyframes marqueeScroll {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+</style>
+</head>
+<body>
+
+<div id="intro"><span class="intro-logo">GS.</span></div>
+<canvas id="bgCanvas"></canvas>
+
+<nav>
+  <a class="nav-logo" href="#hero">GS.</a>
+  <ul class="nav-links">
+    <li><a href="#work" id="nav-work">Work</a></li>
+    <li><a href="#experience" id="nav-experience">Experience</a></li>
+    <li><a href="#about" id="nav-about">About</a></li>
+    <li><a href="#toolkit" id="nav-skills">Skills</a></li>
+    <li><a href="#contact" id="nav-contact">Contact</a></li>
+  </ul>
+  <div class="nav-right">
+    <div class="lang-pill">
+      <button class="lang-btn on" id="lbtn-en" onclick="setLang('en')">EN</button>
+      <div class="lang-sep"></div>
+      <button class="lang-btn" id="lbtn-fr" onclick="setLang('fr')">FR</button>
+    </div>
+    <div class="dlw" id="dlw">
+      <button class="dlbtn" onclick="toggleDl(event)">
+        <span id="nav-dl-text">Download CV</span>
+        <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 4L6 8L10 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+      <div class="dldrop" id="dldrop">
+        <a href="Gokul_CV_EN.pdf" download>
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><rect x="2" y="1" width="9" height="14" rx="1.5" stroke="currentColor" stroke-width="1.3"/><path d="M5 5h5M5 8h5M5 11h3" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>
+          CV — English
+        </a>
+        <a href="Gokul_CV_FR.pdf" download>
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><rect x="2" y="1" width="9" height="14" rx="1.5" stroke="currentColor" stroke-width="1.3"/><path d="M5 5h5M5 8h5M5 11h3" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>
+          CV — Français
+        </a>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<section id="hero">
+  <div class="hero-badge"><span class="pulse-dot"></span><span id="hero-badge">AVAILABLE — Paris, France</span></div>
+  <span class="hero-title-white">GOKUL</span>
+  <span class="hero-title-grad">SRINIVASAN</span>
+  <p class="hero-edu" id="hero-edu">MSc International Business &nbsp;·&nbsp; EMLV Business School &nbsp;·&nbsp; Grande École &nbsp;·&nbsp; Paris</p>
+  <div class="hero-tagline"><span id="typewriter-text"></span><span class="cursor"></span></div>
+  <p class="hero-mono" id="hero-mono">Product Manager · Paris, France · Open to full-time roles</p>
+  <div class="hero-ctas">
+    <a href="#work" class="btn-primary" id="hero-cta1">View Case Studies →</a>
+    <a href="#contact" class="btn-secondary" id="hero-cta2">Get in Touch</a>
+  </div>
+</section>
+
+<section id="stats">
+  <div class="stats-grid rv">
+    <div class="stat-item">
+      <div class="stat-num" id="stat1">0+</div>
+      <div class="stat-label" id="stat1-label">Years XFN Experience</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num" id="stat2">0+</div>
+      <div class="stat-label" id="stat2-label">PM Case Studies</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num" id="stat3">0+</div>
+      <div class="stat-label" id="stat3-label">Live Products</div>
+    </div>
+  </div>
+</section>
+
+<!-- ── MARQUEE TICKER ── -->
+<div class="marquee-wrap">
+  <div class="marquee-track">
+    <span class="marquee-inner">
+      <span>PRODUCT STRATEGY</span><span class="mq-dot">·</span>
+      <span>RETENTION</span><span class="mq-dot">·</span>
+      <span>MONETISATION</span><span class="mq-dot">·</span>
+      <span>AI PRODUCT</span><span class="mq-dot">·</span>
+      <span>GROWTH</span><span class="mq-dot">·</span>
+      <span>A/B TESTING</span><span class="mq-dot">·</span>
+      <span>ROADMAPPING</span><span class="mq-dot">·</span>
+      <span>OKRS</span><span class="mq-dot">·</span>
+      <span>CASE STUDIES</span><span class="mq-dot">·</span>
+      <span>REST API</span><span class="mq-dot">·</span>
+      <span>USER RESEARCH</span><span class="mq-dot">·</span>
+      <span>PRICING STRATEGY</span><span class="mq-dot">·</span>
+    </span>
+    <span class="marquee-inner" aria-hidden="true">
+      <span>PRODUCT STRATEGY</span><span class="mq-dot">·</span>
+      <span>RETENTION</span><span class="mq-dot">·</span>
+      <span>MONETISATION</span><span class="mq-dot">·</span>
+      <span>AI PRODUCT</span><span class="mq-dot">·</span>
+      <span>GROWTH</span><span class="mq-dot">·</span>
+      <span>A/B TESTING</span><span class="mq-dot">·</span>
+      <span>ROADMAPPING</span><span class="mq-dot">·</span>
+      <span>OKRS</span><span class="mq-dot">·</span>
+      <span>CASE STUDIES</span><span class="mq-dot">·</span>
+      <span>REST API</span><span class="mq-dot">·</span>
+      <span>USER RESEARCH</span><span class="mq-dot">·</span>
+      <span>PRICING STRATEGY</span><span class="mq-dot">·</span>
+    </span>
+  </div>
+</div>
+
+<section id="about">
+  <div class="about-inner rv">
+    <span class="section-label" id="about-label">About</span>
+    <h2 class="about-heading" id="about-heading">Built to ship. Wired to think.</h2>
+    <p class="about-body" id="about-body">Two live products shipped solo. Five deep PM case studies. Three years of professional experience across three countries worth of perspective — all before finishing my master's.
+
+I'm Gokul. I'm an MSc International Business student at EMLV, a triple-accredited Grande École in La Défense, and I've spent every week since arriving in Paris building the kind of portfolio most PMs promise but never deliver. Cleo is an AI guide I built for 400,000+ international students navigating French admin. PlayPal is a sports social app connecting local players. Both are live. Both are mine.
+
+Before Paris, I worked in Bengaluru across product support and customer success — where I learned that the best product insights come from the people filing complaints, not the people drawing roadmaps. That's still how I think. Start with the frustrated user. Work backwards.
+
+I'm looking for internship or full-time roles in Product Management, Marketing, or Customer Success in Paris. If you've read this far, you already know I don't wait around. Let's meet — I'll bring the case studies, the prototypes, and probably too much enthusiasm.</p>
+  </div>
+</section>
+
+<section id="experience">
+  <div class="section-header rv">
+    <span class="section-label" id="exp-label">Experience</span>
+    <h2 class="section-title" id="exp-title" style="margin-bottom:48px">Work Experience</h2>
+  </div>
+  <div class="exp-grid">
+    <div class="exp-card rv" style="--exp-accent:linear-gradient(90deg,#C9A84C,#9B6DFF);--exp-dot:#C9A84C;--exp-tag-bg:rgba(201,168,76,0.08);--exp-tag-border:rgba(201,168,76,0.25);--exp-tag-color:#C9A84C">
+      <div class="exp-header">
+        <div>
+          <div class="exp-company">Vxceed Software</div>
+          <div class="exp-role">Product Support Engineer</div>
+        </div>
+        <div class="exp-right">
+          <span class="exp-location">Bengaluru, India</span>
+          <span class="exp-tag">2021 – 2022</span>
+        </div>
+      </div>
+      <div class="exp-achievements">
+        <div class="exp-item"><div class="exp-dot"></div><div class="exp-text">Protected <strong>₹2Cr+ in revenue</strong> by resolving 50+ critical enterprise escalations and building a 50-entry internal knowledge base that cut repeat escalations by <strong>~⅓</strong>.</div></div>
+        <div class="exp-item"><div class="exp-dot"></div><div class="exp-text">Identified <strong>12+ recurring bug patterns</strong> through cross-functional collaboration, translating them into <strong>3 shipped product fixes</strong> that eliminated entire classes of support tickets.</div></div>
+        <div class="exp-item"><div class="exp-dot"></div><div class="exp-text">Acted as the bridge between clients and engineering — filing structured bug reports, running UAT sessions, and ensuring zero-regression releases.</div></div>
+      </div>
+    </div>
+    <div class="exp-card rv d1" style="--exp-accent:linear-gradient(90deg,#00D68F,#9B6DFF);--exp-dot:#00D68F;--exp-tag-bg:rgba(0,214,143,0.08);--exp-tag-border:rgba(0,214,143,0.25);--exp-tag-color:#00D68F">
+      <div class="exp-header">
+        <div>
+          <div class="exp-company">Octopus Era</div>
+          <div class="exp-role">Customer Success Manager</div>
+        </div>
+        <div class="exp-right">
+          <span class="exp-location">Paris, France</span>
+          <span class="exp-tag">2024 – 2025</span>
+        </div>
+      </div>
+      <div class="exp-achievements">
+        <div class="exp-item"><div class="exp-dot"></div><div class="exp-text">Managed a <strong>€16K+ project portfolio</strong> across digital marketing clients, delivering <strong>90%+ on time and on scope</strong> across all active engagements.</div></div>
+        <div class="exp-item"><div class="exp-dot"></div><div class="exp-text">Drove <strong>20%+ account growth</strong> through proactive check-ins, upsell identification, and quarterly business reviews aligned to client OKRs.</div></div>
+        <div class="exp-item"><div class="exp-dot"></div><div class="exp-text">Built client onboarding playbooks and escalation workflows that reduced first-response time and improved CSAT across the account base.</div></div>
+      </div>
+    </div>
+    <div class="exp-card rv d2" style="--exp-accent:linear-gradient(90deg,#4F9EFF,#FF8FAD);--exp-dot:#4F9EFF;--exp-tag-bg:rgba(79,158,255,0.08);--exp-tag-border:rgba(79,158,255,0.25);--exp-tag-color:#4F9EFF">
+      <div class="exp-header">
+        <div>
+          <div class="exp-company">iCell Paris</div>
+          <div class="exp-role">Sales &amp; Marketing Intern</div>
+        </div>
+        <div class="exp-right">
+          <span class="exp-location">Paris, France</span>
+          <span class="exp-tag">2025 – 2026</span>
+        </div>
+      </div>
+      <div class="exp-achievements">
+        <div class="exp-item"><div class="exp-dot"></div><div class="exp-text">Handled <strong>25+ customer interactions per day</strong> in a fast-paced retail environment, consistently hitting daily sales targets.</div></div>
+        <div class="exp-item"><div class="exp-dot"></div><div class="exp-text">Produced <strong>15+ Canva campaigns</strong> across 3 seasonal marketing pushes, contributing to measurable foot traffic increases.</div></div>
+        <div class="exp-item"><div class="exp-dot"></div><div class="exp-text">Tracked <strong>8 competitors weekly</strong>, delivering a monthly market intelligence report used to refine in-store pricing and promotions.</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="education">
+  <div class="section-header rv" style="padding: 0 80px; margin-bottom: 32px;">
+    <span class="section-label" id="edu-label">Education</span>
+    <h2 class="section-title" id="edu-title">Academic Background</h2>
+  </div>
+  <div class="edu-card rv">
+    <div class="edu-top">
+      <div>
+        <div class="edu-tag">Grande École Program · 2023 – 2025</div>
+        <div class="edu-school">École de Management Léonard De Vinci</div>
+        <div class="edu-degree">Master in International Business (MSc)</div>
+        <div class="edu-accreds">
+          <span class="edu-badge">AACSB Accredited</span>
+          <span class="edu-badge">AMBA Accredited</span>
+          <span class="edu-badge">EMFD Accredited</span>
+        </div>
+      </div>
+      <div style="width:72px;height:72px;border-radius:16px;overflow:hidden;border:1px solid rgba(0,0,0,0.08);background:#fff;display:flex;align-items:center;justify-content:center;flex-shrink:0">
+        <img src="https://logo.clearbit.com/devinci.fr" alt="EMLV De Vinci" style="width:60px;height:60px;object-fit:contain" onerror="this.style.display='none';this.parentNode.innerHTML+='<span style=\'font-family:Syne,sans-serif;font-weight:800;font-size:13px;color:#0099B8\'>EMLV</span>'"/>
+      </div>
+    </div>
+    <hr class="edu-divider">
+    <div class="edu-langs-label">Languages</div>
+    <div class="edu-langs">
+      <div class="edu-lang">
+        <span class="edu-flag">EN</span>
+        <div class="edu-lang-info">
+          <span class="edu-lang-name">English</span>
+          <span class="edu-lang-level">Fluent · C2</span>
+        </div>
+      </div>
+      <div class="edu-lang">
+        <span class="edu-flag">FR</span>
+        <div class="edu-lang-info">
+          <span class="edu-lang-name">French</span>
+          <span class="edu-lang-level">A2 Level</span>
+        </div>
+      </div>
+      <div class="edu-lang">
+        <span class="edu-flag">TA</span>
+        <div class="edu-lang-info">
+          <span class="edu-lang-name">Tamil</span>
+          <span class="edu-lang-level">Fluent · Native</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="work">
+  <div class="section-header rv">
+    <span class="section-label" id="work-label">Case Studies</span>
+    <h2 class="section-title" id="work-title">Selected Work</h2>
+  </div>
+  <div class="cases-grid">
+    <div class="case-card rv d1" data-co="joko" onclick="openModal('joko')" tabindex="0" role="button" aria-label="Open Joko case study">
+      <div class="card-shine"></div>
+      <div class="card-header">
+        <span class="card-cat cat-blue" id="card-cat-joko">Retention</span>
+        <div class="card-logo logo-joko">
+          <img src="https://logo.clearbit.com/joko.fr" alt="Joko" />
+        </div>
+      </div>
+      <div class="card-top">
+        <h3 class="card-title" id="card-title-joko">Joko — Cashback Tracker Redesign</h3>
+        <p class="card-desc" id="card-desc-joko">Redesigned the milestone progress experience to break a predictable 30-day churn pattern and drive daily engagement.</p>
+      </div>
+      <div class="card-bottom">
+        <span class="card-company"><strong>Joko</strong> · 4M+ users · +23% retention</span>
+        <div class="card-arrow"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M3 7h8M7 3l4 4-4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      </div>
+    </div>
+    <div class="case-card rv d2" data-co="faume" onclick="openModal('faume')" tabindex="0" role="button" aria-label="Open FAUME case study">
+      <div class="card-shine"></div>
+      <div class="card-header">
+        <span class="card-cat cat-purple" id="card-cat-faume">Onboarding</span>
+        <div class="card-logo logo-faume">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M12 3l9 6v6l-9 6-9-6V9l9-6z" stroke="#BF5AF2" stroke-width="1.8" stroke-linejoin="round"/></svg>
+        </div>
+      </div>
+      <div class="card-top">
+        <h3 class="card-title" id="card-title-faume">FAUME — Tiered Onboarding Strategy</h3>
+        <p class="card-desc" id="card-desc-faume">Replaced a one-size-fits-all onboarding flow with three segment-specific experiences to reduce activation drop-off.</p>
+      </div>
+      <div class="card-bottom">
+        <span class="card-company"><strong>FAUME</strong> · Series A · 3-phase roadmap</span>
+        <div class="card-arrow"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M3 7h8M7 3l4 4-4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      </div>
+    </div>
+    <div class="case-card rv d3" data-co="netflix" onclick="openModal('netflix')" tabindex="0" role="button" aria-label="Open Netflix case study">
+      <div class="card-shine"></div>
+      <div class="card-header">
+        <span class="card-cat cat-red" id="card-cat-netflix">Growth</span>
+        <div class="card-logo logo-netflix">
+          <img src="https://cdn.simpleicons.org/netflix/E50914" alt="Netflix" />
+        </div>
+      </div>
+      <div class="card-top">
+        <h3 class="card-title" id="card-title-netflix">Netflix — Gen Z Retention Strategy</h3>
+        <p class="card-desc" id="card-desc-netflix">Identified five behavioural growth levers to recapture Gen Z attention lost to short-form social platforms.</p>
+      </div>
+      <div class="card-bottom">
+        <span class="card-company"><strong>Netflix</strong> · 270M+ subscribers · 5 growth levers</span>
+        <div class="card-arrow"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M3 7h8M7 3l4 4-4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      </div>
+    </div>
+    <div class="case-card rv d4" data-co="blablacar" onclick="openModal('blablacar')" tabindex="0" role="button" aria-label="Open BlaBlaCar case study">
+      <div class="card-shine"></div>
+      <div class="card-header">
+        <span class="card-cat cat-teal" id="card-cat-blablacar">Analysis</span>
+        <div class="card-logo logo-blablacar">
+          <img src="https://logo.clearbit.com/blablacar.com" alt="BlaBlaCar" />
+        </div>
+      </div>
+      <div class="card-top">
+        <h3 class="card-title" id="card-title-blablacar">BlaBlaCar — EU Market Teardown</h3>
+        <p class="card-desc" id="card-desc-blablacar">Deep-dive competitive analysis across five EU markets surfacing eight ranked growth opportunities.</p>
+      </div>
+      <div class="card-bottom">
+        <span class="card-company"><strong>BlaBlaCar</strong> · 100M+ users · 8 opportunities</span>
+        <div class="card-arrow"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M3 7h8M7 3l4 4-4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      </div>
+    </div>
+    <div class="case-card case-card-full rv d2" data-co="photoroom" onclick="openModal('photoroom')" tabindex="0" role="button" aria-label="Open PhotoRoom case study">
+      <div class="card-shine"></div>
+      <div class="card-header">
+        <div style="display:flex;gap:8px;flex-wrap:wrap">
+          <span class="card-cat" style="background:rgba(255,77,141,0.1);color:#FF4D8D;border:1px solid rgba(255,77,141,0.22);border-radius:20px;padding:4px 12px;font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:0.06em;text-transform:uppercase" id="card-cat-photoroom">Monetisation</span>
+          <span style="font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:0.07em;text-transform:uppercase;color:#6C47FF;padding:4px 12px;background:rgba(108,71,255,0.08);border:1px solid rgba(108,71,255,0.2);border-radius:20px">Pricing Strategy</span>
+        </div>
+        <div style="background:rgba(255,77,141,0.1);border:1px solid rgba(255,77,141,0.2);width:40px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0">
+          <img src="https://cdn.simpleicons.org/photoroom/00B386" style="width:22px;height:22px;object-fit:contain" alt="PhotoRoom"/>
+        </div>
+      </div>
+      <div class="card-top">
+        <h3 class="card-title" id="card-title-photoroom">PhotoRoom — Fixing the AI Compute Cost Crisis</h3>
+        <p class="card-desc" id="card-desc-photoroom">Identified a structural pricing mismatch threatening PhotoRoom's unit economics as generative AI compute costs outpaced flat-rate subscription revenue, and designed a 3-layer fix to protect margin without harming core users.</p>
+      </div>
+      <div class="card-bottom">
+        <span class="card-company"><strong>PhotoRoom</strong> · $94M ARR · 89% YoY growth · Monetisation &amp; Pricing</span>
+        <div class="card-arrow"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M3 7h8M7 3l4 4-4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="built">
+  <div class="section-header rv">
+    <span class="section-label" id="built-label">Apps I Built</span>
+    <h2 class="section-title" id="built-title">Products I Shipped Solo</h2>
+  </div>
+  <div class="built-grid">
+    <div class="app-card rv" style="--app-accent:linear-gradient(90deg,#FF9500,#FFD60A)">
+      <div class="app-icon" style="background:rgba(255,149,0,0.1);border-color:rgba(255,149,0,0.2)">
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="none"><path d="M12 2a4 4 0 014 4v1h1a3 3 0 013 3v4a7 7 0 01-14 0v-4a3 3 0 013-3h1V6a4 4 0 014-4z" stroke="#FF9500" stroke-width="1.8" stroke-linejoin="round"/><circle cx="9.5" cy="13" r="1" fill="#FF9500"/><circle cx="14.5" cy="13" r="1" fill="#FF9500"/><path d="M10 16.5c.5.5 1.2.8 2 .8s1.5-.3 2-.8" stroke="#FF9500" stroke-width="1.5" stroke-linecap="round"/></svg>
+      </div>
+      <div class="app-name" id="built-cleo-name">Cleo</div>
+      <div class="app-tagline" id="built-cleo-desc">AI guide for the 400,000+ international students who land in France each year with zero roadmap. Covers CAF, CPAM, OFII, banking and more — condensed into a 7-day action plan. Solo-built. Fully free.</div>
+      <div class="app-tags">
+        <span class="app-tag">Next.js 14</span>
+        <span class="app-tag">Gemini AI</span>
+        <span class="app-tag">Groq / Llama</span>
+        <span class="app-tag">TypeScript</span>
+        <span class="app-tag">Vercel</span>
+      </div>
+      <div class="app-cta-row">
+        <a href="https://cleo-app-theta.vercel.app" target="_blank" rel="noopener" class="app-cta" style="background:linear-gradient(135deg,#FF9500,#FFD60A);color:#000" id="built-cleo-cta">Launch Cleo →</a>
+        <span class="app-live-dot">● Live</span>
+      </div>
+    </div>
+    <div class="app-card rv d1" style="--app-accent:linear-gradient(90deg,#4F9EFF,#9B6DFF)">
+      <div class="app-icon" style="background:rgba(79,158,255,0.1);border-color:rgba(79,158,255,0.2)">
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="3" stroke="#4F9EFF" stroke-width="1.8"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3" stroke="#4F9EFF" stroke-width="1.8" stroke-linecap="round"/><path d="M5.64 5.64l2.12 2.12M16.24 16.24l2.12 2.12M5.64 18.36l2.12-2.12M16.24 7.76l2.12-2.12" stroke="#4F9EFF" stroke-width="1.6" stroke-linecap="round"/></svg>
+      </div>
+      <div class="app-name" id="built-playpal-name">PlayPal</div>
+      <div class="app-tagline" id="built-playpal-desc">Social sports app for finding local matches and building city-based sports communities. Full PRD, user stories, design, and deployment shipped solo. North Star: weekly active players per city.</div>
+      <div class="app-tags">
+        <span class="app-tag">React</span>
+        <span class="app-tag">Supabase</span>
+        <span class="app-tag">Solo-built</span>
+        <span class="app-tag">Live MVP</span>
+      </div>
+      <div class="app-cta-row">
+        <a href="https://sport-link-app.lovable.app" target="_blank" rel="noopener" class="app-cta" style="background:linear-gradient(135deg,#4F9EFF,#9B6DFF);color:#fff" id="built-playpal-cta">Launch PlayPal →</a>
+        <span class="app-live-dot">● Live</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<section id="toolkit">
+  <div class="rv">
+    <span class="section-label" id="toolkit-label">Toolkit</span>
+    <h2 class="section-title" id="toolkit-title" style="margin-bottom:48px">Tools, Methods &amp; Skills</h2>
+  </div>
+  <div class="toolkit-grid">
+    <div class="toolkit-card rv" style="--card-accent:#C9A84C;--card-glow:rgba(201,168,76,0.14)">
+      <div class="toolkit-card-inner">
+        <div class="toolkit-card-header">
+          <div class="toolkit-card-icon" style="background:rgba(201,168,76,0.1);border:1px solid rgba(201,168,76,0.22)">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#C9A84C" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1.5" fill="#C9A84C" stroke="none"/></svg>
+          </div>
+          <span class="toolkit-card-title" id="toolkit-cat1">Product Management</span>
+        </div>
+        <div class="toolkit-card-chips" id="chipbox-cat1">
+          <div class="chip">Product Strategy</div>
+          <div class="chip">JTBD</div>
+          <div class="chip">RICE Scoring</div>
+          <div class="chip">AARRR</div>
+          <div class="chip">North Star Metric</div>
+          <div class="chip">PRD Writing</div>
+          <div class="chip">Roadmapping</div>
+          <div class="chip">CIRCLES Framework</div>
+          <div class="chip">API Integration</div>
+          <div class="chip">REST API</div>
+        </div>
+      </div>
+    </div>
+    <div class="toolkit-card rv d1" style="--card-accent:#4F9EFF;--card-glow:rgba(79,158,255,0.14)">
+      <div class="toolkit-card-inner">
+        <div class="toolkit-card-header">
+          <div class="toolkit-card-icon" style="background:rgba(79,158,255,0.1);border:1px solid rgba(79,158,255,0.22)">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#4F9EFF" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+          </div>
+          <span class="toolkit-card-title" id="toolkit-cat2">Analytics &amp; Data</span>
+        </div>
+        <div class="toolkit-card-chips" id="chipbox-cat2">
+          <div class="chip">SQL</div>
+          <div class="chip">Mixpanel</div>
+          <div class="chip">Amplitude</div>
+          <div class="chip">Google Analytics</div>
+          <div class="chip">Hotjar</div>
+          <div class="chip">A/B Testing</div>
+          <div class="chip">Funnel Analysis</div>
+          <div class="chip">Data-Driven Decisions</div>
+          <div class="chip">GraphQL</div>
+          <div class="chip">Webhook Integration</div>
+        </div>
+      </div>
+    </div>
+    <div class="toolkit-card rv d2" style="--card-accent:#00D68F;--card-glow:rgba(0,214,143,0.14)">
+      <div class="toolkit-card-inner">
+        <div class="toolkit-card-header">
+          <div class="toolkit-card-icon" style="background:rgba(0,214,143,0.1);border:1px solid rgba(0,214,143,0.22)">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#00D68F" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>
+          </div>
+          <span class="toolkit-card-title" id="toolkit-cat3">Growth &amp; Marketing</span>
+        </div>
+        <div class="toolkit-card-chips" id="chipbox-cat3">
+          <div class="chip">GTM Strategy</div>
+          <div class="chip">Growth Loops</div>
+          <div class="chip">Competitive Analysis</div>
+          <div class="chip">SEO Basics</div>
+          <div class="chip">Canva</div>
+          <div class="chip">Content Strategy</div>
+        </div>
+      </div>
+    </div>
+    <div class="toolkit-card rv d1" style="--card-accent:#9B6DFF;--card-glow:rgba(155,109,255,0.14)">
+      <div class="toolkit-card-inner">
+        <div class="toolkit-card-header">
+          <div class="toolkit-card-icon" style="background:rgba(155,109,255,0.1);border:1px solid rgba(155,109,255,0.22)">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#9B6DFF" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="3"/></svg>
+          </div>
+          <span class="toolkit-card-title" id="toolkit-cat4">Design &amp; Prototyping</span>
+        </div>
+        <div class="toolkit-card-chips" id="chipbox-cat4">
+          <div class="chip">Figma</div>
+          <div class="chip">Miro</div>
+          <div class="chip">User Research</div>
+          <div class="chip">User Stories</div>
+          <div class="chip">AI Prototyping</div>
+          <div class="chip">Wireframing</div>
+        </div>
+      </div>
+    </div>
+    <div class="toolkit-card rv d2" style="--card-accent:#FF8FAD;--card-glow:rgba(255,143,173,0.14)">
+      <div class="toolkit-card-inner">
+        <div class="toolkit-card-header">
+          <div class="toolkit-card-icon" style="background:rgba(255,143,173,0.1);border:1px solid rgba(255,143,173,0.22)">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#FF8FAD" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>
+          </div>
+          <span class="toolkit-card-title" id="toolkit-cat5">Collaboration &amp; Delivery</span>
+        </div>
+        <div class="toolkit-card-chips" id="chipbox-cat5">
+          <div class="chip">Jira</div>
+          <div class="chip">Notion</div>
+          <div class="chip">Slack</div>
+          <div class="chip">HubSpot</div>
+          <div class="chip">Agile / Scrum</div>
+          <div class="chip">Stakeholder Management</div>
+          <div class="chip">Cross-functional Collaboration</div>
+        </div>
+      </div>
+    </div>
+    <div class="toolkit-card rv d3" style="--card-accent:#FF9500;--card-glow:rgba(255,149,0,0.14)">
+      <div class="toolkit-card-inner">
+        <div class="toolkit-card-header">
+          <div class="toolkit-card-icon" style="background:rgba(255,149,0,0.1);border:1px solid rgba(255,149,0,0.22)">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#FF9500" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a7 7 0 017 7c0 2.38-1.19 4.47-3 5.74V17a1 1 0 01-1 1H9a1 1 0 01-1-1v-2.26C6.19 13.47 5 11.38 5 9a7 7 0 017-7z"/><line x1="9" y1="21" x2="15" y2="21"/><line x1="9" y1="17" x2="15" y2="17"/></svg>
+          </div>
+          <span class="toolkit-card-title" id="toolkit-cat6">AI Tools &amp; PM Skills</span>
+        </div>
+        <div class="toolkit-card-chips" id="chipbox-cat6">
+          <div class="chip">Claude Code</div>
+          <div class="chip">Lovable (no-code)</div>
+          <div class="chip">RAG / Vector DBs</div>
+          <div class="chip">Prompt Engineering</div>
+          <div class="chip">LLM Product Design</div>
+          <div class="chip">Agentic Workflows</div>
+          <div class="chip">GPT-4o / Gemini</div>
+          <div class="chip">MCP / Tool Use</div>
+          <div class="chip">AI-assisted PRD</div>
+          <div class="chip">Model Evaluation</div>
+          <div class="chip">AI / LLMs</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="certifications">
+  <div class="rv">
+    <span class="section-label" id="cert-label">Certifications</span>
+    <h2 class="section-title" id="cert-title" style="margin-bottom:36px">Licenses &amp; Certifications</h2>
+  </div>
+  <div class="certs-grid">
+    <div class="cert-card rv" style="--cert-color:#C9A84C">
+      <div class="cert-name">Product Prioritization Micro-Certification (PPC)</div>
+      <div class="cert-issuer">Product School</div>
+      <div class="cert-date">Issued Nov 2025</div>
+    </div>
+    <div class="cert-card rv d1" style="--cert-color:#4F9EFF">
+      <div class="cert-name">Agile Project Management Certification</div>
+      <div class="cert-issuer">PMI Chapitre France</div>
+      <div class="cert-date">Aug 2025 · Expires Dec 2029</div>
+    </div>
+    <div class="cert-card rv d2" style="--cert-color:#00D68F">
+      <div class="cert-name">Project Manager Job Simulation — Siemens Mobility</div>
+      <div class="cert-issuer">Forage</div>
+      <div class="cert-date">Issued May 2025</div>
+    </div>
+    <div class="cert-card rv d1" style="--cert-color:#9B6DFF">
+      <div class="cert-name">Artificial Intelligence: How Project Managers Can Leverage AI</div>
+      <div class="cert-issuer">LinkedIn Learning</div>
+      <div class="cert-date">Issued Mar 2024</div>
+    </div>
+    <div class="cert-card rv d2" style="--cert-color:#9B6DFF">
+      <div class="cert-name">Artificial Intelligence for Project Managers</div>
+      <div class="cert-issuer">LinkedIn Learning</div>
+      <div class="cert-date">Issued Mar 2024</div>
+    </div>
+    <div class="cert-card rv d3" style="--cert-color:#9B6DFF">
+      <div class="cert-name">Business Development Foundations</div>
+      <div class="cert-issuer">LinkedIn Learning</div>
+      <div class="cert-date">Issued Mar 2024</div>
+    </div>
+    <div class="cert-card rv" style="--cert-color:#FF9500">
+      <div class="cert-name">Google Tag Manager Fundamentals</div>
+      <div class="cert-issuer">Enablers.io</div>
+      <div class="cert-date">Apr 2024 · Expires Nov 2027</div>
+    </div>
+    <div class="cert-card rv d1" style="--cert-color:#FF9500">
+      <div class="cert-name">Google Tag Manager</div>
+      <div class="cert-issuer">Enablers.io</div>
+      <div class="cert-date">Issued Apr 2024</div>
+    </div>
+    <div class="cert-card rv d2" style="--cert-color:#FF8FAD">
+      <div class="cert-name">HubSpot Inbound Certification</div>
+      <div class="cert-issuer">HubSpot Academy</div>
+      <div class="cert-date">Issued Nov 2023</div>
+    </div>
+    <div class="cert-card rv d3" style="--cert-color:#FF8FAD">
+      <div class="cert-name">HubSpot Sales Software</div>
+      <div class="cert-issuer">HubSpot Academy</div>
+      <div class="cert-date">Issued Nov 2023</div>
+    </div>
+    <div class="cert-card rv" style="--cert-color:#C9A84C">
+      <div class="cert-name">Negotiation Foundations</div>
+      <div class="cert-issuer">LinkedIn Learning</div>
+      <div class="cert-date">Issued Nov 2023</div>
+    </div>
+    <div class="cert-card rv d1" style="--cert-color:#4F9EFF">
+      <div class="cert-name">Sales Management</div>
+      <div class="cert-issuer">HubSpot Academy</div>
+      <div class="cert-date">Issued Nov 2023</div>
+    </div>
+  </div>
+</section>
+
+<section id="contact">
+  <div class="contact-inner">
+    <div class="contact-top">
+      <div class="contact-left rv">
+        <div class="contact-available">
+          <span class="contact-available-dot"></span>
+          Available for opportunities
+        </div>
+        <h2 class="contact-heading" id="contact-heading">Let's build<br>something <span>great.</span></h2>
+        <p class="contact-sub">Open to senior PM roles, freelance strategy work, and interesting conversations. Based in Paris, open to remote.</p>
+      </div>
+      <div class="contact-right rv d2">
+        <a href="mailto:gokul26222@gmail.com" class="contact-email-big">
+          <svg width="20" height="20" viewBox="0 0 18 18" fill="none"><rect x="2" y="4" width="14" height="10" rx="2" stroke="currentColor" stroke-width="1.4"/><path d="M2 6l7 5 7-5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
+          gokul26222@gmail.com
+        </a>
+        <div class="contact-links">
+          <a href="https://www.linkedin.com/in/gokulsrini" target="_blank" rel="noopener" class="contact-link">
+            <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><rect x="2" y="2" width="14" height="14" rx="2.5" stroke="currentColor" stroke-width="1.4"/><path d="M5.5 8v5M5.5 5.5v.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><path d="M8.5 13v-2.5c0-1.1.9-2 2-2s2 .9 2 2V13" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/><path d="M8.5 9v4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
+            linkedin.com/in/gokulsrini
+          </a>
+          <a href="https://wa.me/33745432395" target="_blank" rel="noopener" class="contact-link">
+            <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M4.5 3A1.5 1.5 0 003 4.5v.5c0 5.523 4.477 10 10 10h.5A1.5 1.5 0 0015 13.5v-1.382a1.5 1.5 0 00-.894-1.369l-1.895-.838a1.5 1.5 0 00-1.737.385l-.5.57A7.01 7.01 0 016.134 7.026l.57-.5a1.5 1.5 0 00.385-1.737l-.838-1.895A1.5 1.5 0 004.882 3H4.5z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg>
+            +33 07 45 43 23 95
+          </a>
+        </div>
+      </div>
+    </div>
+    <div class="contact-divider"></div>
+    <div class="rv d1">
+      <span class="section-label" style="border-color:rgba(184,146,42,0.28);background:rgba(184,146,42,0.10);color:#C9A84C" id="contact-cv-label">Download CV</span>
+      <div class="cv-cards" style="margin-top:8px">
+        <a href="Gokul_CV_EN.pdf" download class="cv-card">
+          <div class="cv-card-left">
+            <div class="cv-icon cv-icon-en">
+              <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><rect x="4" y="2" width="10" height="16" rx="1.5" stroke="#0071E3" stroke-width="1.4"/><path d="M7 7h6M7 10h6M7 13h4" stroke="#0071E3" stroke-width="1.4" stroke-linecap="round"/></svg>
+            </div>
+            <div class="cv-card-info">
+              <span class="cv-card-title">Gokul_CV_EN.pdf</span>
+              <span class="cv-card-sub" id="cv-en-sub">English version</span>
+            </div>
+          </div>
+          <div class="cv-card-dl">
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 2v7M4 6l3 3 3-3M2 10v1.5A.5.5 0 002.5 12h9a.5.5 0 00.5-.5V10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <span id="cv-dl-text">Download</span>
+          </div>
+        </a>
+        <a href="Gokul_CV_FR.pdf" download class="cv-card">
+          <div class="cv-card-left">
+            <div class="cv-icon cv-icon-fr">
+              <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><rect x="4" y="2" width="10" height="16" rx="1.5" stroke="#BF5AF2" stroke-width="1.4"/><path d="M7 7h6M7 10h6M7 13h4" stroke="#BF5AF2" stroke-width="1.4" stroke-linecap="round"/></svg>
+            </div>
+            <div class="cv-card-info">
+              <span class="cv-card-title">Gokul_CV_FR.pdf</span>
+              <span class="cv-card-sub" id="cv-fr-sub">Version française</span>
+            </div>
+          </div>
+          <div class="cv-card-dl">
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 2v7M4 6l3 3 3-3M2 10v1.5A.5.5 0 002.5 12h9a.5.5 0 00.5-.5V10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <span id="cv-fr-dl-text">Télécharger</span>
+          </div>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <span class="footer-left" id="footer-left">© 2026 Gokul Srinivasan — Built for impact.</span>
+  <span class="footer-right">Paris, France</span>
+</footer>
+
+<div class="modal-overlay" id="modal-overlay" onclick="handleOverlayClick(event)">
+  <div class="modal-card" id="modal-card">
+    <div class="modal-banner" id="modal-banner">
+      <div class="modal-banner-bg" id="modal-banner-bg"></div>
+      <button class="modal-close" onclick="closeModal()" aria-label="Close">
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 2l10 10M12 2L2 12" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+      </button>
+      <div class="modal-logo-row">
+        <div class="modal-logo-icon" id="modal-logo-icon"></div>
+        <span class="modal-cat" id="m-cat"></span>
+      </div>
+      <h2 class="modal-title" id="m-title"></h2>
+    </div>
+    <div class="modal-body">
+      <div id="modal-standard-content">
+      <p class="modal-company" id="m-company"></p>
+      <div class="modal-block">
+        <span class="modal-block-label" id="m-prob-label">Problem</span>
+        <p id="m-problem"></p>
+      </div>
+      <div class="modal-block">
+        <span class="modal-block-label" id="m-app-label">Approach</span>
+        <ul id="m-approach"></ul>
+      </div>
+      <div class="modal-block">
+        <span class="modal-block-label" id="m-imp-label">Impact</span>
+        <div class="modal-metrics" id="m-metrics"></div>
+      </div>
+      <div class="modal-footer" id="m-footer"></div>
+      </div>
+      <div id="m-rich-content"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+const LANG = {
+  en: {
+    'hero-badge': 'AVAILABLE — Paris, France',
+    'hero-mono': 'Product Manager · Paris, France · Open to full-time roles',
+    'hero-cta1': 'View Case Studies →',
+    'hero-cta2': 'Get in Touch',
+    'nav-work': 'Work',
+    'nav-experience': 'Experience',
+    'nav-about': 'About',
+    'nav-skills': 'Skills',
+    'nav-contact': 'Contact',
+    'nav-dl-text': 'Download CV',
+    'stat1-label': 'Years XFN Experience',
+    'stat2-label': 'PM Case Studies',
+    'stat3-label': 'Live Products',
+    'exp-label': 'Experience',
+    'exp-title': 'Work Experience',
+    'about-label': 'About',
+    'about-heading': 'Built to ship. Wired to think.',
+    'about-body': "Two live products shipped solo. Five deep PM case studies. Three years of professional experience across three countries worth of perspective — all before finishing my master's.\n\nI'm Gokul. I'm an MSc International Business student at EMLV, a triple-accredited Grande École in La Défense, and I've spent every week since arriving in Paris building the kind of portfolio most PMs promise but never deliver. Cleo is an AI guide I built for 400,000+ international students navigating French admin. PlayPal is a sports social app connecting local players. Both are live. Both are mine.\n\nBefore Paris, I worked in Bengaluru across product support and customer success — where I learned that the best product insights come from the people filing complaints, not the people drawing roadmaps. That's still how I think. Start with the frustrated user. Work backwards.\n\nI'm looking for internship or full-time roles in Product Management, Marketing, or Customer Success in Paris. If you've read this far, you already know I don't wait around. Let's meet — I'll bring the case studies, the prototypes, and probably too much enthusiasm.",
+    'work-label': 'Case Studies',
+    'work-title': 'Selected Work',
+    'card-cat-joko': 'Retention · Joko',
+    'card-title-joko': 'Cashback Progress Tracker Redesign',
+    'card-desc-joko': 'Redesigned the milestone progress experience to break a predictable 30-day churn pattern and drive daily engagement.',
+    'card-cat-faume': 'Onboarding · FAUME',
+    'card-title-faume': 'Tiered Onboarding Strategy',
+    'card-desc-faume': 'Replaced a one-size-fits-all onboarding flow with three segment-specific experiences to reduce activation drop-off.',
+    'card-cat-netflix': 'Growth · Netflix',
+    'card-title-netflix': 'Gen Z Retention Strategy',
+    'card-desc-netflix': 'Identified five behavioural growth levers to recapture Gen Z attention lost to short-form social platforms.',
+    'card-cat-blablacar': 'Analysis · BlaBlaCar',
+    'card-title-blablacar': 'European Market Teardown',
+    'card-desc-blablacar': 'Deep-dive competitive analysis across five EU markets surfacing eight ranked growth opportunities.',
+    'nav-cleo': 'Cleo',
+    'card-cat-cleo': 'Founder · MVP Shipped',
+    'card-title-cleo': 'Cleo — From Problem to Live AI Product',
+    'card-desc-cleo': 'I spotted the gap 400,000 international students face in France every year — no guide, no roadmap, no help. I designed the product end-to-end and shipped a solo AI assistant in weeks. Live, used, and fully free.',
+    'card-cat-photoroom': 'Monetisation',
+    'card-title-photoroom': 'PhotoRoom — Fixing the AI Compute Cost Crisis',
+    'card-desc-photoroom': 'Identified a structural pricing mismatch threatening PhotoRoom\'s unit economics as generative AI compute costs outpaced flat-rate subscription revenue, and designed a 3-layer fix to protect margin without harming core users.',
+    'built-label': 'Apps I Built',
+    'built-title': 'Products I Shipped Solo',
+    'built-cleo-name': 'Cleo',
+    'built-cleo-desc': 'AI guide for the 400,000+ international students who land in France each year with zero roadmap. Covers CAF, CPAM, OFII, banking and more — condensed into a 7-day action plan. Solo-built. Fully free.',
+    'built-cleo-cta': 'Launch Cleo →',
+    'built-playpal-name': 'PlayPal',
+    'built-playpal-desc': 'Social sports app for finding local matches and building city-based sports communities. Full PRD, user stories, design, and deployment shipped solo. North Star: weekly active players per city.',
+    'built-playpal-cta': 'Launch PlayPal →',
+    'playpal-badge': 'Founder · Solo-built',
+    'playpal-title': 'PlayPal',
+    'playpal-desc': 'A social sports app I took from zero to live — full PRD, user stories, design, and deployment done solo. PlayPal lets players find local matches, join sessions, and build city-based sports communities. Built with React + Supabase. North Star: weekly active players per city.',
+    'playpal-cta': 'Launch App →',
+    'cleo-h1': 'Navigate Paris.',
+    'cleo-h2': 'Not bureaucracy.',
+    'cleo-tagline': "400,000 international students land in France every year with zero guide. I lived it, mapped every step, and shipped the fix — an AI assistant that condenses 4 weeks of French bureaucracy into a clear 7-day action plan.",
+    'cleo-stat1-lbl': 'Students/year in France',
+    'cleo-stat2-lbl': 'Services covered',
+    'cleo-stat3-lbl': 'Days saved per student',
+    'cleo-prob-label': 'The Problem',
+    'cleo-pull': '"Your first month in Paris should be exciting. Not spent in waiting rooms."',
+    'cleo-prob-body': "Every year, 400,000+ international students land in France and immediately face a wall of bureaucracy — CAF, CPAM, OFII, bank accounts, prefecture appointments — all in a language they barely speak, with no roadmap. Most spend 3–4 weeks just figuring out where to start. I lived this problem firsthand. Then I built the solution.",
+    'cleo-sol-label': 'What Cleo Does — MVP v1',
+    'cf1-name': 'AI Chat Assistant',
+    'cf1-desc': 'Ask anything about settling in Paris — answered in plain English. Dual AI (Gemini + Groq) with automatic failover for 99.9% uptime.',
+    'cf2-name': '24 Services Portal',
+    'cf2-desc': 'Prefecture, CAF, CPAM, OFII, Navigo, banks and more — every service with direct booking links, tips, and location info.',
+    'cf3-name': 'Document Scanner',
+    'cf3-desc': 'Upload any French administrative letter. Get an instant English translation and a list of action items to complete.',
+    'cf4-name': 'Personalised 7-Day Plan',
+    'cf4-desc': '5-step onboarding (nationality, university, visa, budget, housing) generates a day-by-day settlement checklist tailored to you.',
+    'cleo-cta-main': 'Launch Cleo →',
+    'cleo-cta-gh': 'View on GitHub',
+    'toolkit-label': 'Toolkit',
+    'toolkit-title': 'Tools, Methods & Skills',
+    'toolkit-cat1': 'Product Management',
+    'toolkit-cat2': 'Analytics & Data',
+    'toolkit-cat3': 'Growth & Marketing',
+    'toolkit-cat4': 'Design & Prototyping',
+    'toolkit-cat5': 'Collaboration & Delivery',
+    'toolkit-cat6': 'AI Tools & PM Skills',
+    'cert-label': 'Certifications',
+    'cert-title': 'Licenses & Certifications',
+    'contact-heading': "Let's\ntalk.",
+    'contact-cv-label': 'Download CV',
+    'cv-en-sub': 'English version',
+    'cv-fr-sub': 'French version',
+    'cv-dl-text': 'Download',
+    'cv-fr-dl-text': 'Download',
+    'footer-left': '© 2026 Gokul Srinivasan — Built for impact.',
+    'typewriter': 'I spotted a gap 400,000 students face in France — and shipped the AI product to fix it.'
+  },
+  fr: {
+    'hero-badge': 'DISPONIBLE — Paris, France',
+    'hero-mono': "Product Manager · Paris, France · À la recherche d'un poste",
+    'hero-cta1': 'Voir les études de cas →',
+    'hero-cta2': 'Me contacter',
+    'nav-work': 'Projets',
+    'nav-experience': 'Expérience',
+    'nav-about': 'À propos',
+    'nav-skills': 'Compétences',
+    'nav-contact': 'Contact',
+    'nav-dl-text': 'Télécharger CV',
+    'stat1-label': "Années d'expérience XFN",
+    'stat2-label': 'Études de cas PM',
+    'stat3-label': 'Produits en ligne',
+    'exp-label': 'Expérience',
+    'exp-title': 'Expérience professionnelle',
+    'about-label': 'À propos',
+    'about-heading': 'Construit pour livrer. Câblé pour penser.',
+    'about-body': "Deux produits en ligne livrés en solo. Cinq études de cas PM approfondies. Trois ans d'expérience professionnelle avec la perspective de trois pays — tout ça avant de finir mon master.\n\nJe m'appelle Gokul. Je suis étudiant en MSc International Business à l'EMLV, une Grande École triple accréditée à La Défense, et j'ai consacré chaque semaine depuis mon arrivée à Paris à construire le portfolio que la plupart des PMs promettent sans jamais livrer. Cleo est un guide IA que j'ai créé pour 400 000+ étudiants internationaux naviguant dans l'administration française. PlayPal est une application sociale sportive qui connecte les joueurs locaux. Les deux sont en ligne. Les deux sont à moi.\n\nAvant Paris, j'ai travaillé à Bengaluru dans le support produit et le customer success — où j'ai appris que les meilleures insights produit viennent des personnes qui déposent des plaintes, pas de celles qui dessinent des roadmaps. C'est encore ma façon de penser. Commencer par l'utilisateur frustré. Remonter à la source.\n\nJe cherche un stage ou un poste en CDI en Product Management, Marketing ou Customer Success à Paris. Si vous avez lu jusqu'ici, vous savez déjà que je n'attends pas. Rencontrons-nous — j'apporterai les études de cas, les prototypes, et probablement trop d'enthousiasme.",
+    'work-label': 'Études de cas',
+    'work-title': 'Projets sélectionnés',
+    'card-cat-joko': 'Rétention · Joko',
+    'card-title-joko': 'Refonte du suivi de progression cashback',
+    'card-desc-joko': "Refonte de l'expérience de suivi des jalons pour briser un cycle de désengagement prévisible à 30 jours et stimuler l'engagement quotidien.",
+    'card-cat-faume': 'Onboarding · FAUME',
+    'card-title-faume': "Stratégie d'onboarding par segment",
+    'card-desc-faume': "Remplacement d'un flux d'onboarding unique par trois parcours spécifiques à chaque segment pour réduire le taux d'abandon à l'activation.",
+    'card-cat-netflix': 'Croissance · Netflix',
+    'card-title-netflix': 'Stratégie de rétention Gen Z',
+    'card-desc-netflix': "Identification de cinq leviers comportementaux pour reconquérir l'attention de la Gen Z perdue au profit des plateformes sociales à formats courts.",
+    'card-cat-blablacar': 'Analyse · BlaBlaCar',
+    'card-title-blablacar': 'Analyse concurrentielle européenne',
+    'card-desc-blablacar': "Analyse concurrentielle approfondie sur cinq marchés européens révélant huit opportunités de croissance classées par priorité.",
+    'nav-cleo': 'Cleo',
+    'card-cat-cleo': 'Fondateur · MVP livré',
+    'card-title-cleo': 'Cleo — Du problème au produit IA en ligne',
+    'card-desc-cleo': "J'ai repéré le vide que 400 000 étudiants internationaux affrontent chaque année en France — sans guide, sans feuille de route, sans aide. J'ai conçu le produit de A à Z et livré un assistant IA solo en quelques semaines. En ligne, utilisé, totalement gratuit.",
+    'card-cat-photoroom': 'Monétisation',
+    'card-title-photoroom': "PhotoRoom — Résoudre la crise des coûts IA",
+    'card-desc-photoroom': "Identification d'un décalage structurel de tarification menaçant les économies unitaires de PhotoRoom, et conception d'un correctif en 3 couches pour protéger la marge sans nuire aux utilisateurs principaux.",
+    'built-label': 'Apps créées',
+    'built-title': 'Produits livrés en solo',
+    'built-cleo-name': 'Cleo',
+    'built-cleo-desc': "Guide IA pour les 400 000+ étudiants internationaux qui arrivent en France chaque année sans feuille de route. Couvre la CAF, CPAM, OFII, banque et plus encore — condensé en un plan d'action de 7 jours. Construit en solo. Entièrement gratuit.",
+    'built-cleo-cta': 'Lancer Cleo →',
+    'built-playpal-name': 'PlayPal',
+    'built-playpal-desc': "Application sportive sociale pour trouver des matchs locaux et créer des communautés sportives par ville. PRD complet, user stories, design et déploiement en solo. North Star : joueurs actifs hebdomadaires par ville.",
+    'built-playpal-cta': 'Lancer PlayPal →',
+    'playpal-badge': 'Fondateur · Solo',
+    'playpal-title': 'PlayPal',
+    'playpal-desc': "Une application sportive sociale que j'ai portée de zéro au live — PRD, user stories, design et déploiement en solo. PlayPal permet aux joueurs de trouver des matchs locaux, rejoindre des sessions et créer des communautés sportives par ville. Développée avec React + Supabase. North Star : joueurs actifs hebdomadaires par ville.",
+    'playpal-cta': "Lancer l'app →",
+    'cleo-h1': 'Naviguez à Paris.',
+    'cleo-h2': 'Pas dans la bureaucratie.',
+    'cleo-tagline': "400 000 étudiants internationaux arrivent en France sans aucun guide. J'ai vécu ce problème, cartographié chaque étape, et construit la solution — un assistant IA qui condense 4 semaines de bureaucratie française en un plan d'action clair sur 7 jours.",
+    'cleo-stat1-lbl': 'Étudiants/an en France',
+    'cleo-stat2-lbl': 'Services couverts',
+    'cleo-stat3-lbl': 'Jours économisés',
+    'cleo-prob-label': 'Le problème',
+    'cleo-pull': '« Votre premier mois à Paris devrait être exaltant. Pas passé en salle d\'attente. »',
+    'cleo-prob-body': "Chaque année, plus de 400 000 étudiants internationaux arrivent en France et font face à un mur de bureaucratie — CAF, CPAM, OFII, comptes bancaires, rendez-vous en préfecture — dans une langue qu'ils maîtrisent à peine, sans feuille de route. La plupart passent 3 à 4 semaines à chercher par où commencer. J'ai vécu ce problème de l'intérieur. Puis j'ai construit la solution.",
+    'cleo-sol-label': 'Ce que fait Cleo — MVP v1',
+    'cf1-name': 'Assistant Chat IA',
+    'cf1-desc': "Posez n'importe quelle question sur l'installation à Paris — réponse en anglais clair. Double IA (Gemini + Groq) avec basculement automatique pour 99,9 % de disponibilité.",
+    'cf2-name': 'Portail 24 services',
+    'cf2-desc': "Préfecture, CAF, CPAM, OFII, Navigo, banques et plus — chaque service avec liens de réservation directs, conseils et informations de localisation.",
+    'cf3-name': 'Scanner de documents',
+    'cf3-desc': "Chargez n'importe quelle lettre administrative française. Obtenez une traduction instantanée en anglais et une liste d'actions à effectuer.",
+    'cf4-name': 'Plan personnalisé 7 jours',
+    'cf4-desc': "Un onboarding en 5 étapes (nationalité, université, visa, budget, logement) génère une checklist d'installation jour par jour adaptée à votre profil.",
+    'cleo-cta-main': 'Lancer Cleo →',
+    'cleo-cta-gh': 'Voir sur GitHub',
+    'toolkit-label': 'Boîte à outils',
+    'toolkit-title': 'Outils, méthodes et compétences',
+    'toolkit-cat1': 'Product Management',
+    'toolkit-cat2': 'Analytics et données',
+    'toolkit-cat3': 'Croissance et marketing',
+    'toolkit-cat4': 'Design et prototypage',
+    'toolkit-cat5': 'Collaboration et livraison',
+    'toolkit-cat6': 'Outils IA &amp; compétences PM',
+    'cert-label': 'Certifications',
+    'cert-title': 'Licences et certifications',
+    'contact-heading': "Parlons\nensemble.",
+    'contact-cv-label': 'Télécharger CV',
+    'cv-en-sub': 'Version anglaise',
+    'cv-fr-sub': 'Version française',
+    'cv-dl-text': 'Télécharger',
+    'cv-fr-dl-text': 'Télécharger',
+    'footer-left': "© 2026 Gokul Srinivasan — Conçu pour l'impact.",
+    'typewriter': "J'ai repéré un problème que 400 000 étudiants vivent en France — et j'ai construit l'IA pour le résoudre."
+  }
+};
+
+const MODALS = {
+  joko: {
+    en: {
+      cat: 'Retention · Joko',
+      catColor: '#0071E3',
+      title: 'Cashback Progress Tracker Redesign',
+      company: "Joko — France's leading cashback rewards app · 4M+ users",
+      problem: 'Users were disengaging before reaching cashback milestones because the progress tracker lacked visibility and feedback loops. This created a predictable 30-day churn pattern.',
+      approach: [
+        'Mapped the full habit loop — cue, routine, reward — across the cashback journey',
+        'Redesigned progress indicators to make milestone proximity visible at a glance',
+        'Introduced streak mechanics and micro-celebration moments to reinforce daily use',
+        'Ran A/B tests on progress bar visibility and reward framing'
+      ],
+      metrics: ['+23%|Retention', '↓ 30-Day|Churn Rate', '↑ DAU|Daily Users'],
+      cta: { label: 'Read Full Case Study →', href: 'https://www.notion.so/JOKO-PM-Case-StudyBy-Gokul-March-2026-33389ac134e780bb9231fb0a821c9ab2' }
+    },
+    fr: {
+      cat: 'Rétention · Joko',
+      catColor: '#0071E3',
+      title: 'Refonte du suivi de progression cashback',
+      company: 'Joko — principale application de cashback en France · 4M+ utilisateurs',
+      problem: "Les utilisateurs se désengageaient avant d'atteindre leurs jalons de cashback, car le suivi de progression manquait de visibilité et de boucles de rétroaction. Ce phénomène créait un cycle de désabonnement prévisible à 30 jours.",
+      approach: [
+        "Cartographie de la boucle d'habitude complète — déclencheur, routine, récompense — sur le parcours cashback",
+        "Refonte des indicateurs de progression pour rendre la proximité des jalons visible en un coup d'œil",
+        "Introduction de mécaniques de série et de micro-célébrations pour renforcer l'utilisation quotidienne",
+        "Réalisation de tests A/B sur la visibilité de la barre de progression et le cadrage des récompenses"
+      ],
+      metrics: ['+23%|Rétention', '↓ Churn|30 Jours', '↑ DAU|Engagement'],
+      cta: { label: "Lire l'étude de cas complète →", href: 'https://www.notion.so/JOKO-PM-Case-StudyBy-Gokul-March-2026-33389ac134e780bb9231fb0a821c9ab2' }
+    }
+  },
+  faume: {
+    en: {
+      cat: 'Onboarding · FAUME',
+      catColor: '#BF5AF2',
+      title: 'Tiered Onboarding Strategy',
+      company: 'FAUME — Pre-owned luxury fashion resale platform · Series A',
+      problem: "FAUME's single onboarding flow served buyers, sellers, and brand partners equally — creating friction for each segment. Users with different goals received the same generic experience, causing drop-off before activation.",
+      approach: [
+        'Conducted JTBD interviews across 3 user segments',
+        'Mapped distinct activation milestones per segment',
+        'Designed segment-specific onboarding flows using progressive disclosure',
+        'Delivered a 3-phase implementation roadmap: discovery, activation, retention'
+      ],
+      metrics: ['3|User Segments', '3-Phase|Roadmap', '↓ Drop-off|At Activation'],
+      cta: { label: 'Read Full Case Study on Notion →', href: 'https://www.notion.so/FAUME-Case-Study' }
+    },
+    fr: {
+      cat: 'Onboarding · FAUME',
+      catColor: '#BF5AF2',
+      title: "Stratégie d'onboarding par segment",
+      company: 'FAUME — Plateforme de revente de mode de luxe de seconde main · Série A',
+      problem: "Le flux d'onboarding unique de FAUME s'adressait à la fois aux acheteurs, aux vendeurs et aux partenaires marques — créant des frictions pour chaque segment. Des utilisateurs aux objectifs différents recevaient la même expérience générique, entraînant un abandon avant l'activation.",
+      approach: [
+        "Conduite d'entretiens JTBD auprès de 3 segments utilisateurs",
+        "Cartographie des jalons d'activation distincts par segment",
+        "Conception de flux d'onboarding spécifiques à chaque segment via la divulgation progressive",
+        "Livraison d'une feuille de route d'implémentation en 3 phases : découverte, activation, rétention"
+      ],
+      metrics: ['3|Segments', '3 Phases|Feuille de route', "↓ Abandon|À l'activation"],
+      cta: { label: "Lire l'étude de cas complète sur Notion →", href: 'https://www.notion.so/FAUME-Case-Study' }
+    }
+  },
+  netflix: {
+    en: {
+      cat: 'Growth · Netflix',
+      catColor: '#30D158',
+      title: 'Gen Z Retention Strategy',
+      company: 'Netflix — Global streaming platform · 270M+ subscribers',
+      problem: "Netflix's content discovery is built for lean-back viewing — a behaviour increasingly misaligned with how Gen Z consumes media. TikTok, YouTube Shorts, and social-first platforms were capturing attention that Netflix was losing.",
+      approach: [
+        'Benchmarked content discovery UX across TikTok, YouTube, BeReal, and Letterboxd',
+        'Identified 5 Gen Z behavioural patterns driving platform preference',
+        'Designed a social engagement layer: watch parties, reactions, shareable micro-clips',
+        'Proposed a creator-driven short format for discovery and trial'
+      ],
+      metrics: ['5|Behavioral Levers', '4|Platforms Benchmarked', 'Social Layer|Designed'],
+      cta: { label: 'Read Full Case Study on Notion →', href: 'https://www.notion.so/Netflix-PM-Case-Study-How-Netflix-Can-Win-Back-Gen-Z-34989ac134e7805da6ecef611919f684' }
+    },
+    fr: {
+      cat: 'Croissance · Netflix',
+      catColor: '#30D158',
+      title: 'Stratégie de rétention Gen Z',
+      company: 'Netflix — Plateforme de streaming mondiale · 270M+ abonnés',
+      problem: "La découverte de contenu sur Netflix est conçue pour une consommation passive — un comportement de plus en plus décalé par rapport à la façon dont la Gen Z consomme les médias. TikTok, YouTube Shorts et les plateformes sociales captaient une attention que Netflix perdait.",
+      approach: [
+        "Analyse comparative de l'UX de découverte de contenu sur TikTok, YouTube, BeReal et Letterboxd",
+        '5 comportements Gen Z identifiés comme moteurs de préférence de plateforme',
+        "Conception d'une couche d'engagement social : soirées visionnage, réactions, micro-clips partageables",
+        "Proposition d'un format court piloté par des créateurs pour la découverte et l'essai"
+      ],
+      metrics: ['5|Leviers comportementaux', '4|Plateformes analysées', 'Couche sociale|Conçue'],
+      cta: { label: "Lire l'étude de cas complète sur Notion →", href: 'https://www.notion.so/Netflix-PM-Case-Study-How-Netflix-Can-Win-Back-Gen-Z-34989ac134e7805da6ecef611919f684' }
+    }
+  },
+  blablacar: {
+    en: {
+      cat: 'Analysis · BlaBlaCar',
+      catColor: '#FF9F0A',
+      title: 'European Market Teardown',
+      company: "BlaBlaCar — Europe's largest ridesharing marketplace · 100M+ users · 22 countries",
+      problem: 'Post-COVID travel recovery and rising EV adoption were reshaping European mobility. BlaBlaCar faced new competitive pressure from rail aggregators and emerging rideshare platforms — identifying the next growth wave was critical.',
+      approach: [
+        'Full product teardown: user flows, trust systems, pricing mechanics, driver incentives',
+        'Competitive mapping against Flixbus, SNCF Connect, Blablabus, and Karos',
+        'Identified underserved corridors and segments across 5 EU markets',
+        'Mapped 8 growth opportunities ranked by effort vs. impact'
+      ],
+      metrics: ['8|Growth Opportunities', '5|EU Markets', '4|Competitors Mapped'],
+      cta: { label: 'Read Full Case Study on Notion →', href: 'https://www.notion.so/BlaBlaCar-Case-Study' }
+    },
+    fr: {
+      cat: 'Analyse · BlaBlaCar',
+      catColor: '#FF9F0A',
+      title: 'Analyse concurrentielle européenne',
+      company: "BlaBlaCar — Premier marché de covoiturage d'Europe · 100M+ utilisateurs · 22 pays",
+      problem: "La reprise des voyages post-COVID et l'adoption croissante des véhicules électriques reconfiguraient la mobilité européenne. BlaBlaCar faisait face à une pression concurrentielle inédite de la part des agrégateurs ferroviaires et des nouvelles plateformes de covoiturage — identifier la prochaine vague de croissance était essentiel.",
+      approach: [
+        'Analyse complète du produit : flux utilisateurs, systèmes de confiance, mécanique tarifaire, incitations conducteurs',
+        'Cartographie concurrentielle face à Flixbus, SNCF Connect, Blablabus et Karos',
+        'Identification des corridors et segments sous-exploités dans 5 marchés européens',
+        '8 opportunités de croissance cartographiées et classées par effort vs. impact'
+      ],
+      metrics: ['8|Opportunités', '5|Marchés EU', '4|Concurrents analysés'],
+      cta: { label: "Lire l'étude de cas complète sur Notion →", href: 'https://www.notion.so/BlaBlaCar-Case-Study' }
+    }
+  },
+  cleo: {
+    en: {
+      cat: 'Founder · MVP v1 Shipped',
+      catColor: '#FF9500',
+      title: 'Cleo — From Zero to Live AI Product',
+      company: 'Cleo · Solo-built · Next.js + Gemini AI · Live on Vercel · Free for students',
+      problem: "400,000+ international students arrive in France every year. They spend their first month lost in a maze of CAF, CPAM, OFII, and prefecture appointments — in a language they don't speak, with no guide, no roadmap, and no one to ask. I lived this problem myself. No product on the market was solving it end-to-end. So I built Cleo.",
+      approach: [
+        'Validated the opportunity: 400K+ users/year, zero AI-native solutions, real pain confirmed through personal experience and community research',
+        'Designed the full product architecture solo: AI chat, 24-service portal, document scanner, personalised onboarding, 7-day checklist',
+        'Built dual-AI failover (Google Gemini primary + Groq/Llama fallback) — 99.9% uptime, zero backend, privacy-first',
+        'Shipped MVP v1 in weeks with Next.js 14, TypeScript, Tailwind CSS — deployed on Vercel, fully free for students',
+        'Roadmap: multi-language (Hindi, Arabic, Chinese), WhatsApp bot, housing scam detector, city expansion (Lyon, Marseille)'
+      ],
+      metrics: ['MVP v1|Shipped Solo', '400K+|Market/Year', '24|Services', '0€|For Students'],
+      cta: { label: 'Launch Cleo →', href: 'https://cleo-app-theta.vercel.app' }
+    },
+    fr: {
+      cat: 'Fondateur · MVP v1 Livré',
+      catColor: '#FF9500',
+      title: 'Cleo — De zéro à un produit IA en ligne',
+      company: 'Cleo · Construit en solo · Next.js + Gemini AI · En ligne sur Vercel · Gratuit pour étudiants',
+      problem: "Plus de 400 000 étudiants internationaux arrivent en France chaque année. Ils passent leur premier mois perdus dans un labyrinthe de CAF, CPAM, OFII et rendez-vous en préfecture — dans une langue qu'ils ne parlent pas, sans guide ni feuille de route. J'ai vécu ce problème moi-même. Aucun produit sur le marché ne le résolvait de bout en bout. Alors j'ai construit Cleo.",
+      approach: [
+        "Validation de l'opportunité : 400 000+ utilisateurs/an, zéro solution IA native, douleur réelle confirmée par expérience personnelle et recherche communautaire",
+        "Conception de l'architecture produit complète en solo : chat IA, portail 24 services, scanner de documents, onboarding personnalisé, checklist 7 jours",
+        "Architecture IA double avec basculement automatique (Google Gemini primaire + Groq/Llama secours) — 99,9 % de disponibilité, sans backend, privacy-first",
+        "Livraison du MVP v1 en quelques semaines avec Next.js 14, TypeScript, Tailwind CSS — déployé sur Vercel, entièrement gratuit pour les étudiants",
+        "Feuille de route : multi-langue (Hindi, Arabe, Chinois), bot WhatsApp, détecteur d'arnaques logement, expansion (Lyon, Marseille)"
+      ],
+      metrics: ['MVP v1|Livré en solo', '400K+|Marché/an', '24|Services', '0€|Pour étudiants'],
+      cta: { label: 'Lancer Cleo →', href: 'https://cleo-app-theta.vercel.app' }
+    }
+  },
+  photoroom: {
+    en: {
+      cat: 'Monetisation · PhotoRoom',
+      catColor: '#FF4D8D',
+      title: 'Fixing the AI Compute Cost Crisis',
+      company: 'PhotoRoom · $94M ARR · 89% YoY Growth · 150M+ downloads · AI photo editing platform',
+      problem: 'PhotoRoom is scaling fast on flat-rate subscriptions ($7.50 Pro / $20.99 Max), but generative AI features cost 10 to 15x more per image than classic AI. The result: heavy users generate a structural loss on every monthly invoice while pricing stays unchanged.',
+      approach: [
+        'Mapped unit economics per user cohort: Solo Resellers (50-150 img/mo) are profitable at +9 per user; Scale Merchants (500-10K+ img/mo) generate -30 losses per user',
+        'Root cause: value metric (per seat) is fully decoupled from the actual cost driver (per GPU-compute call)',
+        'Designed 5-tier pricing architecture: Free / Pro $7.50 / Max $20.99 / Ultra x1 $99 / Ultra x10 $990 with soft usage caps on generative AI',
+        '3-layer implementation strategy: protect existing subscribers, steer new users to the right tier, soft-cap heavy users with a 20% loyalty discount on upgrades',
+        'North Star metric: gross profit margin per user cohort, with 90-day targets set for NRR, LTV:CAC, and upgrade conversion'
+      ],
+      metrics: ['75%+|Gross Margin Target', '115%+|NRR Target', '4:1|LTV:CAC Ratio', '90 days|To Validate'],
+      cta: null
+    },
+    fr: {
+      cat: 'Monétisation · PhotoRoom',
+      catColor: '#FF4D8D',
+      title: "Résoudre la crise des coûts IA",
+      company: 'PhotoRoom · 94M$ ARR · Croissance 89% YoY · 150M+ téléchargements · Plateforme IA de retouche photo',
+      problem: "PhotoRoom croît rapidement grâce à des abonnements forfaitaires (Pro 7,50$ / Max 20,99$), mais les fonctionnalités IA générative coûtent 10 à 15 fois plus cher par image que l'IA classique. Résultat : les utilisateurs intensifs génèrent une perte structurelle à chaque facture mensuelle, sans que les tarifs n'évoluent.",
+      approach: [
+        "Cartographie des économies unitaires par cohorte : les Revendeurs Solo (50-150 img/mois) sont rentables à +9 par utilisateur ; les Marchands à l'Echelle (500-10 000+ img/mois) génèrent -30 de pertes par utilisateur",
+        "Cause racine : la métrique de valeur (par siège) est totalement découplée du véritable driver de coût (appel GPU par image)",
+        "Architecture tarifaire en 5 niveaux : Free / Pro 7,50$ / Max 20,99$ / Ultra x1 99$ / Ultra x10 990$, avec plafonds d'usage doux sur l'IA générative",
+        "Stratégie d'implémentation en 3 couches : protéger les abonnés existants, orienter les nouveaux utilisateurs vers le bon niveau, plafonner en douceur les utilisateurs intensifs avec une remise fidélité de 20%",
+        "Métrique North Star : marge brute par cohorte utilisateur, avec des objectifs à 90 jours pour NRR, LTV:CAC et taux de conversion vers l'upgrade"
+      ],
+      metrics: ['75%+|Marge brute cible', '115%+|NRR cible', '4:1|Ratio LTV:CAC', '90 jours|Pour valider'],
+      cta: null
+    }
+  }
+};
+
+let currentLang = 'en';
+let statsDone = false;
+let currentModal = null;
+
+function setLang(l) {
+  currentLang = l;
+  document.getElementById('lbtn-en').classList.toggle('on', l === 'en');
+  document.getElementById('lbtn-fr').classList.toggle('on', l === 'fr');
+  const data = LANG[l];
+  for (const id in data) {
+    if (id === 'typewriter') continue;
+    const el = document.getElementById(id);
+    if (el) el.textContent = data[id];
+  }
+  typeWriter(data['typewriter'], 35);
+  if (currentModal) renderModal(currentModal);
+}
+
+var typewriterTimer = null;
+function typeWriter(str, delay) {
+  const el = document.getElementById('typewriter-text');
+  el.textContent = '';
+  if (typewriterTimer) { clearTimeout(typewriterTimer); typewriterTimer = null; }
+  let i = 0;
+  function tick() {
+    if (i < str.length) {
+      el.textContent += str[i++];
+      typewriterTimer = setTimeout(tick, delay);
+    }
+  }
+  tick();
+}
+
+function toggleDl(e) {
+  e.stopPropagation();
+  document.getElementById('dlw').classList.toggle('open');
+}
+
+document.addEventListener('click', function(e) {
+  const dlw = document.getElementById('dlw');
+  if (dlw && !dlw.contains(e.target)) dlw.classList.remove('open');
+});
+
+function openModal(key) {
+  currentModal = key;
+  renderModal(key);
+  document.getElementById('modal-overlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
+  document.getElementById('modal-card').scrollTop = 0;
+}
+
+const MODAL_META = {
+  joko:      { color: '#27C46B', bg: 'linear-gradient(135deg,rgba(39,196,107,0.28),rgba(0,200,80,0.10))', logo: '<img src="https://logo.clearbit.com/joko.fr" style="width:36px;height:36px;object-fit:cover;border-radius:8px" onerror="this.parentNode.innerHTML=\'<svg width=28 height=28 viewBox=&quot;0 0 24 24&quot; fill=&quot;none&quot;><polygon points=&quot;13,2 5,13 11,13 11,22 19,11 13,11&quot; fill=&quot;%2327C46B&quot;/></svg>\'"/>', logoBg: 'transparent' },
+  faume:     { color: '#BF5AF2', bg: 'linear-gradient(135deg,rgba(191,90,242,0.25),rgba(255,45,85,0.1))', logo: '<svg width="28" height="28" viewBox="0 0 24 24" fill="none"><path d="M12 3l9 6v6l-9 6-9-6V9l9-6z" stroke="#BF5AF2" stroke-width="1.8" stroke-linejoin="round"/></svg>', logoBg: 'rgba(191,90,242,0.15)' },
+  netflix:   { color: '#E50914', bg: 'linear-gradient(135deg,rgba(229,9,20,0.25),rgba(255,107,53,0.1))', logo: '<img src="https://cdn.simpleicons.org/netflix/E50914" style="width:28px;height:28px;object-fit:contain"/>', logoBg: 'rgba(229,9,20,0.15)' },
+  blablacar: { color: '#00AADC', bg: 'linear-gradient(135deg,rgba(0,170,220,0.25),rgba(0,113,227,0.1))', logo: '<img src="https://logo.clearbit.com/blablacar.com" style="width:36px;height:36px;object-fit:cover;border-radius:8px" onerror="this.parentNode.innerHTML=\'<svg width=28 height=28 viewBox=&quot;0 0 24 24&quot; fill=&quot;none&quot;><circle cx=8 cy=9 r=3 stroke=&quot;%2300AADC&quot; stroke-width=1.8/><circle cx=16 cy=9 r=3 stroke=&quot;%2300AADC&quot; stroke-width=1.8/></svg>\'"/>', logoBg: 'transparent' },
+  cleo:      { color: '#FF9500', bg: 'linear-gradient(135deg,rgba(255,149,0,0.25),rgba(255,214,10,0.1))', logo: '<svg width="28" height="28" viewBox="0 0 24 24" fill="none"><path d="M12 2a4 4 0 014 4v1h1a3 3 0 013 3v4a7 7 0 01-14 0v-4a3 3 0 013-3h1V6a4 4 0 014-4z" stroke="#FF9500" stroke-width="1.8" stroke-linejoin="round"/><circle cx="9.5" cy="13" r="1" fill="#FF9500"/><circle cx="14.5" cy="13" r="1" fill="#FF9500"/><path d="M10 16.5c.5.5 1.2.8 2 .8s1.5-.3 2-.8" stroke="#FF9500" stroke-width="1.5" stroke-linecap="round"/></svg>', logoBg: 'rgba(255,149,0,0.15)' },
+  photoroom: { color: '#FF4D8D', bg: 'linear-gradient(135deg,rgba(255,77,141,0.30),rgba(123,97,255,0.16))', logo: '<img src="https://logo.clearbit.com/photoroom.com" style="width:28px;height:28px;object-fit:contain;border-radius:6px" onerror="this.src=\'https://cdn.simpleicons.org/photoroom/FF4D8D\'"/>', logoBg: 'rgba(255,77,141,0.18)' }
+};
+
+function renderModal(key) {
+  const d = MODALS[key][currentLang];
+  const meta = MODAL_META[key];
+  // Banner
+  const banner = document.getElementById('modal-banner');
+  banner.style.background = meta.bg;
+  const logoIcon = document.getElementById('modal-logo-icon');
+  logoIcon.innerHTML = meta.logo;
+  logoIcon.style.background = meta.logoBg;
+  logoIcon.style.border = '1px solid ' + meta.color + '33';
+  // Cat + title
+  const catEl = document.getElementById('m-cat');
+  catEl.textContent = d.cat;
+  catEl.style.color = meta.color;
+  catEl.style.background = meta.color + '18';
+  catEl.style.border = '1px solid ' + meta.color + '38';
+  document.getElementById('m-title').textContent = d.title;
+  // Body
+  document.getElementById('m-company').textContent = d.company;
+  document.getElementById('m-problem').textContent = d.problem;
+  document.getElementById('m-approach').innerHTML = d.approach.map(a =>
+    '<li style="--li-color:' + meta.color + '">' + a + '</li>'
+  ).join('');
+  // Style approach arrows with company color
+  document.querySelectorAll('#m-approach li::before').forEach(function(){});
+  document.getElementById('m-approach').querySelectorAll('li').forEach(function(li) {
+    li.style.borderColor = meta.color + '18';
+  });
+  // Metrics with company color
+  document.getElementById('m-metrics').innerHTML = d.metrics.map(function(m) {
+    const parts = m.split('|');
+    const val = parts[0].trim();
+    const lbl = parts[1] ? parts[1].trim() : '';
+    return '<span class="metric-chip" style="background:' + meta.color + '14;border:1px solid ' + meta.color + '33;color:' + meta.color + '">' + val + (lbl ? '<span>' + lbl + '</span>' : '') + '</span>';
+  }).join('');
+  // Labels
+  var isPhotoroom = (key === 'photoroom');
+  document.getElementById('m-prob-label').textContent = currentLang === 'fr' ? 'Problème' : 'Problem';
+  document.getElementById('m-prob-label').style.color = meta.color;
+  document.getElementById('m-app-label').textContent = isPhotoroom ? (currentLang === 'fr' ? 'Points clés' : 'Key Points') : (currentLang === 'fr' ? 'Approche' : 'Approach');
+  document.getElementById('m-app-label').style.color = meta.color;
+  document.getElementById('m-imp-label').textContent = isPhotoroom ? (currentLang === 'fr' ? 'Objectifs 90 jours' : '90-Day Targets') : 'Impact';
+  document.getElementById('m-imp-label').style.color = meta.color;
+  // Footer
+  const footEl = document.getElementById('m-footer');
+  footEl.innerHTML = '';
+  if (d.cta) {
+    const notionBtn = document.createElement('a');
+    notionBtn.href = d.cta.href; notionBtn.target = '_blank'; notionBtn.rel = 'noopener';
+    notionBtn.className = 'modal-notion-btn';
+    notionBtn.innerHTML = '<svg class="modal-notion-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><rect width="24" height="24" rx="4" fill="#000"/><path d="M6.5 5.5h7.2l3.8 3.8V18.5H6.5V5.5z" fill="#fff"/><path d="M13.7 5.5v3.8h3.8" stroke="#000" stroke-width="1.2"/><path d="M9 10.5h6M9 13h6M9 15.5h4" stroke="#888" stroke-width="1" stroke-linecap="round"/></svg>' + (currentLang === 'fr' ? 'Lire l\'étude de cas complète sur Notion →' : 'Read Full Case Study on Notion →');
+    footEl.appendChild(notionBtn);
+  }
+  const closeRow = document.createElement('div');
+  closeRow.className = 'modal-footer-row';
+  const closeBtn = document.createElement('button');
+  closeBtn.className = 'btn-secondary';
+  closeBtn.style.cssText = 'font-size:14px;padding:11px 22px;flex:1';
+  closeBtn.textContent = currentLang === 'fr' ? 'Fermer' : 'Close';
+  closeBtn.onclick = closeModal;
+  closeRow.appendChild(closeBtn);
+  footEl.appendChild(closeRow);
+  // Show/hide standard vs rich content
+  var stdEl = document.getElementById('modal-standard-content');
+  var richEl = document.getElementById('m-rich-content');
+  if (isPhotoroom) {
+    if (stdEl) stdEl.style.display = 'none';
+    if (richEl) { richEl.innerHTML = ''; renderPhotoroomFull(richEl, d, meta); }
+  } else {
+    if (stdEl) stdEl.style.display = '';
+    if (richEl) richEl.innerHTML = '';
+  }
+}
+
+function renderPhotoroomFull(container, d, meta) {
+  var isFr = (currentLang === 'fr');
+  var T = {
+    execSummary: isFr
+      ? '<strong>PhotoRoom</strong> a atteint 94 M$ ARR avec une croissance de 89% en glissement annuel grâce à des abonnements forfaitaires. Problème : les fonctionnalités IA générative coûtent <strong>10 à 15x plus cher par image</strong> que l\'IA classique. Les utilisateurs intensifs génèrent une <strong>perte structurelle à chaque facture</strong> alors que les tarifs restent inchangés.'
+      : '<strong>PhotoRoom</strong> reached $94M ARR at 89% YoY growth on flat-rate subscriptions. Problem: generative AI features cost <strong>10–15x more per image</strong> than classic AI. Heavy users now generate a <strong>structural loss on every monthly invoice</strong> while pricing stays unchanged.',
+    bizCtx: isFr ? 'Contexte business' : 'Business Context',
+    probFlow: isFr ? 'Analyse du problème' : 'Problem Analysis',
+    rootCause: isFr ? 'Cause racine' : 'Root Cause',
+    segments: isFr ? 'Segments utilisateurs' : 'User Segments',
+    solution: isFr ? 'Architecture de solution' : 'Solution Architecture',
+    pricing: isFr ? 'Structure tarifaire' : 'Pricing Structure',
+    tradeoffs: isFr ? 'Arbitrages' : 'Trade-offs',
+    metrics: isFr ? 'Métriques de succès' : 'Success Metrics',
+    close: isFr ? 'Fermer' : 'Close',
+  };
+
+  var html = '<div class="pm-body">';
+
+  // Company branding strip
+  html += '<div style="display:flex;align-items:center;gap:14px;padding:16px 18px;background:linear-gradient(135deg,rgba(255,77,141,0.08),rgba(123,97,255,0.06));border:1px solid rgba(255,77,141,0.18);border-radius:14px;margin-bottom:24px">';
+  html += '<img src="https://logo.clearbit.com/photoroom.com" style="width:48px;height:48px;border-radius:12px;object-fit:contain;background:#fff;padding:2px" onerror="this.style.display=\'none\'">';
+  html += '<div>';
+  html += '<div style="font-family:\'Syne\',sans-serif;font-weight:800;font-size:20px;color:var(--text);letter-spacing:-0.02em">PhotoRoom</div>';
+  html += '<div style="font-size:12px;color:var(--text2);margin-top:2px">' + (isFr ? 'Outil IA de retouche photo · Paris, 2019 · 150M+ téléchargements' : 'AI-powered photo editing · Paris, 2019 · 150M+ downloads') + '</div>';
+  html += '</div>';
+  html += '<div style="margin-left:auto;display:flex;gap:8px;flex-wrap:wrap">';
+  html += '<span style="font-size:11px;padding:4px 10px;border-radius:20px;background:rgba(255,77,141,0.12);color:#FF4D8D;border:1px solid rgba(255,77,141,0.25);font-family:\'IBM Plex Mono\',monospace;letter-spacing:0.04em">Monetisation</span>';
+  html += '<span style="font-size:11px;padding:4px 10px;border-radius:20px;background:rgba(123,97,255,0.12);color:#7B61FF;border:1px solid rgba(123,97,255,0.25);font-family:\'IBM Plex Mono\',monospace;letter-spacing:0.04em">Pricing Strategy</span>';
+  html += '</div>';
+  html += '</div>';
+
+  // Executive Summary
+  html += '<div class="pm-section">';
+  html += '<div class="pm-section-title">Executive Summary</div>';
+  html += '<div class="pm-exec-box">' + T.execSummary + '</div>';
+  html += '</div>';
+
+  // Business Context KPIs
+  html += '<div class="pm-section">';
+  html += '<div class="pm-section-title">' + T.bizCtx + '</div>';
+  html += '<div class="pm-kpi-row">';
+  html += '<div class="pm-kpi"><div class="pm-kpi-val">$94M</div><div class="pm-kpi-lbl">ARR</div></div>';
+  html += '<div class="pm-kpi"><div class="pm-kpi-val">89%</div><div class="pm-kpi-lbl">YoY Growth</div></div>';
+  html += '<div class="pm-kpi"><div class="pm-kpi-val">150M+</div><div class="pm-kpi-lbl">' + (isFr ? 'Téléchargements' : 'Downloads') + '</div></div>';
+  html += '<div class="pm-kpi"><div class="pm-kpi-val">10–15x</div><div class="pm-kpi-lbl">' + (isFr ? 'Surcoût IA gen' : 'Gen AI Cost Spike') + '</div></div>';
+  html += '</div>';
+  html += '</div>';
+
+  // Problem Flowchart
+  html += '<div class="pm-section">';
+  html += '<div class="pm-section-title">' + T.probFlow + '</div>';
+  html += '<div class="pm-flow">';
+  html += '<div class="pm-flow-step prob"><div class="step-ico">💳</div><div class="step-lbl">' + (isFr ? 'Abonnement forfaitaire' : 'Flat-rate Subscription') + '</div><div class="step-sub">$7.50 Pro / $20.99 Max</div></div>';
+  html += '<div class="pm-flow-arr">→</div>';
+  html += '<div class="pm-flow-step warn"><div class="step-ico">🤖</div><div class="step-lbl">' + (isFr ? 'Adoption IA génératif' : 'Gen AI Adoption') + '</div><div class="step-sub">' + (isFr ? 'Suppression fond, génération' : 'BG removal, generation') + '</div></div>';
+  html += '<div class="pm-flow-arr">→</div>';
+  html += '<div class="pm-flow-step warn"><div class="step-ico">⚡</div><div class="step-lbl">' + (isFr ? 'Coût GPU ×10-15' : 'GPU Cost ×10–15') + '</div><div class="step-sub">' + (isFr ? 'Par image générée' : 'Per generated image') + '</div></div>';
+  html += '<div class="pm-flow-arr">→</div>';
+  html += '<div class="pm-flow-step prob"><div class="step-ico">📉</div><div class="step-lbl">' + (isFr ? 'Perte structurelle' : 'Structural Loss') + '</div><div class="step-sub">' + (isFr ? 'Utilisateurs intensifs' : 'Heavy users = -€30/mo') + '</div></div>';
+  html += '</div>';
+  // Root cause box
+  html += '<div style="margin-top:14px;padding:14px 16px;background:rgba(255,149,0,0.05);border:1px solid rgba(255,149,0,0.2);border-radius:12px;font-size:13px;color:var(--text2);line-height:1.7">';
+  html += '<strong style="color:var(--text)">' + (isFr ? 'Cause racine :' : 'Root Cause:') + '</strong> ';
+  html += isFr
+    ? 'La métrique de valeur (par siège, forfait mensuel) est <strong style="color:#FF9500">totalement découplée</strong> du véritable driver de coût (appels GPU par image générée). Un utilisateur Pro à $7.50 peut générer 10 000 images — coûtant $40+ de compute — sans payer davantage.'
+    : 'The value metric (per seat, flat monthly) is <strong style="color:#FF9500">fully decoupled</strong> from the actual cost driver (GPU compute calls per image). A $7.50 Pro user can generate 10,000 images — costing $40+ in compute — without paying more.';
+  html += '</div>';
+  html += '</div>';
+
+  // User Segments Table
+  html += '<div class="pm-section">';
+  html += '<div class="pm-section-title">' + T.segments + '</div>';
+  html += '<div class="pm-table-wrap"><table class="pm-table">';
+  html += '<thead><tr>';
+  html += '<th>' + (isFr ? 'Métrique' : 'Metric') + '</th>';
+  html += '<th style="color:#FF4D8D">Persona A — ' + (isFr ? 'Revendeur Solo' : 'Solo Reseller') + '</th>';
+  html += '<th style="color:#FF453A">Persona B — ' + (isFr ? 'Marchand Intensif' : 'Scale Merchant') + '</th>';
+  html += '</tr></thead><tbody>';
+  var rows = [
+    [isFr ? 'Profil' : 'Profile', isFr ? 'Boutique mode, auto-entrepreneur' : 'Fashion seller, self-employed', isFr ? 'E-commerce multi-SKU, agence créa' : 'Multi-SKU e-commerce, creative agency'],
+    [isFr ? 'Volume mensuel' : 'Monthly volume', '50–150 img/mo', '500–10,000+ img/mo'],
+    [isFr ? 'Coût GPU estimé' : 'Est. GPU cost', '~€1/mo', '€40+/mo'],
+    [isFr ? 'Revenus (plan Pro)' : 'Revenue (Pro plan)', '€10/mo', '€10/mo'],
+    [isFr ? 'Marge unitaire' : 'Unit margin', '<span class="col-a">+€9 ✓</span>', '<span class="col-b">-€30 ✗</span>'],
+    [isFr ? 'Statut' : 'Status', '<span class="col-a">' + (isFr ? 'Rentable' : 'Profitable') + '</span>', '<span class="col-b">' + (isFr ? 'Perte structurelle' : 'Structural loss') + '</span>'],
+  ];
+  rows.forEach(function(r) {
+    html += '<tr><td class="col-h">' + r[0] + '</td><td>' + r[1] + '</td><td>' + r[2] + '</td></tr>';
+  });
+  html += '</tbody></table></div>';
+  html += '</div>';
+
+  // Solution Architecture — 3 layers
+  html += '<div class="pm-section">';
+  html += '<div class="pm-section-title">' + T.solution + '</div>';
+  html += '<div class="pm-layer-grid">';
+  html += '<div class="pm-layer l1"><div class="pm-layer-num">Layer 1</div><div class="pm-layer-name">' + (isFr ? 'Protéger les abonnés existants' : 'Protect Existing Subscribers') + '</div><div class="pm-layer-desc">' + (isFr ? 'Grand-father Pro/Max 6 mois sur quotas actuels. Communication proactive. Réduction du churn défensif.' : 'Grandfather Pro/Max users on current quotas for 6 months. Proactive comms. Minimises defensive churn.') + '</div></div>';
+  html += '<div class="pm-layer l2"><div class="pm-layer-num">Layer 2</div><div class="pm-layer-name">' + (isFr ? 'Orienter les nouveaux utilisateurs' : 'Steer New Users Right') + '</div><div class="pm-layer-desc">' + (isFr ? 'Questionnaire d\'usage à l\'onboarding. Recommandation de tier basée sur le volume prévu. Conversion initiale dans le bon plan.' : 'Usage-intent quiz at onboarding. Tier recommendation based on projected volume. Land new users in the right plan.') + '</div></div>';
+  html += '<div class="pm-layer l3"><div class="pm-layer-num">Layer 3</div><div class="pm-layer-name">' + (isFr ? 'Cap doux + nudge d\'upgrade' : 'Soft Cap + Upgrade Nudge') + '</div><div class="pm-layer-desc">' + (isFr ? 'Ralentissement à 80% du quota IA générative. Notification contextuelle avec remise fidélité -20% vers le tier supérieur. Pas de blocage dur.' : 'Slowdown at 80% of gen-AI quota. Contextual nudge with 20% loyalty discount to upgrade. No hard block.') + '</div></div>';
+  html += '</div>';
+  html += '</div>';
+
+  // Pricing Table
+  html += '<div class="pm-section">';
+  html += '<div class="pm-section-title">' + T.pricing + '</div>';
+  html += '<div class="pm-table-wrap"><table class="pm-table">';
+  html += '<thead><tr>';
+  ['Tier', isFr ? 'Prix/mois' : 'Price/mo', isFr ? 'IA classique' : 'Classic AI', isFr ? 'IA générative' : 'Gen AI', isFr ? 'Cible' : 'Target Persona'].forEach(function(h) { html += '<th>' + h + '</th>'; });
+  html += '</tr></thead><tbody>';
+  var tiers = [
+    ['Free', '$0', '10/day', '5/mo', isFr ? 'Découverte' : 'Discovery', false],
+    ['Pro <span class="tag-keep">existing</span>', '$7.50', isFr ? 'Illimitée' : 'Unlimited', '50/mo', 'Persona A', false],
+    ['Max <span class="tag-keep">existing</span>', '$20.99', isFr ? 'Illimitée' : 'Unlimited', '250/mo', isFr ? 'Hybride' : 'Hybrid', false],
+    ['Ultra x1 <span class="tag-new">new</span>', '$99', isFr ? 'Illimitée' : 'Unlimited', '1,000/mo', 'Persona B', true],
+    ['Ultra x10 <span class="tag-new">new</span>', '$990', isFr ? 'Illimitée' : 'Unlimited', '10,000/mo', isFr ? 'Agences / API' : 'Agencies / API', true],
+  ];
+  tiers.forEach(function(t) {
+    html += '<tr' + (t[5] ? ' class="col-new"' : '') + '><td class="col-h">' + t[0] + '</td><td style="font-family:\'IBM Plex Mono\',monospace;font-weight:700;color:var(--text)">' + t[1] + '</td><td>' + t[2] + '</td><td>' + t[3] + '</td><td style="font-size:11px;color:var(--text2)">' + t[4] + '</td></tr>';
+  });
+  html += '</tbody></table></div>';
+  html += '</div>';
+
+  // Trade-offs
+  html += '<div class="pm-section">';
+  html += '<div class="pm-section-title">' + T.tradeoffs + '</div>';
+  html += '<div class="pm-table-wrap"><table class="pm-table">';
+  html += '<thead><tr>';
+  [isFr ? 'Décision' : 'Decision', isFr ? 'Choix retenu' : 'Chosen', isFr ? 'Rejeté' : 'Rejected', isFr ? 'Rationale' : 'Rationale'].forEach(function(h) { html += '<th>' + h + '</th>'; });
+  html += '</tr></thead><tbody>';
+  var tos = [
+    [
+      isFr ? 'Type de cap' : 'Cap type',
+      isFr ? 'Cap doux + nudge' : 'Soft cap + nudge',
+      isFr ? 'Blocage dur' : 'Hard block',
+      isFr ? 'Préserve l\'UX, génère l\'upgrade' : 'Preserves UX, enables upgrade path'
+    ],
+    [
+      isFr ? 'Transition' : 'Rollout',
+      isFr ? 'Grandfather 6 mois' : '6-month grandfather',
+      isFr ? 'Immédiat' : 'Immediate cut-over',
+      isFr ? 'Réduit le churn défensif' : 'Reduces defensive churn risk'
+    ],
+    [
+      isFr ? 'Remise upgrade' : 'Upgrade discount',
+      isFr ? '-20% remise fidélité' : '20% loyalty discount',
+      isFr ? 'Plein tarif' : 'Full price',
+      isFr ? 'Réduit la résistance prix, accélère la conversion' : 'Lowers price resistance, accelerates conversion'
+    ],
+  ];
+  tos.forEach(function(t) {
+    html += '<tr><td class="col-h">' + t[0] + '</td><td style="color:#30D158">' + t[1] + '</td><td style="color:var(--text2)">' + t[2] + '</td><td style="font-size:12px;color:var(--text2)">' + t[3] + '</td></tr>';
+  });
+  html += '</tbody></table></div>';
+  html += '</div>';
+
+  // Success Metrics
+  html += '<div class="pm-section">';
+  html += '<div class="pm-section-title">' + T.metrics + '</div>';
+  html += '<div class="pm-ns-box">';
+  html += '<div class="pm-ns-icon">★</div>';
+  html += '<div><div class="pm-ns-label">North Star Metric</div><div class="pm-ns-metric">' + (isFr ? 'Marge brute par cohorte utilisateur' : 'Gross profit margin per user cohort') + '</div></div>';
+  html += '</div>';
+  html += '<div class="pm-table-wrap"><table class="pm-table">';
+  html += '<thead><tr>';
+  ['KPI', isFr ? 'Baseline' : 'Baseline', isFr ? 'Cible 90j' : '90-Day Target', isFr ? 'Type' : 'Signal'].forEach(function(h) { html += '<th>' + h + '</th>'; });
+  html += '</tr></thead><tbody>';
+  var kpis = [
+    [isFr ? 'Marge brute' : 'Gross Margin', '~50%*', '<span class="col-a">75%+</span>', isFr ? 'North Star' : 'Primary'],
+    ['NRR', '~100%', '<span class="col-a">115%+</span>', isFr ? 'Santé business' : 'Health'],
+    ['LTV:CAC', '~2:1', '<span class="col-a">4:1</span>', isFr ? 'Efficacité' : 'Efficiency'],
+    [isFr ? 'Churn Persona A' : 'Persona A Churn', '-', '<span class="col-a">&lt;5%</span>', isFr ? 'Garde-fou' : 'Guard rail'],
+    [isFr ? 'Upgrade Persona B' : 'Persona B Upgrade', '-', '<span class="col-a">&gt;30%</span>', isFr ? 'Croissance' : 'Growth lever'],
+  ];
+  kpis.forEach(function(k) {
+    html += '<tr><td class="col-h">' + k[0] + '</td><td style="font-family:\'IBM Plex Mono\',monospace;font-size:12px">' + k[1] + '</td><td>' + k[2] + '</td><td style="font-size:11px;color:var(--text2)">' + k[3] + '</td></tr>';
+  });
+  html += '</tbody></table></div>';
+  html += '<div style="font-size:11px;color:var(--text2);margin-top:8px;font-family:\'IBM Plex Mono\',monospace;opacity:0.6">* Estimated baseline pre-intervention</div>';
+  html += '</div>';
+
+  // Close button
+  html += '<div class="pm-close-row"><button class="btn-secondary" onclick="closeModal()" style="font-size:14px;padding:11px 32px">' + T.close + '</button></div>';
+
+  html += '</div>'; // pm-body
+  container.innerHTML = html;
+}
+
+    // (old renderPhotoroomRich array body removed)
+    /*REMOVED_PLACEHOLDER_START
+
+    '<div>',
+    '<div class="pr-img-mock m1">',
+    '<div class="pr-mock-title">' + (isFr ? 'Tableau de bord' : 'App Dashboard') + '</div>',
+    '<div class="pr-mock-desc">' + (isFr ? 'Suppression d\'arrière-plan en 1 clic, IA classique illimitée pour Persona A' : 'One-click background removal, unlimited classic AI for Persona A') + '</div>',
+    '<div class="pr-mock-bars">',
+    '<div class="pr-mock-bar" style="height:28px;background:#FF4D8D;opacity:0.7"></div>',
+    '<div class="pr-mock-bar" style="height:40px;background:#FF4D8D;opacity:0.9"></div>',
+    '<div class="pr-mock-bar" style="height:22px;background:#FF4D8D;opacity:0.5"></div>',
+    '<div class="pr-mock-bar" style="height:36px;background:#FF4D8D;opacity:0.8"></div>',
+    '<div class="pr-mock-bar" style="height:18px;background:#FF4D8D;opacity:0.4"></div>',
+    '</div>',
+    '</div>',
+    '<p class="pr-img-caption">' + (isFr ? 'Usage mensuel · Persona A' : 'Monthly usage · Persona A') + '</p>',
+    '</div>',
+
+    '<div>',
+    '<div class="pr-img-mock m2">',
+    '<div class="pr-mock-title">' + (isFr ? 'Nouveau sélecteur de plan' : 'New Plan Picker') + '</div>',
+    '<div class="pr-mock-desc">' + (isFr ? '5 niveaux clairs avec compteurs IA génératifs visibles avant achat' : '5 clear tiers with generative AI counters visible before purchase') + '</div>',
+    '<div style="display:flex;gap:6px;margin-top:10px;flex-wrap:wrap">',
+    '<span style="font-size:10px;padding:3px 7px;border-radius:6px;background:rgba(108,71,255,0.18);color:#9B6DFF;font-family:\'IBM Plex Mono\',monospace">Free</span>',
+    '<span style="font-size:10px;padding:3px 7px;border-radius:6px;background:rgba(255,77,141,0.18);color:#FF4D8D;font-family:\'IBM Plex Mono\',monospace">Pro</span>',
+    '<span style="font-size:10px;padding:3px 7px;border-radius:6px;background:rgba(79,158,255,0.18);color:#4F9EFF;font-family:\'IBM Plex Mono\',monospace">Max</span>',
+    '<span style="font-size:10px;padding:3px 7px;border-radius:6px;background:rgba(255,149,0,0.18);color:#FF9500;font-family:\'IBM Plex Mono\',monospace">Ultra</span>',
+    '</div>',
+    '</div>',
+    '<p class="pr-img-caption">' + (isFr ? 'Tunnel d\'upgrade · nouvelle architecture' : 'Upgrade funnel · new architecture') + '</p>',
+    '</div>',
+
+    '<div>',
+    '<div class="pr-img-mock m3">',
+    '<div class="pr-mock-title">' + (isFr ? 'Alerte quota doux' : 'Soft Cap Alert') + '</div>',
+    '<div class="pr-mock-desc">' + (isFr ? 'Notification contextuelle à 80% du quota IA génératif avec offre de remise 20%' : 'Contextual nudge at 80% of generative AI quota with 20% loyalty discount') + '</div>',
+    '<div style="margin-top:10px;padding:8px 10px;background:rgba(255,149,0,0.12);border:1px solid rgba(255,149,0,0.25);border-radius:8px;font-size:11px;color:#FF9500">',
+    '⚡ ' + (isFr ? 'Vous avez utilisé 80% de vos images IA. Passez à Ultra.' : 'You\'ve used 80% of your AI images. Upgrade to Ultra.'),
+    '</div>',
+    '</div>',
+    '<p class="pr-img-caption">' + (isFr ? 'Nudge contextuel · Persona B' : 'Contextual nudge · Persona B') + '</p>',
+    '</div>',
+
+    '<div>',
+    '<div class="pr-img-mock m4">',
+    '<div class="pr-mock-title">' + (isFr ? 'Analytics cohorte' : 'Cohort Analytics') + '</div>',
+    '<div class="pr-mock-desc">' + (isFr ? 'Marge brute par cohorte, taux de conversion vers l\'upgrade, NRR glissant' : 'Gross margin by cohort, upgrade conversion rate, rolling NRR') + '</div>',
+    '<div style="display:flex;align-items:flex-end;gap:3px;margin-top:10px">',
+    '<div style="width:18px;height:20px;background:#4F9EFF;opacity:0.5;border-radius:3px 3px 0 0"></div>',
+    '<div style="width:18px;height:32px;background:#4F9EFF;opacity:0.7;border-radius:3px 3px 0 0"></div>',
+    '<div style="width:18px;height:45px;background:#4F9EFF;opacity:0.9;border-radius:3px 3px 0 0"></div>',
+    '<div style="width:18px;height:55px;background:#FF4D8D;border-radius:3px 3px 0 0"></div>',
+    '<div style="width:18px;height:62px;background:#FF4D8D;opacity:0.85;border-radius:3px 3px 0 0"></div>',
+    '</div>',
+    '</div>',
+    '<p class="pr-img-caption">' + (isFr ? 'North Star · marge par cohorte' : 'North Star · margin per cohort') + '</p>',
+    '</div>',
+
+    '</div>', // pr-img-grid
+    '</div>', // modal-block
+
+    // --- Persona section ---
+    '<div class="modal-block">',
+    '<span class="modal-block-label" style="color:' + meta.color + '">' + (isFr ? 'Segments utilisateurs' : 'User Segments') + '</span>',
+    '<div class="persona-grid">',
+
+    '<div class="persona-card persona-a">',
+    '<span class="persona-badge">Persona A</span>',
+    '<div class="persona-name">' + (isFr ? 'Revendeur Solo' : 'Solo Reseller') + '</div>',
+    '<div class="persona-role">' + (isFr ? 'Boutique mode, auto-entrepreneur' : 'Fashion reseller, self-employed') + '</div>',
+    '<div class="persona-stat"><span class="persona-stat-label">' + (isFr ? 'Volume' : 'Volume') + '</span><span class="persona-stat-val">50-150 img/mo</span></div>',
+    '<div class="persona-stat"><span class="persona-stat-label">' + (isFr ? 'Coût GPU' : 'GPU Cost') + '</span><span class="persona-stat-val">~1 EUR</span></div>',
+    '<div class="persona-stat"><span class="persona-stat-label">' + (isFr ? 'Revenus' : 'Revenue') + '</span><span class="persona-stat-val">10 EUR</span></div>',
+    '<div class="persona-stat"><span class="persona-stat-label">' + (isFr ? 'Marge' : 'Margin') + '</span><span class="persona-stat-val pos">+9 EUR</span></div>',
+    '<div style="margin-top:12px;padding:8px 10px;background:rgba(48,209,88,0.08);border-radius:8px;font-size:12px;color:#30D158">' + (isFr ? 'Rentable · abonnement Pro actuel' : 'Profitable · current Pro plan') + '</div>',
+    '</div>',
+
+    '<div class="persona-card persona-b">',
+    '<span class="persona-badge">Persona B</span>',
+    '<div class="persona-name">' + (isFr ? 'Marchand Intensif' : 'Scale Merchant') + '</div>',
+    '<div class="persona-role">' + (isFr ? 'E-commerce multi-SKU, agence créa' : 'Multi-SKU e-commerce, creative agency') + '</div>',
+    '<div class="persona-stat"><span class="persona-stat-label">' + (isFr ? 'Volume' : 'Volume') + '</span><span class="persona-stat-val">500-10K+ img/mo</span></div>',
+    '<div class="persona-stat"><span class="persona-stat-label">' + (isFr ? 'Coût GPU' : 'GPU Cost') + '</span><span class="persona-stat-val">40+ EUR</span></div>',
+    '<div class="persona-stat"><span class="persona-stat-label">' + (isFr ? 'Revenus' : 'Revenue') + '</span><span class="persona-stat-val">10 EUR</span></div>',
+    '<div class="persona-stat"><span class="persona-stat-label">' + (isFr ? 'Marge' : 'Margin') + '</span><span class="persona-stat-val neg">-30 EUR</span></div>',
+    '<div style="margin-top:12px;padding:8px 10px;background:rgba(255,59,48,0.1);border-radius:8px;font-size:12px;color:#FF453A">' + (isFr ? 'Perte structurelle · mispriced' : 'Structural loss · mispriced') + '</div>',
+    '</div>',
+
+    '</div>', // persona-grid
+    '</div>', // modal-block
+
+    // --- Pricing table ---
+    '<div class="modal-block">',
+    '<span class="modal-block-label" style="color:' + meta.color + '">' + (isFr ? 'Architecture tarifaire' : 'Pricing Architecture') + '</span>',
+    '<div class="pricing-wrap">',
+    '<table class="pricing-table">',
+    '<thead><tr>',
+    '<th>' + (isFr ? 'Niveau' : 'Tier') + '</th>',
+    '<th>' + (isFr ? 'Prix/mois' : 'Price/mo') + '</th>',
+    '<th>' + (isFr ? 'IA classique' : 'Classic AI') + '</th>',
+    '<th>' + (isFr ? 'IA générative' : 'Gen AI Images') + '</th>',
+    '<th>' + (isFr ? 'Cible' : 'Target') + '</th>',
+    '</tr></thead>',
+    '<tbody>',
+    '<tr class="t-keep"><td class="tier-name">Free</td><td class="price-val">$0</td><td>10/day</td><td>5/mo</td><td style="color:var(--text2);font-size:12px">' + (isFr ? 'Découverte' : 'Discovery') + '</td></tr>',
+    '<tr class="t-keep"><td class="tier-name">Pro <span class="tier-tag keep">' + (isFr ? 'Existant' : 'Existing') + '</span></td><td class="price-val">$7.50</td><td>' + (isFr ? 'Illimitée' : 'Unlimited') + '</td><td>50/mo</td><td style="color:#FF4D8D;font-size:12px">Persona A</td></tr>',
+    '<tr class="t-keep"><td class="tier-name">Max <span class="tier-tag keep">' + (isFr ? 'Existant' : 'Existing') + '</span></td><td class="price-val">$20.99</td><td>' + (isFr ? 'Illimitée' : 'Unlimited') + '</td><td>250/mo</td><td style="color:var(--text2);font-size:12px">' + (isFr ? 'Pro hybride' : 'Hybrid Pro') + '</td></tr>',
+    '<tr class="t-new"><td class="tier-name">Ultra x1 <span class="tier-tag new">NEW</span></td><td class="price-val">$99</td><td>' + (isFr ? 'Illimitée' : 'Unlimited') + '</td><td>1,000/mo</td><td style="color:#FF453A;font-size:12px">Persona B</td></tr>',
+    '<tr class="t-new"><td class="tier-name">Ultra x10 <span class="tier-tag new">NEW</span></td><td class="price-val">$990</td><td>' + (isFr ? 'Illimitée' : 'Unlimited') + '</td><td>10,000/mo</td><td style="color:var(--text2);font-size:12px">' + (isFr ? 'Agences' : 'Agencies / API') + '</td></tr>',
+    '</tbody>',
+    '</table>',
+    '</div>',
+    '</div>', // modal-block
+
+    // --- Trade-offs ---
+    '<div class="modal-block">',
+    '<span class="modal-block-label" style="color:' + meta.color + '">' + (isFr ? 'Arbitrages clés' : 'Key Trade-offs') + '</span>',
+
+    '<div class="pr-tradeoff">',
+    '<div class="pr-tradeoff-icon" style="background:rgba(255,77,141,0.1)">✓</div>',
+    '<div class="pr-tradeoff-body"><strong>' + (isFr ? 'Cap doux vs blocage dur :' : 'Soft cap vs hard block:') + '</strong> ' + (isFr ? 'Un plafond doux (ralentissement + nudge) préserve l\'expérience et ouvre la porte à l\'upgrade sans frustrer l\'utilisateur. Un blocage dur crée de la friction et pousse au churn.' : 'A soft cap (slowdown + nudge) preserves experience and opens the upgrade path without frustrating the user. A hard block creates friction and drives churn.') + '</div>',
+    '</div>',
+
+    '<div class="pr-tradeoff" style="margin-top:12px">',
+    '<div class="pr-tradeoff-icon" style="background:rgba(255,149,0,0.1)">↗</div>',
+    '<div class="pr-tradeoff-body"><strong>' + (isFr ? 'Remise fidélité 20% :' : '20% loyalty discount:') + '</strong> ' + (isFr ? 'Les utilisateurs Pro/Max proches du plafond reçoivent une offre d\'upgrade à -20%. Cela réduit la résistance au prix et augmente la valeur perçue. Risque de cannibalisation atténué par la segmentation comportementale.' : 'Pro/Max users near the cap receive a 20% upgrade offer. This reduces price resistance and increases perceived value. Cannibalization risk mitigated by behavioural segmentation.') + '</div>',
+    '</div>',
+
+    '<div class="pr-tradeoff" style="margin-top:12px">',
+    '<div class="pr-tradeoff-icon" style="background:rgba(79,158,255,0.1)">⚖</div>',
+    '<div class="pr-tradeoff-body"><strong>' + (isFr ? 'Protection des abonnés existants :' : 'Existing subscriber protection:') + '</strong> ' + (isFr ? 'Les abonnés Pro/Max actuels sont grandfathered sur leur quota actuel pendant 6 mois, avec communication proactive. Cela minimise le churn défensif tout en préservant l\'intégrité des nouveaux niveaux.' : 'Current Pro/Max subscribers are grandfathered on existing quotas for 6 months with proactive communication. This minimises defensive churn while preserving new tier integrity.') + '</div>',
+    '</div>',
+
+    '</div>', // modal-block
+
+    // --- Metrics/North Star ---
+    '<div class="modal-block">',
+    '<span class="modal-block-label" style="color:' + meta.color + '">' + (isFr ? 'North Star et métriques' : 'North Star and Metrics') + '</span>',
+    '<div style="padding:14px 16px;background:rgba(255,77,141,0.06);border:1px solid rgba(255,77,141,0.18);border-radius:12px;margin-bottom:14px">',
+    '<div style="font-family:\'IBM Plex Mono\',monospace;font-size:10px;text-transform:uppercase;letter-spacing:0.08em;color:#FF4D8D;margin-bottom:6px">North Star</div>',
+    '<div style="font-size:14px;font-weight:600;color:var(--text)">' + (isFr ? 'Marge brute par cohorte utilisateur' : 'Gross profit margin per user cohort') + '</div>',
+    '<div style="font-size:12px;color:var(--text2);margin-top:4px">' + (isFr ? 'Suivi hebdomadaire par niveau de plan, source de trafic et comportement d\'usage' : 'Tracked weekly by plan tier, traffic source, and usage behaviour') + '</div>',
+    '</div>',
+    '<div class="pr-metric-grid">',
+    '<div class="pr-metric-card"><div class="pr-metric-val">75%+</div><div class="pr-metric-lbl">' + (isFr ? 'Marge brute cible' : 'Gross margin target') + '</div></div>',
+    '<div class="pr-metric-card"><div class="pr-metric-val">115%</div><div class="pr-metric-lbl">' + (isFr ? 'NRR cible' : 'NRR target') + '</div></div>',
+    '<div class="pr-metric-card"><div class="pr-metric-val">4:1</div><div class="pr-metric-lbl">' + (isFr ? 'Ratio LTV:CAC' : 'LTV:CAC ratio') + '</div></div>',
+    '<div class="pr-metric-card"><div class="pr-metric-val">&lt;5%</div><div class="pr-metric-lbl">' + (isFr ? 'Churn Persona A cible' : 'Persona A churn target') + '</div></div>',
+    '<div class="pr-metric-card"><div class="pr-metric-val">30%+</div><div class="pr-metric-lbl">' + (isFr ? 'Upgrade Persona B en 90j' : 'Persona B upgrade in 90d') + '</div></div>',
+    '<div class="pr-metric-card"><div class="pr-metric-val">90j</div><div class="pr-metric-lbl">' + (isFr ? 'Fenêtre de validation' : 'Validation window') + '</div></div>',
+    '</div>',
+    '</div>', // modal-block
+
+    REMOVED_PLACEHOLDER_END*/
+
+function closeModal() {
+  document.getElementById('modal-overlay').classList.remove('open');
+  document.body.style.overflow = '';
+  setTimeout(function() { currentModal = null; }, 300);
+}
+
+function handleOverlayClick(e) {
+  if (e.target === document.getElementById('modal-overlay')) closeModal();
+}
+
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape') closeModal();
+});
+
+document.querySelectorAll('.case-card').forEach(function(card) {
+  card.addEventListener('keydown', function(e) {
+    if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); card.click(); }
+  });
+  const shine = card.querySelector('.card-shine');
+  card.addEventListener('mousemove', function(e) {
+    const rect = card.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    const cx = rect.width / 2;
+    const cy = rect.height / 2;
+    const rx = ((y - cy) / cy) * -7;
+    const ry = ((x - cx) / cx) * 7;
+    card.style.transform = 'perspective(900px) rotateX(' + rx + 'deg) rotateY(' + ry + 'deg) scale3d(1.03,1.03,1.03)';
+    card.style.transition = 'transform 0.08s linear, box-shadow 0.08s linear';
+    const px = (x / rect.width) * 100;
+    const py = (y / rect.height) * 100;
+    shine.style.background = 'radial-gradient(circle 200px at ' + px + '% ' + py + '%, rgba(255,255,255,0.07), transparent)';
+  });
+  card.addEventListener('mouseleave', function() {
+    card.style.transform = 'perspective(900px) rotateX(0deg) rotateY(0deg) scale3d(1,1,1)';
+    card.style.transition = 'transform 0.55s ease, box-shadow 0.55s ease';
+  });
+});
+
+const statsTargets = [3, 5, 2];
+const statsIds = ['stat1', 'stat2', 'stat3'];
+const statsObs = new IntersectionObserver(function(entries) {
+  entries.forEach(function(entry) {
+    if (entry.isIntersecting && !statsDone) {
+      statsDone = true;
+      statsIds.forEach(function(id, i) {
+        let count = 0;
+        const target = statsTargets[i];
+        const el = document.getElementById(id);
+        const iv = setInterval(function() {
+          count = Math.min(count + 1, target);
+          el.textContent = count + '+';
+          if (count >= target) clearInterval(iv);
+        }, 28);
+      });
+    }
+  });
+}, { threshold: 0.3 });
+const statsGrid = document.querySelector('.stats-grid');
+if (statsGrid) statsObs.observe(statsGrid);
+
+const rvObs = new IntersectionObserver(function(entries) {
+  entries.forEach(function(entry) {
+    if (entry.isIntersecting) entry.target.classList.add('vis');
+  });
+}, { threshold: 0.12 });
+document.querySelectorAll('.rv').forEach(function(el) { rvObs.observe(el); });
+
+function setupChipStagger(boxId) {
+  const box = document.getElementById(boxId);
+  if (!box) return;
+  const chips = box.querySelectorAll('.chip');
+  const obs = new IntersectionObserver(function(entries) {
+    entries.forEach(function(entry) {
+      if (entry.isIntersecting) {
+        chips.forEach(function(chip, i) {
+          setTimeout(function() { chip.classList.add('vis'); }, 60 * i);
+        });
+        obs.disconnect();
+      }
+    });
+  }, { threshold: 0.12 });
+  obs.observe(box);
+}
+setupChipStagger('chipbox-cat1');
+setupChipStagger('chipbox-cat2');
+setupChipStagger('chipbox-cat3');
+setupChipStagger('chipbox-cat4');
+setupChipStagger('chipbox-cat5');
+setupChipStagger('chipbox-cat6');
+
+typeWriter(LANG.en.typewriter, 35);
+
+// Cinematic intro
+setTimeout(function(){ var el=document.getElementById('intro'); if(el) el.remove(); }, 2600);
+
+// Canvas background — sine-wave orbs + particles
+(function(){
+  var canvas = document.getElementById('bgCanvas');
+  if(!canvas) return;
+  var ctx = canvas.getContext('2d');
+  var W, H;
+
+  var ORBS = [
+    {x:0.78, y:-0.08, r:520, cr:'rgba(108,63,217,0.07)', ph:0,   sp:0.00075},
+    {x:0.08, y:0.88,  r:440, cr:'rgba(184,146,42,0.07)', ph:2.1, sp:0.00055},
+    {x:0.48, y:0.50,  r:320, cr:'rgba(108,63,217,0.05)', ph:4.2, sp:0.00095},
+    {x:0.88, y:0.65,  r:270, cr:'rgba(26,107,181,0.05)', ph:1.0, sp:0.00065},
+    {x:0.18, y:0.25,  r:210, cr:'rgba(184,146,42,0.04)', ph:3.5, sp:0.00085},
+  ];
+
+  var PTS = [];
+  for(var i=0;i<40;i++) PTS.push({
+    x:Math.random(), y:Math.random(),
+    vx:(Math.random()-0.5)*0.00012, vy:(Math.random()-0.5)*0.00012,
+    r:Math.random()*1.2+0.3, a:Math.random()*0.12+0.04
+  });
+
+  function resize(){ W=canvas.width=window.innerWidth; H=canvas.height=window.innerHeight; }
+
+  function draw(t){
+    ctx.clearRect(0,0,W,H);
+    ORBS.forEach(function(o){
+      var dx=Math.sin(t*o.sp+o.ph)*55;
+      var dy=Math.cos(t*o.sp*0.65+o.ph)*38;
+      var grd=ctx.createRadialGradient(o.x*W+dx,o.y*H+dy,0,o.x*W+dx,o.y*H+dy,o.r);
+      grd.addColorStop(0,o.cr); grd.addColorStop(1,'transparent');
+      ctx.fillStyle=grd;
+      ctx.beginPath(); ctx.arc(o.x*W+dx,o.y*H+dy,o.r,0,Math.PI*2); ctx.fill();
+    });
+    PTS.forEach(function(p){
+      p.x+=p.vx; p.y+=p.vy;
+      if(p.x<0)p.x=1; if(p.x>1)p.x=0;
+      if(p.y<0)p.y=1; if(p.y>1)p.y=0;
+      ctx.beginPath(); ctx.arc(p.x*W,p.y*H,p.r,0,Math.PI*2);
+      ctx.fillStyle='rgba(100,80,180,'+p.a+')'; ctx.fill();
+    });
+    requestAnimationFrame(draw);
+  }
+
+  window.addEventListener('resize', resize);
+  resize();
+  requestAnimationFrame(draw);
+})();
+</script>
+</body>
+</html>
